@@ -26,29 +26,37 @@ function Nav() {
         }}
       >
         <BottomNavigationAction
+          className="nav-action"
           label="Menus"
-          icon={<IoFastFoodOutline size={20} color={color} />}
+          icon={<IoFastFoodOutline size={18} color={color} />}
         />
         <BottomNavigationAction
+          className="nav-action"
           label="Todays"
           icon={<IoRestaurantOutline size={20} color={color} />}
         />
         <BottomNavigationAction
+          className="nav-action"
           label="Cart"
           icon={<IoCartOutline size={20} color={color} />}
         />
         <BottomNavigationAction
+          className="nav-action"
           label="Order"
           icon={<IoClipboardOutline size={20} color={color} />}
         />
         <BottomNavigationAction
+          className="nav-action"
           label="Person"
           icon={<IoPersonOutline size={20} color={color} />}
         />
-        <BottomNavigationAction
+        {/* <BottomNavigationAction
+          className="nav-action"
           label="QR Code"
           icon={<IoQrCodeOutline size={20} color={color} />}
-        />
+        /> */}
+
+        {/* Please fix this brooo 😭😭😭😭😭🙏🙏🙏🙏 nav is overflowing with qr code*/}
       </BottomNavigation>
     </div>
   );
