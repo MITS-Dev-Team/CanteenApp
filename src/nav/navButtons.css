@@ -1,0 +1,9 @@
+.bottomNavbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /*I dont know why this is required but it works so dont break it */
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 100%;
+}
