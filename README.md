@@ -13,11 +13,11 @@ Font to use: https://fonts.google.com/specimen/Inter/tester - Tinkerhub font
 
 - https://fonts.google.com/specimen/Poppins
 
-Plans:
+Todo:
 
 - Create a bottom Navbar
 - Add ripple effect to cart icon
-
+- Login button loading circle
 References:
 
 https://dev.to/supabase/what-is-oauth-setting-up-github-oauth-with-supabase-44le
