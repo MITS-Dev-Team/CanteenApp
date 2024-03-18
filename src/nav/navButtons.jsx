@@ -18,37 +18,33 @@ function Nav() {
   return (
     <div className="nav-container">
       <BottomNavigation
-        className="bottomNavbar"
+        className="bottomNavbar min-h-20"
         showLabels
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
         }}
       >
+        
         <BottomNavigationAction
           className="nav-action"
-          label="Menus"
-          icon={<IoFastFoodOutline size={18} color={color} />}
-        />
-        <BottomNavigationAction
-          className="nav-action"
-          label="Todays"
-          icon={<IoRestaurantOutline size={20} color={color} />}
+          label="Todays menu"
+          icon={<IoRestaurantOutline size={30} color={color} />}
         />
         <BottomNavigationAction
           className="nav-action"
           label="Cart"
-          icon={<IoCartOutline size={20} color={color} />}
+          icon={<IoCartOutline size={30} color={color} />}
         />
         <BottomNavigationAction
           className="nav-action"
           label="Order"
-          icon={<IoClipboardOutline size={20} color={color} />}
+          icon={<IoClipboardOutline size={30} color={color} />}
         />
         <BottomNavigationAction
           className="nav-action"
-          label="Person"
-          icon={<IoPersonOutline size={20} color={color} />}
+          label="Profile"
+          icon={<IoPersonOutline size={30} color={color} />}
         />
         {/* <BottomNavigationAction
           className="nav-action"
@@ -57,6 +53,7 @@ function Nav() {
         /> */}
 
         {/* Please fix this brooo 😭😭😭😭😭🙏🙏🙏🙏 nav is overflowing with qr code*/}
+        {/* Qr is for merchant side */}
       </BottomNavigation>
     </div>
   );
