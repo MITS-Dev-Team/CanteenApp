@@ -25,7 +25,6 @@ function Nav() {
           setValue(newValue);
         }}
       >
-        
         <BottomNavigationAction
           className="nav-action"
           label="Todays menu"
@@ -46,14 +45,6 @@ function Nav() {
           label="Profile"
           icon={<IoPersonOutline size={30} color={color} />}
         />
-        {/* <BottomNavigationAction
-          className="nav-action"
-          label="QR Code"
-          icon={<IoQrCodeOutline size={20} color={color} />}
-        /> */}
-
-        {/* Please fix this brooo 😭😭😭😭😭🙏🙏🙏🙏 nav is overflowing with qr code*/}
-        {/* Qr is for merchant side */}
       </BottomNavigation>
     </div>
   );

@@ -1,0 +1,32 @@
+.topNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.topNavbar .title {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.topNavbar .cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.topNavbar .cart-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #fab317;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+}
