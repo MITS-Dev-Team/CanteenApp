@@ -18,6 +18,7 @@ function Landing() {
     dispatch({ type: "SET_USER", payload: user.data.user });
   }
   async function signIn() {
+    setLoading(true);
     await supabase.auth.signInWithOAuth({
       provider: "google",
     });
@@ -34,33 +35,53 @@ function Landing() {
     });
   }, []);
 
+  const [loading, setLoading] = useState(false);
+  console.log(loading);
+
   if (user) {
     return (
       <div className="landing-container">
-        <span>Hello {user.email}</span>
-        <div
-          onClick={signOut}
-          className="button flex bg-[#FAB317] poppins-regular gap-4"
-        >
-          <FaGoogle size={30} color="white" className="" />
+        <span style={{ color: "white" }}>Hello {user.email}</span>
+        <div onClick={signOut} className="button flex poppins-regular gap-4">
+          <FaGoogle size={30} color="white" />
           <span className="font-extrabold font-4xl">LogOut</span>
         </div>
       </div>
     );
-  } else
+  } else {
     return (
       <div className="landing-container">
-        <img src={landinglogo} alt="Logo" className="logo" />
-        <div
-          onClick={signIn}
-          className="button flex bg-[#FAB317] poppins-regular gap-4"
+        <span
+          style={{ fontSize: "50px", color: "#ffff" }}
+          className="grifter-regular"
         >
-          <FaGoogle size={30} color="white" />
-
-          <span className=" font-extrabold font-4xl">Login With Google</span>
+          CANTEEN HUB
+        </span>
+        <span
+          style={{ fontSize: "30px", color: "#AEADAD", fontWeight: 100 }}
+          className="poppins-regular"
+        >
+          Dining Redefined
+        </span>
+        <div
+          style={{ marginTop: "25em" }}
+          onClick={signIn}
+          className={`flex button ${
+            loading ? "button-focus" : ""
+          } poppins-regular gap-4`}
+        >
+          {loading ? (
+            <CircularProgress style={{ color: "#fff" }} size={30} />
+          ) : (
+            <>
+              <FaGoogle style={{ display: "block" }} size={30} color="#000" />
+            </>
+          )}
+          <span className="font-extrabold font-4xl">Login With Google</span>
         </div>
       </div>
     );
+  }
 }
 
 export default Landing;
