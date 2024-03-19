@@ -33,11 +33,12 @@ function Landing() {
     return (
       <div className="landing-container">
         <span>Hello {user.email}</span>
-        <div className="button flex bg-[#FAB317] poppins-regular gap-4">
+        <div
+          onClick={signOut}
+          className="button flex bg-[#FAB317] poppins-regular gap-4"
+        >
           <FaGoogle size={30} color="white" className="" />
-          <Link onClick={signOut} className="font-extrabold font-4xl">
-            LogOut
-          </Link>
+          <span className="font-extrabold font-4xl">LogOut</span>
         </div>
       </div>
     );
@@ -45,11 +46,12 @@ function Landing() {
     return (
       <div className="landing-container">
         <img src={landinglogo} alt="Logo" className="logo" />
-        <div className="button flex bg-[#FAB317] poppins-regular gap-4">
+        <div
+          onClick={signIn}
+          className="button flex bg-[#FAB317] poppins-regular gap-4"
+        >
           <FaGoogle size={30} color="white" className="" />
-          <Link onClick={signIn} className=" font-extrabold font-4xl">
-            Login With Google
-          </Link>
+          <span className=" font-extrabold font-4xl">Login With Google</span>
         </div>
       </div>
     );
