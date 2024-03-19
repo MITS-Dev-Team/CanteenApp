@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Landing from "./pages/landing/landing";
-import TopBar from "./nav/topBar";
+import { TopBar } from "./nav/navButtons";
 import "./App.css";
-import Nav from "./nav/navButtons";
+import BottomNavigator from "./nav/navButtons";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         {/* <Route path="/" element={<TodaysMenu />} /> */}
       </Routes>
-      {user && <Nav />}
+      {user && <BottomNavigator />}
     </Router>
   );
 }

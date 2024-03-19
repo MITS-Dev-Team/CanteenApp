@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./landing.css";
 import landinglogo from "./landing-logo.png";
 import { FaGoogle } from "react-icons/fa";
@@ -7,6 +6,7 @@ import supabase from "../../supabase";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Landing() {
   const user = useSelector((state) => state.user);
@@ -55,7 +55,8 @@ function Landing() {
           onClick={signIn}
           className="button flex bg-[#FAB317] poppins-regular gap-4"
         >
-          <FaGoogle size={30} color="white" className="" />
+          <FaGoogle size={30} color="white" />
+
           <span className=" font-extrabold font-4xl">Login With Google</span>
         </div>
       </div>
