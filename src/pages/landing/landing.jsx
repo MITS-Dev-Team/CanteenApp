@@ -2,40 +2,19 @@ import React from "react";
 import "./landing.css";
 import { FaGoogle } from "react-icons/fa";
 import supabase from "../../supabase";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function Landing() {
-  const user = useSelector((state) => state.user);
-
-  const dispatch = useDispatch(); // dispatch is used to dispatch an action to the redux store
-  async function userStatus() {
-    const user = await supabase.auth.getUser();
-    // setUser(user.data.user); // Set the user state to user.data.user
-    dispatch({ type: "SET_USER", payload: user.data.user });
-  }
   async function signIn() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: {
-        redirectTo: window.location.href,
-      },
     });
     if (error) alert(error.message);
   }
 
-  useEffect(() => {
-    userStatus();
-    window.addEventListener("hashchange", function () {
-      userStatus();
-    });
-  }, []);
-
   const [loading, setLoading] = useState(false);
-  console.log(loading);
 
   return (
     <div className="landing-container">
