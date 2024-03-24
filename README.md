@@ -23,7 +23,10 @@ https://dev.to/supabase/what-is-oauth-setting-up-github-oauth-with-supabase-44le
 
 https://supabase.com/docs/guides/auth/auth-user-management
 
-Retrieve a user
+Retrieve a user:
+
+const user = await supabase.auth.getSession();
+console.log(user.data.session.user.user_metadata.full_name);
 
 Gets the current user details if there is an existing session.
 

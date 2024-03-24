@@ -29,3 +29,14 @@ root {
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "Product Sans";
+  src: url("../src/static/productsans.ttf") format("truetype");
+}
+
+.productsans-regular {
+  font-family: "Product Sans", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}

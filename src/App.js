@@ -41,7 +41,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={session ? <Menu /> : <Landing />} />
+        {/* <Route path="/" element={session ? <Menu /> : <Landing />} /> */}
+        <Route path="/" element={<Menu />} />
       </Routes>
     </Router>
   );
