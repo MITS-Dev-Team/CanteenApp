@@ -16,9 +16,8 @@ Font to use: https://fonts.google.com/specimen/Inter/tester - Tinkerhub font
 Todo:
 
 - Create a bottom Navbar
-- Add ripple effect to cart icon
-- Login button loading circle
-References:
+- https://codepen.io/chrisgannon/pen/KyzNoa
+  References:
 
 https://dev.to/supabase/what-is-oauth-setting-up-github-oauth-with-supabase-44le
 
