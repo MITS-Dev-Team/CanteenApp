@@ -77,10 +77,8 @@ const Dish = ({}) => {
         <span className="dish-price">₹100</span>
       </div>
 
-      <div className="dish-right">
-        <img className="dish-image" src={chickenBiriyaniImage} />
-        <span className="dish-add">Add</span>
-      </div>
+      <img className="dish-image" src={chickenBiriyaniImage} />
+      <span className="productsans-regular dish-add">Add</span>
     </div>
   );
 };
