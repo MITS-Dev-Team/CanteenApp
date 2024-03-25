@@ -9,6 +9,8 @@
   height: 100vh;
   width: 100vw;
   padding: 2em;
+  overflow-y: hidden;
+  /* change the above to have scrollbar there */
 }
 
 .menu-screen-title {
@@ -43,4 +45,100 @@
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.input-icon {
+  cursor: pointer;
+}
+
+.food-category {
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(3px);
+  color: white;
+  padding: 0.5em 1.5em;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 0.93em;
+  cursor: pointer;
+}
+
+.menu-categories {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1em;
+  /* gap: 0.5em; */
+}
+
+.category-selected {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.dish-list {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  overflow-y: scroll;
+  max-height: 100%;
+  scrollbar-width: thin;
+  -ms-overflow-style: none;
+  scrollbar-color: transparent transparent;
+}
+
+.dish-list::-webkit-scrollbar {
+  display: none;
+}
+.dish-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(3px);
+  color: white;
+  border-radius: 10px;
+  width: 100%;
+  min-height: 140px;
+  display: flex;
+}
+
+.dish-name {
+  font-size: 1.4em;
+  font-weight: 700;
+  display: block;
+}
+
+.dish-price {
+  font-size: 1.2em;
+  display: block;
+}
+
+.dish-left {
+  padding: 2em 2em;
+  background-color: green;
+  width: 40%;
+}
+
+.dish-right {
+  position: relative;
+  width: 100%;
+  background-color: red;
+  flex: 1;
+}
+
+.dish-image {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  object-fit: cover;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.dish-add {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(3px);
+  color: white;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+  cursor: pointer;
 }
