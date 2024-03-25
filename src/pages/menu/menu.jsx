@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import supabase from "../../supabase";
 import { CiSearch } from "react-icons/ci";
 import "./menu.css";
 import chickenBiriyaniImage from "../../static/food_images/biriyani.png";
-
+import { GrRadialSelected } from "react-icons/gr";
 const ProfilePhoto = () => {
   return (
     <>
@@ -68,17 +68,42 @@ const SearchDish = () => {
     </>
   );
 };
+const Dish = () => {
+  const [isAdded, setIsAdded] = useState(false);
 
-const Dish = ({}) => {
+  const handleAddClick = () => {
+    setIsAdded(!isAdded);
+  };
+
   return (
     <div className="dish-card">
       <div className="dish-left">
-        <span className="productsans-regular dish-name">Chicken Biriyani</span>
+        <span>
+          <GrRadialSelected
+            color={isAdded ? "#27DB97" : "#F42C39"}
+            style={{
+              display: "inline-block",
+              verticalAlign: "middle",
+              marginRight: "10px",
+            }}
+          />
+          <span
+            className="productsans-regular dish-name"
+            style={{ display: "inline-block", verticalAlign: "middle" }}
+          >
+            Chicken Biriyani
+          </span>
+        </span>
         <span className="dish-price">₹100</span>
       </div>
-
-      <img className="dish-image" src={chickenBiriyaniImage} />
-      <span className="productsans-regular dish-add">Add</span>
+      <img
+        className="dish-image"
+        src={chickenBiriyaniImage}
+        alt="Chicken Biriyani"
+      />
+      <span className="productsans-regular dish-add" onClick={handleAddClick}>
+        Add
+      </span>
     </div>
   );
 };
