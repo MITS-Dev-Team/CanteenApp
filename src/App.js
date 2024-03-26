@@ -5,7 +5,7 @@ import "./App.css";
 import Menu from "./pages/menu/menu";
 import EggLoading from "./static/eggloading";
 import supabase from "./supabase";
-
+import {SessionContext} from "./components/SessionContext";
 function App() {
   const [session, setSession] = useState(null);
 
@@ -39,12 +39,13 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        {/* <Route path="/" element={session ? <Menu /> : <Landing />} /> */}
-        <Route path="/" element={<Menu />} />
-      </Routes>
-    </Router>
+    <SessionContext.Provider value={{ session, setSession }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={session ? <Menu /> : <Landing />} />
+        </Routes>
+      </Router>
+    </SessionContext.Provider>
   );
 }
 
