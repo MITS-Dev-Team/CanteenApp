@@ -4,12 +4,19 @@ import { FaGoogle } from "react-icons/fa";
 import supabase from "../../supabase";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+const url = new URL(window.origin).href;
+
 
 function Landing() {
+  console.log(url);
+
   async function signIn() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
+      options:{
+        redirectTo: url,
+      }
     });
     if (error) alert(error.message);
   }
