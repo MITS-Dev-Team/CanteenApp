@@ -1,14 +1,16 @@
 import React, { useState,useEffect,useContext} from "react";
 import supabase from "../../supabase";
 import { CiSearch } from "react-icons/ci";
+import { MdShoppingCart } from "react-icons/md";
 import "./menu.css";
 import chickenBiriyaniImage from "../../static/food_images/biriyani.png";
 import { GrRadialSelected } from "react-icons/gr";
 import {SessionContext} from "../../components/SessionContext"
+import { addToCart,removeFromCart,getItems } from "../../redux/cartSlice";
+import { useDispatch,useSelector} from 'react-redux';
 
 
-
-async function fetchDishes(setMenu) {
+async function fetchDishes(setMenu,setSearchMenu) {
   const { data: dishes, error } = await supabase
     .from("menu")
     .select("*")
@@ -16,6 +18,7 @@ async function fetchDishes(setMenu) {
     console.error(error);
   } else {
     setMenu(dishes);
+    setSearchMenu(dishes);
     console.log(dishes);
   }
 }
@@ -50,11 +53,27 @@ const Category = ({ category, selectedCategory, setSelectedCategory }) => {
 const SearchDish = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("All");
   const [menu, setMenu] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchMenu, setSearchMenu] = useState(menu);
 
   useEffect(() => {
-    fetchDishes(setMenu);
+    fetchDishes(setMenu,setSearchMenu);
   }
   , [selectedCategory]);
+
+  function setSearchValue(search) {
+    setSearch(search);
+    if(search.lenght < 1)
+    {
+      setSearchMenu(menu);
+      return;
+    }
+    const filteredMenu = menu.filter((dish) =>
+      dish.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setSearchMenu(filteredMenu);
+
+  }
   return (
     <>
       <div className="input-icon">
@@ -62,6 +81,9 @@ const SearchDish = () => {
           type="text"
           placeholder="Search for Dishes"
           className="search-dish productsans-regular"
+          value={search}
+          onChange={(e) => setSearchValue(e.target.value)}
+
         />
         <CiSearch className="search-icon" color="white" size={30} />
       </div>
@@ -77,37 +99,61 @@ const SearchDish = () => {
         ))}
       </div>
 
-      <div className="dish-list">
-        {menu.map((dish) => {
+      <div className="dish-list min-h-fit h-[50vh]">
+        {searchMenu.map((dish) => {
           if (
             selectedCategory === "All" ||
             selectedCategory.toLowerCase() === dish.category
           ) {
             return (
               <Dish
-                key={dish.id}
+                id={dish.id}
                 name={dish.name}
                 cost={dish.cost}
-                image={chickenBiriyaniImage}
-                type={dish.type}
+                image={dish.image}
+                type={dish.food_type}
               />
             );
           }
           return null;
         }
+
         )}
 
       </div>
     </>
   );
 };
-const Dish = ({name,cost,image,type}) => {
+const Dish = ({id,name,cost,image,type}) => {
   const [isAdded, setIsAdded] = useState(false);
   const [count, setCount] = useState(0);
-  const handleAddClick = () => {
-    setIsAdded(!isAdded);
-    setCount(count+1)
+  const dispatch = useDispatch();
 
+  const getCartItems = useSelector(getItems).payload.cart.items;
+
+  useEffect(() => {
+    console.log(getCartItems[name]);
+  }, [getCartItems]);
+
+  const handleAddClick = () => {
+    setCount(count + 1);
+    setIsAdded(true);
+    dispatch(addToCart({ name, cost, image, type }));
+  };
+
+  const handleIncrement = () => {
+    setIsAdded(true);
+    setCount(count + 1);
+    dispatch(addToCart({id,name, cost, image, type,count:count }));
+
+  };
+
+  const handleDecrement = () => {
+    setCount(count - 1);
+    if (count === 1) {
+      setIsAdded(false);
+    }
+    dispatch(removeFromCart({id,name, cost, image, type}));
   };
 
   return (
@@ -138,31 +184,25 @@ const Dish = ({name,cost,image,type}) => {
       />
       {
         isAdded && count >= 1 ? (
-          <div className="dish-counter ">
-            <span
-              onClick={() => {
-                setCount(count - 1);
-                if (count === 1) {
-                  setIsAdded(!isAdded);
-                }
-              }
-              }
-              className="dish-counter-btn productsans-regular left-0 border-r-2  "
-            >
-              -
-            </span>
-            <span className="dish-counter-text  productsans-regular self-center px-2">{count}</span>
-            <span
-              onClick={() => setCount(count + 1)}
-              className="dish-counter-btn productsans-regular right-0 border-l-2 border-black bg-black text-white"
-            >
-              +
-            </span>
+          <div className="absolute right-12 w-1/4 h-1/4  -bottom-3 flex justify-center items-center text-center rounded-md">
+              <span
+                  onClick={handleDecrement}
+                  className="productsans-regular w-1/3 h-full bg-[#2B2B2B] rounded-l-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
+              >
+                  -
+              </span>
+              <span className="productsans-regular px-2 w-1/3 text-black bg-slate-50 h-full flex items-center justify-center transition duration-500 ease-in-out">{count}</span>
+              <span
+                  onClick={handleIncrement}
+                  className="productsans-regular h-full text-white w-1/3 bg-[#2B2B2B] min-h-full rounded-r-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
+              >
+                  +
+              </span>
           </div>
         ) : (
           <div
-            onClick={handleAddClick}
-            className="dish-add productsans-regular min-w-[30%] text-center"
+            onClick={handleIncrement}
+            className="absolute  right-12 w-1/4 h-1/4 bg-slate-50 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out cursor-pointer"
           >
             ADD
           </div>
@@ -175,6 +215,7 @@ const Dish = ({name,cost,image,type}) => {
 function Menu() {
 
   const {session} = useContext(SessionContext);
+  console.log(session);
   const avatarUrl = session?.user.user_metadata.avatar_url;
 
   return (
@@ -193,6 +234,14 @@ function Menu() {
         </span>
       </div>
       <SearchDish />
+      <div 
+        className="cart-icon bg-black
+                    absolute bottom-5 right-10 rounded-full flex justify-center items-center cursor-pointer
+                    w-20 h-20 shadow-2xl
+                    ">
+        <MdShoppingCart color="white" size={40} />
+        
+      </div>
     </div>
   );
 }

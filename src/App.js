@@ -6,6 +6,9 @@ import Menu from "./pages/menu/menu";
 import EggLoading from "./static/eggloading";
 import supabase from "./supabase";
 import {SessionContext} from "./components/SessionContext";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
+
 function App() {
   const [session, setSession] = useState(null);
 
@@ -39,13 +42,15 @@ function App() {
   }
 
   return (
-    <SessionContext.Provider value={{ session, setSession }}>
-      <Router>
-        <Routes>
-          <Route path="/" element={session ? <Menu /> : <Landing />} />
-        </Routes>
-      </Router>
-    </SessionContext.Provider>
+    <Provider store={store}>
+      <SessionContext.Provider value={{ session, setSession }}>
+        <Router>
+          <Routes>
+            <Route path="/" element={session ? <Menu /> : <Landing />} />
+          </Routes>
+        </Router>
+      </SessionContext.Provider>
+    </Provider>
   );
 }
 

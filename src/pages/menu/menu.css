@@ -6,10 +6,14 @@
 }
 
 .menu-screen {
-  height: 100vh;
   width: 100vw;
-  padding: 2em;
+  height: 100%;
+  min-height: 100%;
+  padding:1em;
+  box-sizing: border-box;
+  overflow-x: hidden;
   overflow-y: hidden;
+  /* i hate css for this */
   /* change the above to have scrollbar there */
 }
 
@@ -84,6 +88,7 @@
   scrollbar-width: thin;
   -ms-overflow-style: none;
   scrollbar-color: transparent transparent;
+  padding-bottom: 5em;
 }
 
 .dish-list::-webkit-scrollbar {
@@ -126,46 +131,7 @@
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-.dish-add {
-  position: absolute;
-  right: 0;
-  bottom: 20px;
-  background: rgba(219, 219, 219, 1);
-  color: black;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(4px);
-  font-weight: 700;
-  margin-right: 1em;
-  margin-bottom: -1em;
-  max-width: 40%;
-  min-width: 30%;
-  min-height:28%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 
 
-.dish-counter {
-  position: absolute;
-  right: 0;
-  bottom: 20px;
-  background: rgba(219, 219, 219, 1);
-  color: black;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 700;
-  margin-right: 1em;
-  margin-bottom: -1em;
-  max-width: 40%;
-  min-width: 30%;
-  min-height:28%;
-  display: flex;
-  justify-content: center;
-  gap:5px;
-  
-}
+
 
