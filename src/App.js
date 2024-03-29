@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Landing from "./pages/landing/landing";
 import "./App.css";
 import Menu from "./pages/menu/menu";
+import Cart from "./pages/cart/cart";
 import EggLoading from "./static/eggloading";
 import supabase from "./supabase";
 import {SessionContext} from "./components/SessionContext";
@@ -47,6 +48,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={session ? <Menu /> : <Landing />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </Router>
       </SessionContext.Provider>

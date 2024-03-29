@@ -8,7 +8,7 @@ import { GrRadialSelected } from "react-icons/gr";
 import {SessionContext} from "../../components/SessionContext"
 import { addToCart,removeFromCart,getItems } from "../../redux/cartSlice";
 import { useDispatch,useSelector} from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 
 async function fetchDishes(setMenu,setSearchMenu) {
   const { data: dishes, error } = await supabase
@@ -130,11 +130,13 @@ const SearchDish = () => {
   );
 };
 const Dish = ({id,name,cost,image,type}) => {
-  const [isAdded, setIsAdded] = useState(false);
-  const [count, setCount] = useState(0);
+  const getCartItems = useSelector(getItems).payload.cart.items;
+  const initCount = getCartItems[name]?.count;
+  
+  const [isAdded, setIsAdded] = useState(initCount > 0 ? true : false);
+  const [count, setCount] = useState(initCount || 0);
   const dispatch = useDispatch();
 
-  const getCartItems = useSelector(getItems).payload.cart.items;
 
   useEffect(() => {
     console.log(getCartItems[name]);
@@ -219,11 +221,17 @@ const Dish = ({id,name,cost,image,type}) => {
 
 function Menu() {
 
+
   const {session} = useContext(SessionContext);
   console.log(session);
   const avatarUrl = session?.user.user_metadata.avatar_url;
   const cartItems = useSelector((state) => state.cart.items);
   const itemCount = Object.values(cartItems).reduce((total, item) => total + item.count, 0);
+  const navigate = useNavigate();
+  const handleCartClick = () => {
+    navigate("/cart");
+  };
+
   return (
     <div className="menu-screen">
       <ProfilePhoto avatarUrl={avatarUrl}/>
@@ -244,7 +252,10 @@ function Menu() {
         className="cart-icon bg-[#1CA672]
                     absolute bottom-3 -right-6 rounded-xl flex justify-center items-center cursor-pointer
                     w-1/3 h-16 shadow-2xl m-10 gap-3
-                    ">  
+                    "
+        onClick={handleCartClick}
+      >  
+
         <MdShoppingCart color="white" size={38} />
         {itemCount > 0 && (
             <span 
