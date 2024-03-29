@@ -119,7 +119,12 @@ const SearchDish = () => {
         }
 
         )}
-
+        <span
+          style={{ color: "#AEADAD", fontWeight: 100 }}
+          className="poppins-regular text-center"
+        >
+          Thats all for now
+        </span>
       </div>
     </>
   );
@@ -217,7 +222,8 @@ function Menu() {
   const {session} = useContext(SessionContext);
   console.log(session);
   const avatarUrl = session?.user.user_metadata.avatar_url;
-
+  const cartItems = useSelector((state) => state.cart.items);
+  const itemCount = Object.values(cartItems).reduce((total, item) => total + item.count, 0);
   return (
     <div className="menu-screen">
       <ProfilePhoto avatarUrl={avatarUrl}/>
@@ -235,11 +241,21 @@ function Menu() {
       </div>
       <SearchDish />
       <div 
-        className="cart-icon bg-black
-                    absolute bottom-5 right-10 rounded-full flex justify-center items-center cursor-pointer
-                    w-20 h-20 shadow-2xl
-                    ">
-        <MdShoppingCart color="white" size={40} />
+        className="cart-icon bg-[#1CA672]
+                    absolute bottom-3 -right-6 rounded-xl flex justify-center items-center cursor-pointer
+                    w-1/3 h-16 shadow-2xl m-10 gap-3
+                    ">  
+        <MdShoppingCart color="white" size={38} />
+        {itemCount > 0 && (
+            <span 
+              className="poppins-semibold font-black text-sm text-white
+                        absolute -top-2 -right-1 bg-inherit rounded-full w-7 h-7 
+                        flex justify-center items-center
+                        border-white border-[2px]">
+              {itemCount}
+            </span>
+          )}
+        <span className="poppins-semibold font-black text-xl text-white">CART</span>
         
       </div>
     </div>
