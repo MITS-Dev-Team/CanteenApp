@@ -5,6 +5,22 @@ import "./menu.css";
 import chickenBiriyaniImage from "../../static/food_images/biriyani.png";
 import { GrRadialSelected } from "react-icons/gr";
 import {SessionContext} from "../../components/SessionContext"
+
+
+
+async function fetchDishes(setMenu) {
+  const { data: dishes, error } = await supabase
+    .from("menu")
+    .select("*")
+  if (error) {
+    console.error(error);
+  } else {
+    setMenu(dishes);
+    console.log(dishes);
+  }
+}
+
+
 const ProfilePhoto = (avatarUrl) => {
   return (
     <>
@@ -18,6 +34,7 @@ const ProfilePhoto = (avatarUrl) => {
 };
 
 const Category = ({ category, selectedCategory, setSelectedCategory }) => {
+
   return (
     <span
       onClick={() => setSelectedCategory(category)}
@@ -34,22 +51,10 @@ const SearchDish = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("All");
   const [menu, setMenu] = useState([]);
 
-  async function fetchDishes() {
-    const { data: dishes, error } = await supabase
-      .from("menu")
-      .select("*")
-    if (error) {
-      console.error(error);
-    } else {
-      setMenu(dishes);
-      console.log(menu);
-    }
-  }
   useEffect(() => {
-    fetchDishes();
+    fetchDishes(setMenu);
   }
-  , []);
-
+  , [selectedCategory]);
   return (
     <>
       <div className="input-icon">
@@ -76,7 +81,7 @@ const SearchDish = () => {
         {menu.map((dish) => {
           if (
             selectedCategory === "All" ||
-            selectedCategory.toLocaleLowerCase === dish.category
+            selectedCategory.toLowerCase() === dish.category
           ) {
             return (
               <Dish
@@ -84,6 +89,7 @@ const SearchDish = () => {
                 name={dish.name}
                 cost={dish.cost}
                 image={chickenBiriyaniImage}
+                type={dish.type}
               />
             );
           }
@@ -95,7 +101,7 @@ const SearchDish = () => {
     </>
   );
 };
-const Dish = ({name,cost,image}) => {
+const Dish = ({name,cost,image,type}) => {
   const [isAdded, setIsAdded] = useState(false);
   const [count, setCount] = useState(0);
   const handleAddClick = () => {
@@ -109,7 +115,7 @@ const Dish = ({name,cost,image}) => {
       <div className="dish-left">
         <span>
           <GrRadialSelected
-            color={isAdded ? "#27DB97" : "#F42C39"}
+            color={type ? "#27DB97" : "#F42C39"}
             style={{
               display: "inline-block",
               verticalAlign: "middle",
@@ -128,11 +134,11 @@ const Dish = ({name,cost,image}) => {
       <img
         className="dish-image"
         src={image}
-        alt="Chicken Biriyani"
+        alt={name}
       />
       {
         isAdded && count >= 1 ? (
-          <div className="dish-counter">
+          <div className="dish-counter ">
             <span
               onClick={() => {
                 setCount(count - 1);
@@ -141,25 +147,25 @@ const Dish = ({name,cost,image}) => {
                 }
               }
               }
-              className="dish-counter-btn productsans-regular left-0 border-r-2 border-black"
+              className="dish-counter-btn productsans-regular left-0 border-r-2  "
             >
               -
             </span>
             <span className="dish-counter-text  productsans-regular self-center px-2">{count}</span>
             <span
               onClick={() => setCount(count + 1)}
-              className="dish-counter-btn productsans-regular right-0 border-l-2 border-black"
+              className="dish-counter-btn productsans-regular right-0 border-l-2 border-black bg-black text-white"
             >
               +
             </span>
           </div>
         ) : (
-          <span
+          <div
             onClick={handleAddClick}
-            className="dish-add productsans-regular"
+            className="dish-add productsans-regular min-w-[30%] text-center"
           >
-            Add
-          </span>
+            ADD
+          </div>
         )
       }
     </div>
