@@ -157,6 +157,9 @@ function CartDishes() {
 function Cart() {
     const {session} = useContext(SessionContext);
     console.log(session);
+    if(!session){
+        window.location.href = "/";
+    }
 
     const avatarUrl = session?.user.user_metadata.avatar_url;
     const cartItems = useSelector((state) => state.cart.items);
