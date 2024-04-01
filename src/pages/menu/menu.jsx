@@ -9,7 +9,7 @@ import { addToCart,removeFromCart,getItems } from "../../redux/cartSlice";
 import { useDispatch,useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import EggLoading from "../../static/eggloading";
-
+import ProfilePhoto  from "../../components/ProfilePhoto";
 
 async function fetchDishes(setMenu,setSearchMenu) {
   const { data: dishes, error } = await supabase
@@ -25,17 +25,6 @@ async function fetchDishes(setMenu,setSearchMenu) {
 }
 
 
-const ProfilePhoto = (avatarUrl) => {
-  return (
-    <>
-      <img
-        src={avatarUrl.avatarUrl}
-        alt="profile"
-        className="profile-pic"
-      />
-    </>
-  );
-};
 
 const Category = ({ category, selectedCategory, setSelectedCategory }) => {
 
@@ -236,7 +225,7 @@ function Menu() {
 
   const {session} = useContext(SessionContext);
   console.log(session);
-  const avatarUrl = session?.user.user_metadata.avatar_url;
+  const avatarInfo = session?.user.user_metadata
   const cartItems = useSelector((state) => state.cart.items);
   const itemCount = Object.values(cartItems).reduce((total, item) => total + item.count, 0);
   const navigate = useNavigate();
@@ -246,8 +235,8 @@ function Menu() {
 
   return (
     <div className="menu-screen">
-      <ProfilePhoto avatarUrl={avatarUrl}/>
       <div className="menu-screen-title">
+
         <span style={{ color: "#ffff" }} className="grifter-regular">
           CANTEEN HUB
         </span>
@@ -258,9 +247,12 @@ function Menu() {
         >
           Dining Redefined
         </span>
+        
       </div>
 
       <SearchDish />
+      <ProfilePhoto avatarInfo={avatarInfo}/>
+
       <div 
         className="cart-icon bg-[#1CA672]
                     absolute bottom-3 -right-6 rounded-xl flex justify-center items-center cursor-pointer
