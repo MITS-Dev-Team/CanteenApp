@@ -3,12 +3,13 @@ import supabase from "../../supabase";
 import { CiSearch } from "react-icons/ci";
 import { MdShoppingCart } from "react-icons/md";
 import "./menu.css";
-import chickenBiriyaniImage from "../../static/food_images/biriyani.png";
 import { GrRadialSelected } from "react-icons/gr";
 import {SessionContext} from "../../components/SessionContext"
 import { addToCart,removeFromCart,getItems } from "../../redux/cartSlice";
 import { useDispatch,useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import EggLoading from "../../static/eggloading";
+
 
 async function fetchDishes(setMenu,setSearchMenu) {
   const { data: dishes, error } = await supabase
@@ -55,9 +56,13 @@ const SearchDish = () => {
   const [menu, setMenu] = useState([]);
   const [search, setSearch] = useState("");
   const [searchMenu, setSearchMenu] = useState(menu);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchDishes(setMenu,setSearchMenu);
+    setTimeout(() => {
+        setLoading(false);
+    }, 1000);
   }
   , [selectedCategory]);
 
@@ -74,9 +79,10 @@ const SearchDish = () => {
     setSearchMenu(filteredMenu);
 
   }
-  return (
-    <>
-      <div className="input-icon">
+
+  const resultScreen = (
+    <div>
+       <div className="input-icon">
         <input
           type="text"
           placeholder="Search for Dishes"
@@ -126,7 +132,13 @@ const SearchDish = () => {
           Thats all for now
         </span>
       </div>
-    </>
+    </div>
+  )
+
+  return (
+    <div className="search-dish-screen">
+      {loading ? <EggLoading /> : resultScreen}
+    </div>
   );
 };
 const Dish = ({id,name,cost,image,type}) => {
@@ -247,6 +259,7 @@ function Menu() {
           Dining Redefined
         </span>
       </div>
+
       <SearchDish />
       <div 
         className="cart-icon bg-[#1CA672]
@@ -259,7 +272,7 @@ function Menu() {
         <MdShoppingCart color="white" size={38} />
         {itemCount > 0 && (
             <span 
-              className="poppins-semibold font-black text-sm text-white
+              className="cart-button poppins-semibold font-black text-sm text-white
                         absolute -top-2 -right-1 bg-inherit rounded-full w-7 h-7 
                         flex justify-center items-center
                         border-white border-[2px]">
