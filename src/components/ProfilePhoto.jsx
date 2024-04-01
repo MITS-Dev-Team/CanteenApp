@@ -1,13 +1,21 @@
 import { Popover, Transition } from '@headlessui/react';
-
-
+import supabase from '../supabase';
+import {useNavigate} from 'react-router-dom';
+import { useState } from 'react'; 
 
 const ProfilePhoto = (avatarInfo) => {
     const name  = avatarInfo.avatarInfo.name;
     const avatarUrl = avatarInfo.avatarInfo.avatar_url;
     const email = avatarInfo.avatarInfo.email;
+    const [session, setSession] = useState(null);
+    const navigate = useNavigate();
+    const logout = async () => {
+      await supabase.auth.signOut();
+      navigate("/");
+    }
+
     return (
-      <Popover className=" fixed right-1 max-w-2xl max-h-[40vh]  min-h-[8vh] min-w-[40vw] top-10  ">
+      <Popover className=" fixed right-1 max-w-2xl max-h-[40vh]  min-h-[8vh] min-w-fit top-10  ">
   
         <Popover.Button className="absolute right-2 w-16 h-16 z-10 ">
           <img
@@ -34,8 +42,12 @@ const ProfilePhoto = (avatarInfo) => {
             <div className=" text-sm   font-normal">{email}</div>
           </div>
           <div className="flex flex-row gap-20 rounded-md absolute bottom-5 pl-10">
-            <span className="productsans-regular text-white text-base w-32 rounded-lg p-1 text-center bg-black cursor-pointer">Profile</span>
-            <span className="productsans-regular text-white text-base w-20 rounded-lg p-1 text-center bg-red-600 cursor-pointer">Logout</span>
+            <span className="productsans-regular text-white text-base w-32 rounded-lg p-1 text-center bg-black cursor-pointer"
+              onClick={() => navigate("/profile")}
+            >Profile</span>
+            <span className="productsans-regular text-white text-base w-20 rounded-lg p-1 text-center bg-red-600 cursor-pointer"
+              onClick={logout}
+            >Logout</span>
           </div>
         </Popover.Panel>
         </Transition>
