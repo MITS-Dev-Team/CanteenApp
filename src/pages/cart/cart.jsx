@@ -9,6 +9,8 @@ import { addToCart, removeFromCart, getItems } from "../../redux/cartSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { IoArrowBackOutline } from "react-icons/io5";
 import ProfilePhoto from "../../components/ProfilePhoto";
+import { useNavigate } from "react-router-dom";
+import { Dialog } from "@headlessui/react";
 
 
 
@@ -22,6 +24,8 @@ const Dish = ({ id, name, cost, image, type, initCount }) => {
   useEffect(() => {
     console.log(getCartItems[name]);
   }, [getCartItems]);
+
+
 
   const handleAddClick = () => {
     setCount(count + 1);
@@ -145,6 +149,47 @@ function CartDishes() {
 
 }
 
+function ConfirmDialogue({ isOpen, setIsOpen}) {
+  const navigate = useNavigate();
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={() => setIsOpen(false)}
+      className="relative z-50"
+    >
+      <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70">
+        <Dialog.Panel className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
+          <Dialog.Title className="text-2xl font-bold text-center mt-4">Confirm Checkout</Dialog.Title>
+          <Dialog.Description className="text-center mt-4 text-lg">
+            Are you sure you want to checkout?
+          </Dialog.Description>
+          <div className="flex justify-center items-center gap-4 mt-8 mb-4">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="bg-red-600 text-white px-4 py-2 rounded-md "
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                
+                navigate("/checkout");
+              }
+              }
+              className="bg-green-600 text-white px-4 py-2 rounded-md"
+            >
+              Confirm
+            </button>
+          </div>
+
+      
+        </Dialog.Panel>
+      </div>
+    </Dialog>
+  )
+}
+
 function Cart() {
   const { session } = useContext(SessionContext);
   console.log(session);
@@ -155,13 +200,24 @@ function Cart() {
   const avatarInfo = session?.user.user_metadata;
   const cartItems = useSelector((state) => state.cart.items);
   const itemCount = Object.values(cartItems).reduce((total, item) => total + item.count, 0);
+  const navigate = useNavigate()
+  let [isOpen, setIsOpen] = useState(false)
+
+
+  const handleCheckoutClick = () => {
+   // navigate("/checkout");
+   setIsOpen(true)
+    
+  }
+
   return (
     <div className="menu-screen">
+      <ConfirmDialogue isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="flex w-full gap-x-[70%] mt-3">
         <IoArrowBackOutline className="text-white text-2xl mt-5 cursor-pointer"
           onClick={
             () => {
-              window.history.back();
+              navigate(-1);
             }
 
           } />
@@ -170,7 +226,7 @@ function Cart() {
       </div>
       <div className="mt-10 text-3xl">
         <span style={{ color: "#ffff" }} className="grifter-regular">
-          CANTEEN HUB
+          MITS Eatzz
         </span>
         <br />
         <div
@@ -191,7 +247,7 @@ function Cart() {
             text-base
             font-bold
             cursor-pointer
-        ">
+        " onClick={handleCheckoutClick}>
         PROCEED CHECKOUT : ₹ {Object.values(cartItems).reduce((total, item) => total + item.count * item.cost, 0)}
       </div>
       )}

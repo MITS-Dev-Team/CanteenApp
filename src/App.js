@@ -5,6 +5,7 @@ import "./App.css";
 import Menu from "./pages/menu/menu";
 import Cart from "./pages/cart/cart";
 import Profile from "./pages/profile/profile";
+import Checkout from "./pages/checkout/checkout";
 import EggLoading from "./static/eggloading";
 import supabase from "./supabase";
 import {SessionContext} from "./components/SessionContext";
@@ -51,6 +52,7 @@ function App() {
             <Route path="/" element={session ? <Menu /> : <Landing />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/checkout" element={<Checkout />} />
 
           </Routes>
         </Router>

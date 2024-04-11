@@ -238,7 +238,7 @@ function Menu() {
       <div className="menu-screen-title">
 
         <span style={{ color: "#ffff" }} className="grifter-regular">
-          CANTEEN HUB
+          MITS Eatzz
         </span>
         <br />
         <span
