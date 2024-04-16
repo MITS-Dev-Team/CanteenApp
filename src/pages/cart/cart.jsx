@@ -1,15 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext,useCallback } from "react";
 import supabase from "../../supabase";
-import { CiSearch } from "react-icons/ci";
 import { MdShoppingCart } from "react-icons/md";
-import chickenBiriyaniImage from "../../static/food_images/biriyani.png";
 import { GrRadialSelected } from "react-icons/gr";
 import { SessionContext } from "../../components/SessionContext"
 import { addToCart, removeFromCart, getItems } from "../../redux/cartSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { IoArrowBackOutline } from "react-icons/io5";
 import ProfilePhoto from "../../components/ProfilePhoto";
-
+import { useNavigate } from "react-router-dom";
+import { Dialog } from "@headlessui/react";
+import useRazorpay from "react-razorpay";
+import axios from 'axios';
+import CircularProgress from "@mui/material/CircularProgress";
+import { SiRazorpay } from "react-icons/si";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_ORDER_URL;
 
 
 const Dish = ({ id, name, cost, image, type, initCount }) => {
@@ -22,6 +26,8 @@ const Dish = ({ id, name, cost, image, type, initCount }) => {
   useEffect(() => {
     console.log(getCartItems[name]);
   }, [getCartItems]);
+
+
 
   const handleAddClick = () => {
     setCount(count + 1);
@@ -145,23 +151,171 @@ function CartDishes() {
 
 }
 
+function ConfirmDialogue({ isOpen, setIsOpen}) {
+  const navigate = useNavigate();
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={() => setIsOpen(false)}
+      className="relative z-50"
+    >
+      <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70">
+        <Dialog.Panel className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
+          <Dialog.Title className="text-2xl font-bold text-center mt-4">Confirm Checkout</Dialog.Title>
+          <Dialog.Description className="text-center mt-4 text-lg">
+            Are you sure you want to checkout?
+          </Dialog.Description>
+          <div className="flex justify-center items-center gap-4 mt-8 mb-4">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="bg-red-600 text-white px-4 py-2 rounded-md "
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                
+                navigate("/checkout");
+              }
+              }
+              className="bg-green-600 text-white px-4 py-2 rounded-md"
+            >
+              Confirm
+            </button>
+          </div>
+
+      
+        </Dialog.Panel>
+      </div>
+    </Dialog>
+  )
+}
+
 function Cart() {
   const { session } = useContext(SessionContext);
-  console.log(session);
+
   if (!session) {
     window.location.href = "/";
   }
 
+
   const avatarInfo = session?.user.user_metadata;
   const cartItems = useSelector((state) => state.cart.items);
   const itemCount = Object.values(cartItems).reduce((total, item) => total + item.count, 0);
+  const [isOpen, setIsOpen] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [Razorpay]  = useRazorpay();
+  const amount = Object.values(cartItems).reduce((total, item) => total + item.count * item.cost, 0)
+  const navigate = useNavigate()
+
+
+  const createOrder = async () => {
+
+   
+
+    const response = await axios.post(`${BACKEND_URL}/create-order`, {
+      amount: amount *100,
+      description: "Payment for food",
+      user_id: session.user.id,
+      user_name : avatarInfo.full_name,
+
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      }
+    }
+  );
+    if(response.status !== 200) {
+      console.error("Error creating order");
+   }
+    console.log(response);
+    return response
+  }
+
+
+  const handlePayment = useCallback(async () => {
+    if(!Razorpay) {
+      return;
+    }
+    if(itemCount === 0) {
+      alert("Please add items to cart");
+      return;
+    }
+    if(!loading) {
+      setLoading(true);
+    }else {
+      return;
+    }
+    const response = await createOrder();
+
+    if(response.status !== 200) {
+      console.error("Error creating order");
+      return
+    }
+
+    const order = response.data;
+    const options = {
+      key: process.env.REACT_APP_RAZORPAY_KEY,
+      amount: order.amount,
+      currency: order.currency,
+      name: "MITS Eatzz",
+      description: "Payment for food",
+      order_id: order.id,
+      prefill: {
+        name: avatarInfo.full_name,
+        email: session.user.email,
+        contact: avatarInfo.phone_number
+      },
+      handler: async (response) => {
+        console.log(response);
+        const paymentId = response.razorpay_payment_id;
+        const signature = response.razorpay_signature;
+        const orderId = response.razorpay_order_id;
+        const paymentResponse = await axios.post(`${BACKEND_URL}/create-order/capture`, {
+          paymentId,
+          signature,
+          orderId,
+          amount: order.amount,
+          status: "paid",
+          items:cartItems
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          }
+        });
+        if(paymentResponse.status !== 200) {
+          console.error("Error capturing payment");
+          return
+        }
+        console.log(paymentResponse);
+        
+      },
+      theme: {
+        color: "#1CA672"
+      }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+    setLoading(false);
+  }, [Razorpay]);
+
+
+
+
   return (
     <div className="menu-screen">
+      <ConfirmDialogue isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="flex w-full gap-x-[70%] mt-3">
         <IoArrowBackOutline className="text-white text-2xl mt-5 cursor-pointer"
           onClick={
             () => {
-              window.history.back();
+              navigate(-1);
             }
 
           } />
@@ -170,7 +324,7 @@ function Cart() {
       </div>
       <div className="mt-10 text-3xl">
         <span style={{ color: "#ffff" }} className="grifter-regular">
-          CANTEEN HUB
+          MITS Eatzz
         </span>
         <br />
         <div
@@ -181,19 +335,20 @@ function Cart() {
         </div>
       </div>
       <CartDishes />
-      {itemCount && (<div className="
-            flex justify-center items-center
-            w-full h-12
-            rounded-xl
-            mt-4
-            bg-[#1CA672]
-            drop-shadow-greengoblin
-            text-base
-            font-bold
-            cursor-pointer
-        ">
-        PROCEED CHECKOUT : ₹ {Object.values(cartItems).reduce((total, item) => total + item.count * item.cost, 0)}
-      </div>
+      {itemCount && (
+        <div className="min-w-screen flex flex-col">
+           <span className="text-white text-2xl font-semibold mt-5 min-w-screen text-center">Total : ₹{amount}</span>
+              <div className="flex justify-center gap-4 items-center w-full h-14 rounded-xl mt-10 bg-[#064793] drop-shadow-xl text-white text-base font-bold cursor-pointer" onClick={handlePayment}>
+              {loading ? <CircularProgress style={{ color: "#fff" }}  size={24} />
+               : 
+                <div className="flex justify-center items-center gap-2">
+                  <SiRazorpay style={{ color: "#ffff" }} size={24} />
+                  <span>Pay with Razorpay</span>
+                </div>         
+              }
+            
+            </div>
+        </div>
       )}
     </div>
   );

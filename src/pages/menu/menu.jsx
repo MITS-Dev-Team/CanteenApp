@@ -100,6 +100,7 @@ const SearchDish = () => {
             selectedCategory === "All" ||
             selectedCategory.toLowerCase() === dish.category
           ) {
+            console.log(dish)
             return (
               <Dish
                 id={dish.id}
@@ -133,7 +134,6 @@ const SearchDish = () => {
 const Dish = ({id,name,cost,image,type}) => {
   const getCartItems = useSelector(getItems).payload.cart.items;
   const initCount = getCartItems[name]?.count;
-  
   const [isAdded, setIsAdded] = useState(initCount > 0 ? true : false);
   const [count, setCount] = useState(initCount || 0);
   const dispatch = useDispatch();
@@ -238,7 +238,7 @@ function Menu() {
       <div className="menu-screen-title">
 
         <span style={{ color: "#ffff" }} className="grifter-regular">
-          CANTEEN HUB
+          MITS Eatzz
         </span>
         <br />
         <span
