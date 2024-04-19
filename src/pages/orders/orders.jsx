@@ -144,7 +144,7 @@ function Orders(){
       <ConfirmDialogue isOpen={showQR} setIsOpen={setShowQR} qrData={qrData} />
       <div className="mt-10 text-3xl">
         <span style={{ color: "#ffff" }} className="grifter-regular">
-          MITS Eatzz
+          MITS Canteen
         </span>
         <br />
         <div

@@ -265,7 +265,7 @@ function Cart() {
       key: process.env.REACT_APP_RAZORPAY_KEY,
       amount: order.amount,
       currency: order.currency,
-      name: "MITS Eatzz",
+      name: "MITS Canteen",
       description: "Payment for food",
       order_id: order.id,
       prefill: {
@@ -330,11 +330,14 @@ function Cart() {
         <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" />
 
       </div>
-      <div className="mt-10 text-3xl">
-        <span style={{ color: "#ffff" }} className="grifter-regular">
-          MITS Eatzz
+      <div className="mt-12 flex flex-col">
+        <span style={{ color: "#ffff" }} className="grifter-regular  text-3xl">
+          MITS Canteen
         </span>
-        <br />
+        <span
+          className="poppins-regular text-[#AEADAD] ">
+        Dining Redefined
+        </span>
         <div
           className=" flex justify-start items-center 
             w-full mt-5 gap-3 text-white text-xl font-bold">
