@@ -102,7 +102,7 @@ function Checkout() {
       key: process.env.REACT_APP_RAZORPAY_KEY,
       amount: order.amount*100,
       currency: order.currency,
-      name: "MITS Eatzz",
+      name: "MITS Canteen",
       description: "Payment for food",
       order_id: order.id,
       prefill: {
@@ -159,7 +159,7 @@ function Checkout() {
       </div>
       <div className="mt-10 text-3xl">
         <span style={{ color: "#ffff" }} className="grifter-regular">
-          MITS Eatzz
+          MITS Canteen
         </span>
       </div>
     

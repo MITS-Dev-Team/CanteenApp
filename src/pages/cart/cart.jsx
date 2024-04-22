@@ -3,7 +3,7 @@ import supabase from "../../supabase";
 import { MdShoppingCart } from "react-icons/md";
 import { GrRadialSelected } from "react-icons/gr";
 import { SessionContext } from "../../components/SessionContext"
-import { addToCart, removeFromCart, getItems } from "../../redux/cartSlice";
+import { addToCart, removeFromCart, getItems ,clearCart} from "../../redux/cartSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { IoArrowBackOutline } from "react-icons/io5";
 import ProfilePhoto from "../../components/ProfilePhoto";
@@ -161,27 +161,30 @@ function ConfirmDialogue({ isOpen, setIsOpen}) {
     >
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70">
         <Dialog.Panel className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
-          <Dialog.Title className="text-2xl font-bold text-center mt-4">Confirm Checkout</Dialog.Title>
+          <Dialog.Title className="text-2xl font-bold text-center mt-4">Order Placed Successfully</Dialog.Title>
           <Dialog.Description className="text-center mt-4 text-lg">
-            Are you sure you want to checkout?
+            Track your order
           </Dialog.Description>
           <div className="flex justify-center items-center gap-4 mt-8 mb-4">
             <button
-              onClick={() => setIsOpen(false)}
-              className="bg-red-600 text-white px-4 py-2 rounded-md "
+              onClick={() => {
+                setIsOpen(false)
+                navigate('/')
+              }}
+              className="bg-white/40 text-white px-4 py-2 rounded-md "
             >
-              Cancel
+              Go Back
             </button>
             <button
               onClick={() => {
                 setIsOpen(false);
                 
-                navigate("/checkout");
+                navigate("/orders");
               }
               }
-              className="bg-green-600 text-white px-4 py-2 rounded-md"
+              className="bg-white/40 text-white px-4 py-2 rounded-md"
             >
-              Confirm
+              Orders
             </button>
           </div>
 
@@ -208,6 +211,7 @@ function Cart() {
   const [Razorpay]  = useRazorpay();
   const amount = Object.values(cartItems).reduce((total, item) => total + item.count * item.cost, 0)
   const navigate = useNavigate()
+  const dispatch = useDispatch();
 
 
   const createOrder = async () => {
@@ -261,7 +265,7 @@ function Cart() {
       key: process.env.REACT_APP_RAZORPAY_KEY,
       amount: order.amount,
       currency: order.currency,
-      name: "MITS Eatzz",
+      name: "MITS Canteen",
       description: "Payment for food",
       order_id: order.id,
       prefill: {
@@ -278,7 +282,7 @@ function Cart() {
           paymentId,
           signature,
           orderId,
-          amount: order.amount,
+          amount: order.amount/100,
           status: "paid",
           items:cartItems
         },
@@ -293,6 +297,10 @@ function Cart() {
           return
         }
         console.log(paymentResponse);
+        if(paymentResponse.data.resp.status === 201){
+          dispatch(clearCart());
+          setIsOpen(true);
+        }
         
       },
       theme: {
@@ -322,11 +330,14 @@ function Cart() {
         <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" />
 
       </div>
-      <div className="mt-10 text-3xl">
-        <span style={{ color: "#ffff" }} className="grifter-regular">
-          MITS Eatzz
+      <div className="mt-12 flex flex-col">
+        <span style={{ color: "#ffff" }} className="grifter-regular  text-3xl">
+          MITS Canteen
         </span>
-        <br />
+        <span
+          className="poppins-regular text-[#AEADAD] ">
+        Dining Redefined
+        </span>
         <div
           className=" flex justify-start items-center 
             w-full mt-5 gap-3 text-white text-xl font-bold">

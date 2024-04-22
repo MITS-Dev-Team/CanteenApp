@@ -24,7 +24,7 @@ function Landing() {
         style={{ fontSize: "50px", color: "#ffff" }}
         className="grifter-regular"
       >
-        MITS Eatzz
+        MITS Canteen
       </span>
       <span
         style={{ fontSize: "30px", color: "#AEADAD", fontWeight: 100 }}

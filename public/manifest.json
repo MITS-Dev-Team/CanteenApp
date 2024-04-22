@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "MITS Canteen",
+  "name": "MITS Canteen app for Eatzz", 
   "icons": [
     {
       "src": "favicon.ico",
