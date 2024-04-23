@@ -14,17 +14,17 @@ self.addEventListener('install', (event) => {
 	);
 });
 
-// // Listen for requests
-// self.addEventListener('fetch', function (event) {
-//   event.respondWith(
-//       caches.match(event.request).then(function(res){
-//           if(res){
-//               return res;
-//           }
-//           return requestBackend(event);
-//       })
-//   )
-// });
+// Listen for requests
+self.addEventListener('fetch', function (event) {
+  event.respondWith(
+      caches.match(event.request).then(function(res){
+          if(res){
+              return res;
+          }
+          return requestBackend(event);
+      })
+  )
+});
 
 // Activate the SW
 self.addEventListener('activate', (event) => {
