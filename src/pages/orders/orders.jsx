@@ -12,6 +12,8 @@ import { Dialog } from "@headlessui/react";
 import { HiOutlineQrCode } from "react-icons/hi2";
 import { QR } from "react-qr-rounded";
 import { TiTick } from "react-icons/ti";
+import EggLoading from "../../static/eggloading";
+
 
 function OrderItemCard({ order,setShowQR,setQrData }) {
     const items = order.items;
@@ -101,6 +103,7 @@ function Orders(){
     const { session } = React.useContext(SessionContext);
     const [showQR, setShowQR] = useState(false);
     const [qrData, setQrData] = useState({});
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const cart = useSelector(getItems);
 
@@ -116,7 +119,8 @@ function Orders(){
             .from('orders')
             .select('*')
             .eq('user_id', session.user.id)
-            .order('created_at', { ascending: false });
+            .order('served', { ascending: true })
+            .order('created_at', { ascending: false })
             
         if (error) {
             console.log(error);
@@ -154,10 +158,28 @@ function Orders(){
           <span>My Orders</span>
         </div>
       </div>
-        <div className="flex flex-col w-full gap-4 mt-10">
-            {orders.map((order) => (
-            <OrderItemCard order={order} key={order.id} setShowQR={setShowQR} setQrData={setQrData}/>
-            ))}
+        <div className="flex flex-col w-full gap-4 mt-5">
+            {orders.length === 0 ? <EggLoading /> : 
+            <div className="w-full h-max text-white"> 
+              <div className="w-full h-[50%] overflow-y-scroll">
+                <p className="text-center mb-2 text-xl font-bold ">Pending Orders</p>
+                <div className="flex flex-col gap-4">
+                  {orders.filter((order) => !order.served).map((order) => (
+                    <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
+                  ))}
+                </div>
+              </div>
+              <div className="w-full h-[50%] mt-10 overflow-y-scroll">
+                <p className="text-center mb-2 text-xl font-bold ">Completed Orders</p>
+                <div className="flex flex-col gap-4">
+                  {orders.filter((order) => order.served).map((order) => (
+                    <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
+                  ))}
+                </div>
+                </div>
+            </div>
+                
+            }
         </div>
     </div>
     )

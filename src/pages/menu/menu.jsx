@@ -10,6 +10,7 @@ import { useDispatch,useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import EggLoading from "../../static/eggloading";
 import ProfilePhoto  from "../../components/ProfilePhoto";
+import OrderWaits from "../../components/OrderWaits";
 
 async function fetchDishes(setMenu,setSearchMenu) {
   const { data: dishes, error } = await supabase
@@ -24,6 +25,19 @@ async function fetchDishes(setMenu,setSearchMenu) {
   }
 }
 
+async function checkPendingOrders() {
+  const { data: orders, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("served", false)
+  if (error) {
+    console.error(error);
+    return false;
+  } else {
+
+    return orders.length > 0;
+  }
+}
 
 
 const Category = ({ category, selectedCategory, setSelectedCategory }) => {
@@ -52,7 +66,10 @@ const SearchDish = () => {
     setTimeout(() => {
         setLoading(false);
     }, 1000);
+
+    
   }
+
   , [selectedCategory]);
 
   function setSearchValue(search) {
@@ -66,6 +83,7 @@ const SearchDish = () => {
       dish.name.toLowerCase().includes(search.toLowerCase())
     );
     setSearchMenu(filteredMenu);
+
 
   }
 
@@ -224,6 +242,8 @@ function Menu() {
 
 
   const {session} = useContext(SessionContext);
+  const [checkPending, setCheckPending] = useState(false);
+
   console.log(session);
   const avatarInfo = session?.user.user_metadata
   const cartItems = useSelector((state) => state.cart.items);
@@ -232,6 +252,13 @@ function Menu() {
   const handleCartClick = () => {
     navigate("/cart");
   };
+
+  useEffect(() => {
+    checkPendingOrders().then((res) => {
+      setCheckPending(res);
+    });
+  }
+  , []);
 
   return (
     <div className="menu-screen">
@@ -249,9 +276,9 @@ function Menu() {
         </span>
         
       </div>
-
-      <SearchDish />
       <ProfilePhoto avatarInfo={avatarInfo}/>
+      {checkPending && <OrderWaits />}
+      <SearchDish />
 
       <div 
         className="cart-icon bg-[#1CA672]

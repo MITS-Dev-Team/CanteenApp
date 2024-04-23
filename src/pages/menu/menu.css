@@ -41,6 +41,7 @@
 
 .input-icon {
   position: relative;
+  top: -10px;
   display: inline;
 }
 
