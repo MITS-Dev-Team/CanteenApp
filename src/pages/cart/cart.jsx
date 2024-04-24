@@ -327,7 +327,7 @@ function Cart() {
             }
 
           } />
-        <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" />
+        {/* <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" /> */}
 
       </div>
       <div className="mt-12 flex flex-col">

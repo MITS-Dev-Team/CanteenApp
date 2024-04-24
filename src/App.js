@@ -7,7 +7,11 @@ import Cart from "./pages/cart/cart";
 import Profile from "./pages/profile/profile";
 import Checkout from "./pages/checkout/checkout";
 import Orders from "./pages/orders/orders";
+import QrCode from "./pages/qrcode/qrcode";
+
 import EggLoading from "./static/eggloading";
+
+
 import supabase from "./supabase";
 import {SessionContext} from "./components/SessionContext";
 import { store } from "./redux/store";
@@ -55,6 +59,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/qrcode" element={<QrCode />} />
 
           </Routes>
         </Router>

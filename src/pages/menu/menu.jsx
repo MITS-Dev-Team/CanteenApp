@@ -262,7 +262,7 @@ function Menu() {
 
   return (
     <div className="menu-screen">
-      <div className="menu-screen-title">
+      <div className="menu-screen-title mt-24">
 
         <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen
@@ -277,9 +277,15 @@ function Menu() {
         
       </div>
       <ProfilePhoto avatarInfo={avatarInfo}/>
+      <div className="absolute top-12 right-1 w-14 h-14 flex flex-col  text-white cursor-pointer gap-2"
+          onClick={()=>{
+            navigate("/orders")
+          }}>
+        <img src="/order.svg" alt="" />
+        <span>Orders</span>
+      </div>
       {checkPending && <OrderWaits />}
       <SearchDish />
-
       <div 
         className="cart-icon bg-[#1CA672]
                     absolute bottom-3 -right-6 rounded-xl flex justify-center items-center cursor-pointer

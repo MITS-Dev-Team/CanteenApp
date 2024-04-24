@@ -14,22 +14,17 @@ import { QR } from "react-qr-rounded";
 import { TiTick } from "react-icons/ti";
 import EggLoading from "../../static/eggloading";
 
-
 function OrderItemCard({ order,setShowQR,setQrData }) {
     const items = order.items;
+    const nav = useNavigate();
     return (
+      <div>
         <div className={`flex flex-row w-full  bg-white/20 backdrop-blur-sm text-white justify-between pl-4  rounded-xl border-2 ${order.served ?   'border-green-600' : 'border-red-700'}`}
         onClick={() => {
           if(order.served){
             return
           }
-          setShowQR(true);
-          setQrData(
-            {
-              order_id:order.order_id,
-              user_id:order.user_id
-            }
-          );
+          nav(`/qrcode`, { state: { order:order } });
       }}
         >
           <div className="flex flex-col w-1/2 pt-2 pb-2 ">
@@ -50,9 +45,11 @@ function OrderItemCard({ order,setShowQR,setQrData }) {
             {order.served ? 
             <TiTick size={200} className=" relative -right-14 -top-12  "/> :
             <HiOutlineQrCode size={150} className=" relative -right-10 -top-2 -rotate-12  "/>
-}
+            }
           </div>
+
         </div>
+      </div>
     );
 }
 
@@ -74,7 +71,7 @@ function ConfirmDialogue({ isOpen, setIsOpen,qrData}) {
           <div className="flex flex-col justify-center items-center gap-4 mt-8 mb-4">
             <QR
               color="#FFFFFF"
-              rounding={100}
+              rounding={0}
               errorCorrection="H"
               className="w-3/4 h-3/4"
             >
@@ -170,7 +167,7 @@ function Orders(){
                 </div>
               </div>
               <div className="w-full h-[50%] mt-10 overflow-y-scroll">
-                <p className="text-center mb-2 text-xl font-bold ">Completed Orders</p>
+                <p className="text-center mb-2 text-xl font-bold ">Previous Orders</p>
                 <div className="flex flex-col gap-4">
                   {orders.filter((order) => order.served).map((order) => (
                     <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />

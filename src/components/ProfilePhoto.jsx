@@ -15,15 +15,16 @@ const ProfilePhoto = (avatarInfo) => {
     }
 
     return (
-      <Popover className=" fixed right-1 max-w-2xl max-h-[40vh]  min-h-[5vh] min-w-fit top-10 z-50 ">
+      <Popover className="fixed left-1 max-w-screen max-h-[40vh]  min-h-[5vh] min-w-fit top-5 z-50 ">
   
-        <Popover.Button className="absolute right-2 w-16 h-16 z-10  outline-none">
+        <Popover.Button className="absolute left-1 w-16 h-16 z-10 top-5 outline-none">
           <img
             src={avatarUrl}
             alt="profile"
-            className="profile-pic "
+            className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-lg bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
           />
         </Popover.Button>
+        
         <Transition
           enter="transition duration-20 ease-in-out"
           enterFrom="transform scale-90 opacity-1"
@@ -35,16 +36,14 @@ const ProfilePhoto = (avatarInfo) => {
         <Popover.Panel className=" w-[95vw] min-h-[25vh] max-h-[30vh] right-0 rounded-xl  bg-[#F9F9F9]/50 backdrop-blur-xl ">
   
 
-          <div className="p-4 flex-col w-[80%] h-[90%] " >
-            <div className=" text-3xl   font-bold ">Hi,</div>
-            <div className=" text-3xl  font-bold ">{name}</div>
-            <div className=" text-sm font-normal mt-4">Email </div>
+          <div className=" pt-16 flex-col w-[100%] h-[90%] text-center justify-center " >
+            <div className=" text-2xl  font-bold ">{name}</div>
             <div className=" text-sm   font-normal">{email}</div>
           </div>
-          <div className="flex flex-row gap-20 rounded-md absolute bottom-5 pl-10">
-            <span className="productsans-regular text-white text-base w-32 rounded-lg p-1 text-center bg-black cursor-pointer"
+          <div className="flex flex-col gap-20 rounded-md absolute bottom-5 min-w-full justify-center items-center text-center">
+            {/* <span className="productsans-regular text-white text-base w-32 rounded-lg p-1 text-center bg-black cursor-pointer"
               onClick={() => navigate("/profile")}
-            >Profile</span>
+            >Profile</span> */}
             <span className="productsans-regular text-white text-base w-20 rounded-lg p-1 text-center bg-red-600 cursor-pointer"
               onClick={logout}
             >Logout</span>
