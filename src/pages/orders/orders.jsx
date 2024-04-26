@@ -13,19 +13,31 @@ import { HiOutlineQrCode } from "react-icons/hi2";
 import { QR } from "react-qr-rounded";
 import { TiTick } from "react-icons/ti";
 import EggLoading from "../../static/eggloading";
+import axios from "axios";
+import { CircularProgress } from "@mui/material";
 
-function OrderItemCard({ order,setShowQR,setQrData }) {
-    const items = order.items;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_ORDER_URL;
+
+async function generateToken(order) {
+
+    //highest token number
+    const { data, error } = await supabase.rpc('assign_token', { input_order_id: order.order_id });
+    const newOrder = { ...order, token: data };
+    return newOrder;
+}
+
+function OrderItemCard({ order}) {
     const nav = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const items = order.items;
     return (
-      <div>
-        <div className={`flex flex-row w-full  bg-white/20 backdrop-blur-sm text-white justify-between pl-4  rounded-xl border-2 ${order.served ?   'border-green-600' : 'border-red-700'}`}
-        onClick={() => {
+      <div className="flex flex-col justify-center items-center " >
+        <div className={`flex flex-row w-full z-20  bg-white/20 backdrop-blur-sm text-white justify-between pl-4  rounded-xl border-2 ${order.served ?   'border-green-600' : 'border-red-700'}`}
+          onClick={() => {
           if(order.served){
             return
           }
-          nav(`/qrcode`, { state: { order:order } });
-      }}
+          }}
         >
           <div className="flex flex-col w-1/2 pt-2 pb-2 ">
             {Object.keys(items).map((key) => (
@@ -37,9 +49,9 @@ function OrderItemCard({ order,setShowQR,setQrData }) {
             )
             )}
             <span className="text-base">Total ₹ {order.amount}</span>
-            <span className="text-base ">{
-                new Date(order.created_at).toDateString()
-            }</span>
+            <span className="text-base ">
+              {new Date(order.created_at).toDateString()}
+            </span>
           </div>
           <div className="overflow-hidden h-28 justify-end self-end ">
             {order.served ? 
@@ -47,52 +59,55 @@ function OrderItemCard({ order,setShowQR,setQrData }) {
             <HiOutlineQrCode size={150} className=" relative -right-10 -top-2 -rotate-12  "/>
             }
           </div>
-
         </div>
+        {!order.served && order.token === null && order.status === "paid" &&
+          <div className="w-[60%] h-10 self-center flex flex-col justify-center
+                      text-center -mt-2 overflow-hidden bg-green-700/50
+                      backdrop-blur-xl rounded-xl z-20 cursor-pointer
+                      items-center text-lg"
+            onClick={() => {
+              setLoading(true);
+              generateToken(order).then((newOrder) => {
+                  console.log(newOrder);
+                  nav(`/qrcode`, { state: { order:newOrder } });
+                }
+              );
+            }}
+                          
+                          >
+            {loading ? <CircularProgress style={{ color: "#fff" }}  size={20}/> : "Generate Token"}
+          </div>
+        }
+        {order.token && 
+            <div className="w-[60%] h-10 self-center flex flex-col justify-center
+                       text-center -mt-2 overflow-hidden bg-green-700/50
+                        backdrop-blur-xl rounded-xl z-20 cursor-pointer text-lg"
+              onClick={() => {
+                nav(`/qrcode`, { state: { order:order } });
+
+              }}        
+                            >
+              Token Number : {order.token}
+            </div>
+        }
+        {
+          order.status === "pending" &&
+          <div className="w-[60%] h-10 self-center flex flex-col justify-center
+                      text-center -mt-2 overflow-hidden bg-red-700
+                      backdrop-blur-xl rounded-xl z-20 cursor-pointer text-lg"
+            onClick={() => {
+              
+
+            }}
+          >
+            Payment Failed
+          </div>
+
+        }
       </div>
     );
 }
 
-
-function ConfirmDialogue({ isOpen, setIsOpen,qrData}) {
-  const navigate = useNavigate();
-  return (
-    <Dialog
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
-      className="relative z-50"
-    >
-      <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70">
-        <Dialog.Panel className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
-          <Dialog.Title className="text-2xl font-bold text-center mt-4">QR Code</Dialog.Title>
-          <Dialog.Description className="text-center mt-4 text-lg">
-            Use this QR Code to recieve your order
-          </Dialog.Description>
-          <div className="flex flex-col justify-center items-center gap-4 mt-8 mb-4">
-            <QR
-              color="#FFFFFF"
-              rounding={0}
-              errorCorrection="H"
-              className="w-3/4 h-3/4"
-            >
-              {JSON.stringify(qrData)}
-            </QR>
-
-            <button
-              onClick={() => setIsOpen(false)}
-              className=" border-2 border-white bg-white/30 text-white px-4 py-2 rounded-md outline-0"
-            >
-              Ok
-            </button>
-
-          </div>
-
-      
-        </Dialog.Panel>
-      </div>
-    </Dialog>
-  )
-}
 
 function Orders(){
     const navigate = useNavigate();
@@ -130,7 +145,7 @@ function Orders(){
 
 
     return (
-    <div className="menu-screen">
+    <div className="overflow-y-scroll p-4">
       <div className="flex w-full gap-x-[70%] mt-3">
         <IoArrowBackOutline className="text-white text-2xl mt-5 cursor-pointer"
           onClick={
@@ -138,24 +153,25 @@ function Orders(){
               navigate(-1);
             }
 
-          } />
+          } />overflow-y-scroll
 
       </div>
 
-      <ConfirmDialogue isOpen={showQR} setIsOpen={setShowQR} qrData={qrData} />
-      <div className="mt-10 text-3xl">
+      <div className="menu-screen-title mt-10">
+
         <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen
         </span>
         <br />
-        <div
-          className=" flex justify-start items-center 
-            w-full mt-5 gap-3 text-white text-xl font-bold">
-            <TbReceipt size={20}/>
-          <span>My Orders</span>
-        </div>
+        <span
+          style={{ color: "#AEADAD", fontWeight: 100 }}
+          className="poppins-regular"
+        >
+          Dining Redefined
+        </span>
+        
       </div>
-        <div className="flex flex-col w-full gap-4 mt-5">
+        <div className="flex flex-col w-full gap-4 mt-5 overflow-y-scroll">
             {orders.length === 0 ? <EggLoading /> : 
             <div className="w-full h-max text-white"> 
               <div className="w-full h-[50%] overflow-y-scroll">

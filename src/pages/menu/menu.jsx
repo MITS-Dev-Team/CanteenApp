@@ -29,6 +29,7 @@ async function checkPendingOrders() {
   const { data: orders, error } = await supabase
     .from("orders")
     .select("*")
+    .eq("status", "paid")
     .eq("served", false)
   if (error) {
     console.error(error);
@@ -66,11 +67,10 @@ const SearchDish = () => {
     setTimeout(() => {
         setLoading(false);
     }, 1000);
-
     
   }
 
-  , [selectedCategory]);
+  , []);
 
   function setSearchValue(search) {
     setSearch(search);
@@ -126,6 +126,8 @@ const SearchDish = () => {
                 cost={dish.cost}
                 image={dish.image}
                 type={dish.food_type}
+                stock={dish.stock}
+                limit={dish.order_limit}
               />
             );
           }
@@ -149,26 +151,27 @@ const SearchDish = () => {
     </div>
   );
 };
-const Dish = ({id,name,cost,image,type}) => {
+const Dish = ({id,name,cost,image,type,stock,limit}) => {
   const getCartItems = useSelector(getItems).payload.cart.items;
   const initCount = getCartItems[name]?.count;
-  const [isAdded, setIsAdded] = useState(initCount > 0 ? true : false);
-  const [count, setCount] = useState(initCount || 0);
+  console.log("count of ",name,initCount)
+  const [isAdded, setIsAdded] = useState(true);
+  const [count, setCount] = useState(initCount);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    console.log(getCartItems[name]);
-  }, [getCartItems]);
+    console.log("loaded :",name,getCartItems[name]);
+  }, []);
 
-  const handleAddClick = () => {
-    setCount(count + 1);
-    setIsAdded(true);
-    dispatch(addToCart({ name, cost, image, type }));
-  };
+
 
   const handleIncrement = () => {
     setIsAdded(true);
+    //set 20% limit on stock
+
+    if (initCount >= limit || count >= limit || initCount >= stock) {
+      return;
+    }
     setCount(count + 1);
     dispatch(addToCart({id,name, cost, image, type,count:count }));
 
@@ -202,6 +205,7 @@ const Dish = ({id,name,cost,image,type}) => {
           </span>
         </span>
         <span className="dish-price">₹{cost}</span>
+        {stock > 6&&(<span>Stock : {stock}</span>)}
       </div>
       <img
         className="dish-image"
@@ -209,7 +213,8 @@ const Dish = ({id,name,cost,image,type}) => {
         alt={name}
       />
       {
-        isAdded && count >= 1 ? (
+        
+         stock>5 ? (isAdded && initCount >= 1 ? (
           <div className="absolute right-12 w-1/4 h-1/4  -bottom-3 flex justify-center items-center text-center rounded-md">
               <span
                   onClick={handleDecrement}
@@ -217,7 +222,7 @@ const Dish = ({id,name,cost,image,type}) => {
               >
                   -
               </span>
-              <span className="productsans-regular px-2 w-1/3 text-black bg-slate-50 h-full flex items-center justify-center transition duration-500 ease-in-out">{count}</span>
+              <span className="productsans-regular px-2 w-1/3 text-black bg-slate-50 h-full flex items-center justify-center transition duration-500 ease-in-out">{initCount}</span>
               <span
                   onClick={handleIncrement}
                   className="productsans-regular h-full text-white w-1/3 bg-[#2B2B2B] min-h-full rounded-r-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
@@ -233,6 +238,13 @@ const Dish = ({id,name,cost,image,type}) => {
             ADD
           </div>
         )
+      ):(
+        <div
+          className="absolute  right-12 w-1/4 h-1/4 bg-red-500 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
+        >
+          OUT OF STOCK
+        </div>
+      )
       }
     </div>
   );
@@ -262,7 +274,7 @@ function Menu() {
 
   return (
     <div className="menu-screen">
-      <div className="menu-screen-title mt-24">
+      <div className="menu-screen-title mt-28">
 
         <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen
@@ -277,11 +289,11 @@ function Menu() {
         
       </div>
       <ProfilePhoto avatarInfo={avatarInfo}/>
-      <div className="absolute top-12 right-1 w-14 h-14 flex flex-col  text-white cursor-pointer gap-2"
+      <div className="absolute top-16 right-1 w-12 h-12 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
           onClick={()=>{
             navigate("/orders")
           }}>
-        <img src="/order.svg" alt="" />
+        <img src="/order.svg" className="w-10 h-10" alt="" />
         <span>Orders</span>
       </div>
       {checkPending && <OrderWaits />}

@@ -8,13 +8,14 @@ function QrCode(){
     const order = location.state?.order;
     const order_id = order?.order_id;
     const user_id = order?.user_id;
+    const token = order?.token;
     const items = order?.items;
 
     console.log(order);
     return(
-    <div className="menu-screen flex flex-col justify-center items-center">
-      <div className="flex w-full gap-x-[70%] mt-3">
-        <IoArrowBackOutline className="text-white text-2xl mt-5 cursor-pointer"
+    <div className=" pt-12 flex flex-col justify-center items-center">
+      <div className="flex w-full gap-x-[70%] ">
+        <IoArrowBackOutline className="text-white ml-4 text-2xl mt-2 cursor-pointer"
           onClick={
             () => {
               navigate(-1);
@@ -23,7 +24,7 @@ function QrCode(){
           } />
 
       </div>
-        <span style={{ color: "#ffff" }} className="grifter-regular mt-11 text-3xl self-start">
+        <span style={{ color: "#ffff" }} className=" pl-4 grifter-regular mt-5 text-3xl self-start">
             MITS Canteen
         </span>
         
@@ -31,7 +32,11 @@ function QrCode(){
                         border-2 border-white rounded-xl
                         bg-white/20 backdrop-blur-sm
                         flex flex-col justify-center items-center bg  '>
-          <div className='min-w-[70vw] min-h-[35vh] flex flex-col justify-center items-center border-2 rounded-xl bg-white mb-2'>
+          <div className='text-white text-2xl font-semibold mb-1'>Token Number</div>
+          <div className='text-white text-2xl font-semibold mb-2'>{token}</div>
+          <div className='min-w-[80%] min-h-[35vh] flex flex-col 
+                          justify-center items-center border-2 
+                          rounded-xl bg-white mb-2'>
           <QRCode
             size={250}
             value={

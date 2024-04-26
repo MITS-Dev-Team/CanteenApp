@@ -12,10 +12,10 @@ body {
   /* align-items: center; */
   /* justify-content: center; */
   height: 100vh;
+  max-width: 740px;
   background-image: url("./snacks-bg.png");
   background-position: top;
   background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .landing-container {
@@ -51,3 +51,4 @@ body {
   backdrop-filter: blur(2px);
   color: white;
 }
+

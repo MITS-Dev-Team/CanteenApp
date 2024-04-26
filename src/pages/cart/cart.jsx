@@ -13,6 +13,7 @@ import useRazorpay from "react-razorpay";
 import axios from 'axios';
 import CircularProgress from "@mui/material/CircularProgress";
 import { SiRazorpay } from "react-icons/si";
+import  GooglePayButton from "@google-pay/button-react";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_ORDER_URL;
 
 
@@ -51,7 +52,7 @@ const Dish = ({ id, name, cost, image, type, initCount }) => {
   };
 
   return (
-    <div className="dish-card mt-5 ">
+    <div className="dish-card h-14 mt-5 ">
       <div className="dish-left">
         <span>
           <GrRadialSelected
@@ -79,7 +80,7 @@ const Dish = ({ id, name, cost, image, type, initCount }) => {
       />
 
       {
-        isAdded && count >= 1 ? (
+        isAdded && initCount >= 1 ? (
           <div className="absolute right-12 w-1/4 h-1/4  -bottom-3 flex justify-center items-center text-center rounded-md">
             <span
               onClick={handleDecrement}
@@ -126,8 +127,8 @@ function CartDishes() {
   }
   return (
     <div className="
-            flex-col gap-10 w-full  overflow-y-auto
-            min-h-[45vh] max-h-[75vh]
+            flex-col gap-10 w-full  overflow-y-scroll 
+            min-h-[45vh] max-h-[55vh]
         ">
       {
         Object.keys(cartItems).map((item) => {
@@ -208,6 +209,8 @@ function Cart() {
   const itemCount = Object.values(cartItems).reduce((total, item) => total + item.count, 0);
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false);
+  const [afterpaymentload, setAfterPaymentLoad] = useState(false);
+  const [paymentloadscreenmessage, setPaymentLoadScreenMessage] = useState("Please wait while we process your payment");
   const [Razorpay]  = useRazorpay();
   const amount = Object.values(cartItems).reduce((total, item) => total + item.count * item.cost, 0)
   const navigate = useNavigate()
@@ -223,6 +226,8 @@ function Cart() {
       description: "Payment for food",
       user_id: session.user.id,
       user_name : avatarInfo.full_name,
+      items:cartItems
+      
 
     },
     {
@@ -253,7 +258,15 @@ function Cart() {
     }else {
       return;
     }
-    const response = await createOrder();
+    var response = null;
+    try{
+       response = await createOrder();
+    }
+    catch(error){
+      console.error("Error creating order");
+      setLoading(false);
+      return;
+    }
 
     if(response.status !== 200) {
       console.error("Error creating order");
@@ -299,26 +312,73 @@ function Cart() {
         console.log(paymentResponse);
         if(paymentResponse.data.resp.status === 201){
           dispatch(clearCart());
+          setAfterPaymentLoad(false);
           setIsOpen(true);
         }
         
       },
+      modal: {
+        ondismiss: function () {
+          setLoading(false);
+          setPaymentLoadScreenMessage("Payment Cancelled. Please try again");
+          //show message for half a second then close the modal
+          setTimeout(() => {
+            setAfterPaymentLoad(false);
+          }, 500);
+          
+        }
+      } 
+      ,
       theme: {
         color: "#1CA672"
-      }
+      },
+
     };
 
     const rzp = new Razorpay(options);
+    rzp.on('payment.failed', function (response) {
+      console.log(response.error.code);
+      console.log(response.error.description);
+      console.log(response.error.source);
+      console.log(response.error.step);
+      console.log(response.error.reason);
+      console.log(response.error.metadata.order_id);
+      console.log(response.error.metadata.payment_id);
+      setLoading(false);
+      setPaymentLoadScreenMessage("Payment Failed. Please try again");
+      setAfterPaymentLoad(true);
+    });
     rzp.open();
     setLoading(false);
+    setAfterPaymentLoad(true);
   }, [Razorpay]);
 
+
+  const PaymentProcessLoadScreen = () => {
+    if (afterpaymentload) {
+      return (
+        <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70">
+          <div className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
+            <div className="text-2xl font-bold text-center mt-4">Processing Payment</div>
+            <div className="text-center mt-4 text-lg">
+              {paymentloadscreenmessage}
+            </div>
+            <div className="flex justify-center items-center gap-4 mt-8 mb-4">
+              <CircularProgress style={{ color: "#fff" }} size={24} />
+            </div>
+          </div>
+        </div>
+      )
+    }
+    return null;
+  }
 
 
 
   return (
     <div className="menu-screen">
       <ConfirmDialogue isOpen={isOpen} setIsOpen={setIsOpen} />
+      <PaymentProcessLoadScreen />
       <div className="flex w-full gap-x-[70%] mt-3">
         <IoArrowBackOutline className="text-white text-2xl mt-5 cursor-pointer"
           onClick={
@@ -330,7 +390,7 @@ function Cart() {
         {/* <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" /> */}
 
       </div>
-      <div className="mt-12 flex flex-col">
+      <div className="mt-8 flex flex-col">
         <span style={{ color: "#ffff" }} className="grifter-regular  text-3xl">
           MITS Canteen
         </span>
@@ -349,7 +409,10 @@ function Cart() {
       {itemCount && (
         <div className="min-w-screen flex flex-col">
            <span className="text-white text-2xl font-semibold mt-5 min-w-screen text-center">Total : ₹{amount}</span>
-              <div className="flex justify-center gap-4 items-center w-full h-14 rounded-xl mt-10 bg-[#064793] drop-shadow-xl text-white text-base font-bold cursor-pointer" onClick={handlePayment}>
+              <div className="flex justify-center gap-4 items-center w-full h-14
+               rounded-xl mt-5 bg-[#064793] drop-shadow-xl
+                text-white text-base font-bold 
+                cursor-pointer" onClick={handlePayment}>
               {loading ? <CircularProgress style={{ color: "#fff" }}  size={24} />
                : 
                 <div className="flex justify-center items-center gap-2">
