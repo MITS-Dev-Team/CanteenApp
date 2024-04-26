@@ -227,7 +227,7 @@ function Cart() {
       user_id: session.user.id,
       user_name : avatarInfo.full_name,
       items:cartItems
-      
+
 
     },
     {
@@ -310,7 +310,7 @@ function Cart() {
           return
         }
         console.log(paymentResponse);
-        if(paymentResponse.data.resp.status === 201){
+        if(paymentResponse.data.resp.status === 200){
           dispatch(clearCart());
           setAfterPaymentLoad(false);
           setIsOpen(true);
@@ -346,7 +346,7 @@ function Cart() {
       console.log(response.error.metadata.payment_id);
       setLoading(false);
       setPaymentLoadScreenMessage("Payment Failed. Please try again");
-      setAfterPaymentLoad(true);
+      setAfterPaymentLoad(false);
     });
     rzp.open();
     setLoading(false);
