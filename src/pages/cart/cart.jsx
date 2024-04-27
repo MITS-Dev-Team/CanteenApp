@@ -290,7 +290,7 @@ function Cart() {
             paymentId,
             signature,
             orderId,
-            amount: order.amount,
+            amount: order.amount / 100,
             status: "paid",
             items: cartItems,
           },
