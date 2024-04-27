@@ -101,8 +101,8 @@
   color: white;
   border-radius: 10px;
   width: 100%;
-  min-height: 130px;
-  max-height: 150px;
+  min-height: 140px;
+  max-height: 160px;
   display: flex;
 }
 
@@ -118,7 +118,7 @@
 }
 
 .dish-left {
-  padding: 2em 2em;
+  padding: 1em 2em;
   width: 40%;
   flex: 1;
 }

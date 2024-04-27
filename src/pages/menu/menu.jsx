@@ -128,6 +128,7 @@ const SearchDish = () => {
                 type={dish.food_type}
                 stock={dish.stock}
                 limit={dish.order_limit}
+                stock_limit={dish.stock_limit}
               />
             );
           }
@@ -151,7 +152,7 @@ const SearchDish = () => {
     </div>
   );
 };
-const Dish = ({id,name,cost,image,type,stock,limit}) => {
+const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
   const getCartItems = useSelector(getItems).payload.cart.items;
   const initCount = getCartItems[name]?.count;
   console.log("count of ",name,initCount)
@@ -204,8 +205,14 @@ const Dish = ({id,name,cost,image,type,stock,limit}) => {
             {name}
           </span>
         </span>
-        <span className="dish-price">₹{cost}</span>
-        {stock > 6&&(<span>Stock : {stock}</span>)}
+        <span className="dish-price ">₹{cost}</span>
+          {stock >= stock_limit&&(
+            <div className="flex flex-col mt-2">
+              <span className="text-base">Stock: {stock}</span>
+              <span >Orders limited to {limit}</span>
+
+            </div>
+          )}
       </div>
       <img
         className="dish-image"
@@ -214,8 +221,8 @@ const Dish = ({id,name,cost,image,type,stock,limit}) => {
       />
       {
         
-         stock>5 ? (isAdded && initCount >= 1 ? (
-          <div className="absolute right-12 w-1/4 h-1/4  -bottom-3 flex justify-center items-center text-center rounded-md">
+         stock>stock_limit ? (isAdded && initCount >= 1 ? (
+          <div className="absolute right-5 min-w-[30%]  h-1/3 -bottom-3 flex justify-center items-center text-center rounded-md text-xl">
               <span
                   onClick={handleDecrement}
                   className="productsans-regular w-1/3 h-full bg-[#2B2B2B] rounded-l-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
@@ -233,14 +240,14 @@ const Dish = ({id,name,cost,image,type,stock,limit}) => {
         ) : (
           <div
             onClick={handleIncrement}
-            className="absolute  right-12 w-1/4 h-1/4 bg-slate-50 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out cursor-pointer"
+            className="absolute  right-5 min-w-[30%]  h-1/3 bg-slate-50 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out cursor-pointer"
           >
             ADD
           </div>
         )
       ):(
         <div
-          className="absolute  right-12 w-1/4 h-1/4 bg-red-500 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
+          className="absolute  right-5 min-w-[30%]  h-1/3 bg-red-500 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
         >
           OUT OF STOCK
         </div>
