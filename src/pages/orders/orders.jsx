@@ -78,7 +78,7 @@ function OrderItemCard({ order}) {
             {loading ? <CircularProgress style={{ color: "#fff" }}  size={20}/> : "Generate Token"}
           </div>
         }
-        {order.token && 
+        {order.token && !order.served && order.status === "paid" &&
             <div className="w-[60%] h-10 self-center flex flex-col justify-center
                        text-center -mt-2 overflow-hidden bg-green-700/50
                         backdrop-blur-xl rounded-xl z-20 cursor-pointer text-lg"
