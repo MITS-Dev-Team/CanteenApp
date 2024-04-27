@@ -348,7 +348,7 @@ function Cart() {
   const PaymentProcessLoadScreen = () => {
     if (afterpaymentload) {
       return (
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70 z-40">
+        <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70">
           <div className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
             <div className="text-2xl font-bold text-center mt-4">
               Processing Payment
