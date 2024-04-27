@@ -102,7 +102,7 @@ function Checkout() {
     const order = response.data;
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY,
-      amount: order.amount * 100,
+      amount: order.amount,
       currency: order.currency,
       name: "MITS Canteen",
       description: "Payment for food",
