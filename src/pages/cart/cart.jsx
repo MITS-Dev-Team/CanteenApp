@@ -372,7 +372,7 @@ function Cart() {
         <IoArrowBackOutline
           className="text-white text-2xl mt-5 cursor-pointer"
           onClick={() => {
-            navigate(-1);
+            navigate('/');
           }}
         />
         {/* <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" /> */}
