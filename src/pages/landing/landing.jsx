@@ -4,14 +4,14 @@ import { FaGoogle } from "react-icons/fa";
 import supabase from "../../supabase";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-const url = new URL(window.origin).href 
-console.log(url)
+const url = new URL(window.origin).href;
+console.log(url);
 function Landing() {
   async function signIn() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: url }, 
+      options: { redirectTo: url },
     });
     if (error) alert(error.message);
   }
@@ -21,13 +21,18 @@ function Landing() {
   return (
     <div className="landing-container">
       <span
-        style={{ fontSize: "50px", color: "#ffff" }}
+        style={{ fontSize: "50px", color: "#ffff", textAlign: "center" }}
         className="grifter-regular"
       >
         MITS Canteen
       </span>
       <span
-        style={{ fontSize: "30px", color: "#AEADAD", fontWeight: 100 }}
+        style={{
+          fontSize: "30px",
+          color: "#AEADAD",
+          fontWeight: 100,
+          textAlign: "center",
+        }}
         className="poppins-regular"
       >
         Dining Redefined
