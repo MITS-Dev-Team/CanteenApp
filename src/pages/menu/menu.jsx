@@ -188,7 +188,7 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
 
   return (
     <div className="dish-card">
-      <div className="dish-left z-20">
+      <div className="dish-left">
         <span>
           <GrRadialSelected
             color={type ? "#27DB97" : "#F42C39"}
