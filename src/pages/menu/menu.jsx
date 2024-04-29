@@ -16,6 +16,7 @@ async function fetchDishes(setMenu,setSearchMenu) {
   const { data: dishes, error } = await supabase
     .from("menu")
     .select("*")
+    .order("stock", { ascending: false });
   if (error) {
     console.error(error);
   } else {
@@ -112,7 +113,7 @@ const SearchDish = () => {
         ))}
       </div>
 
-      <div className="dish-list min-h-fit h-[50vh]">
+      <div className="dish-list min-h-fit   ">
         {searchMenu.map((dish) => {
           if (
             selectedCategory === "All" ||
@@ -247,7 +248,7 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
         )
       ):(
         <div
-          className="absolute  right-5 min-w-[30%]  h-1/3 bg-red-500 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
+          className="absolute text-sm  right-5 min-w-[32%]  h-1/3 bg-red-500 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
         >
           OUT OF STOCK
         </div>
@@ -280,7 +281,7 @@ function Menu() {
   , []);
 
   return (
-    <div className="menu-screen">
+    <div className="menu-screen overflow-y-scroll">
       <div className="menu-screen-title mt-28">
 
         <span style={{ color: "#ffff" }} className="grifter-regular">
@@ -307,7 +308,7 @@ function Menu() {
       <SearchDish />
       <div 
         className="cart-icon bg-[#1CA672]
-                    absolute bottom-3 -right-6 rounded-xl flex justify-center items-center cursor-pointer
+                    fixed bottom-[1vh] -right-6 rounded-xl flex justify-center items-center cursor-pointer
                     w-1/3 h-16 shadow-2xl m-10 gap-3
                     "
         onClick={handleCartClick}

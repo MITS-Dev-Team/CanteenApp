@@ -31,15 +31,15 @@ function OrderItemCard({ order}) {
     const [loading, setLoading] = useState(false);
     const items = order.items;
     return (
-      <div className="flex flex-col justify-center items-center " >
-        <div className={`flex flex-row w-full z-20  bg-white/20 backdrop-blur-sm text-white justify-between pl-4  rounded-xl border-2 ${order.served ?   'border-green-600' : 'border-red-700'}`}
+      <div className="flex flex-col justify-center items-center max-w-[90vw]  min-w-[90vw]    " >
+        <div className={`flex flex-row z-20 w-full bg-white/20 backdrop-blur-sm text-white justify-between pl-4  rounded-xl border-2 ${order.served ?   'border-green-600' : 'border-red-700'}`}
           onClick={() => {
           if(order.served){
             return
           }
           }}
         >
-          <div className="flex flex-col w-1/2 pt-2 pb-2 ">
+          <div className="flex flex-col w-1/3 pt-2 pb-2 ">
             {Object.keys(items).map((key) => (
                 <div className="flex w-full justify-start gap-x-2 " >
                     <span className="text-lg font-bold">x{items[key].count}</span>
@@ -53,10 +53,17 @@ function OrderItemCard({ order}) {
               {new Date(order.created_at).toDateString()}
             </span>
           </div>
-          <div className="overflow-hidden h-28 justify-end self-end ">
+          {order.token&& !order.served&&(
+            <div className="flex w-1/3 flex-col my-4 px-4 border-x-2 text-center justify-center items-center ">
+              <div>Token</div>
+              <span className="text-lg font-bold">{order.token}</span>
+            </div>
+          )}
+
+          <div className="overflow-hidden h-28 justify-end self-end w-1/3">
             {order.served ? 
-            <TiTick size={200} className=" relative -right-14 -top-12  "/> :
-            <HiOutlineQrCode size={150} className=" relative -right-10 -top-2 -rotate-12  "/>
+            <TiTick size={200} className=" relative right-4 -top-12  "/> :
+            <HiOutlineQrCode size={150} className=" relative -right-5 -top-2 -rotate-12  "/>
             }
           </div>
         </div>
@@ -87,7 +94,7 @@ function OrderItemCard({ order}) {
 
               }}        
                             >
-              Token Number : {order.token}
+              Click to show QR
             </div>
         }
         {
@@ -153,7 +160,7 @@ function Orders(){
               navigate(-1);
             }
 
-          } />overflow-y-scroll
+          } />
 
       </div>
 
@@ -180,6 +187,10 @@ function Orders(){
                   {orders.filter((order) => !order.served && order.status === 'paid').map((order) => (
                     <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
                   ))}
+                  {
+                    orders.filter((order) => order.served === false && order.status === 'paid').length === 0 &&
+                    <div className="text-center text-sm">No Pending Orders</div>
+                  }
                 </div>
               </div>
               <div className="w-full h-[50%] mt-10 overflow-y-scroll">
