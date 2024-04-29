@@ -177,7 +177,7 @@ function Orders(){
               <div className="w-full h-[50%] overflow-y-scroll">
                 <p className="text-center mb-2 text-xl font-bold ">Pending Orders</p>
                 <div className="flex flex-col gap-4">
-                  {orders.filter((order) => !order.served).map((order) => (
+                  {orders.filter((order) => !order.served && order.status === 'paid').map((order) => (
                     <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
                   ))}
                 </div>
@@ -185,7 +185,7 @@ function Orders(){
               <div className="w-full h-[50%] mt-10 overflow-y-scroll">
                 <p className="text-center mb-2 text-xl font-bold ">Previous Orders</p>
                 <div className="flex flex-col gap-4">
-                  {orders.filter((order) => order.served).map((order) => (
+                  {orders.filter((order) => order.served || order.status === "pending").map((order) => (
                     <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
                   ))}
                 </div>
