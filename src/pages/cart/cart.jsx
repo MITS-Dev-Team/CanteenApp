@@ -365,7 +365,7 @@ function Cart() {
   };
 
   return (
-    <div className="menu-screen">
+    <div className="menu-screen min-w-screen max-w-screen max-h-screen">
       <ConfirmDialogue isOpen={isOpen} setIsOpen={setIsOpen} />
       <PaymentProcessLoadScreen />
       <div className="flex w-full gap-x-[70%] mt-3">

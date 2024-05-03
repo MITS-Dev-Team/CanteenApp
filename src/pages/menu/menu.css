@@ -8,12 +8,12 @@
 .menu-screen {
   width: 100vw;
   height: 200vh;
-  max-height: 200vh;
-  min-height: fit-content;
+  min-height: 100vh;
+  max-height: 100vh;
   padding:1em;
   box-sizing: border-box;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: scroll;
   /* i hate css for this */
   /* change the above to have scrollbar there */
 }
@@ -41,7 +41,6 @@
 
 .input-icon {
   position: relative;
-  top: -10px;
   display: inline;
 }
 

@@ -297,13 +297,7 @@ function Menu() {
         
       </div>
       <ProfilePhoto avatarInfo={avatarInfo}/>
-      <div className="absolute top-16 right-1 w-12 h-12 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
-          onClick={()=>{
-            navigate("/orders")
-          }}>
-        <img src="/order.svg" className="w-10 h-10" alt="" />
-        <span>Orders</span>
-      </div>
+
       {checkPending && <OrderWaits />}
       <SearchDish />
       <div 

@@ -15,7 +15,7 @@ const ProfilePhoto = (avatarInfo) => {
     }
 
     return (
-      <Popover className="absolute left-1 max-w-[98%]max-h-[40vh]  min-h-[5vh] min-w-[98%] top-5 z-50 ">
+      <Popover className="relative -top-44 left-1 max-w-[98%]max-h-[40vh]  min-h-[5vh] min-w-[98%]  z-50 ">
   
         <Popover.Button className="absolute left-1 w-16 h-16 z-10 top-6 outline-none">
           <img
@@ -24,6 +24,13 @@ const ProfilePhoto = (avatarInfo) => {
             className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-lg bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
           />
         </Popover.Button>
+        <div className="absolute top-12 right-1 w-12 h-12 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
+          onClick={()=>{
+            navigate("/orders")
+          }}>
+        <img src="/order.svg" className="w-10 h-10" alt="" />
+        <span>Orders</span>
+      </div>
         
         <Transition
           enter="transition duration-20 ease-in-out"
@@ -33,7 +40,7 @@ const ProfilePhoto = (avatarInfo) => {
           leaveFrom="transform scale-100 opacity-100"
           leaveTo="transform scale-95 opacity-0"
         >
-        <Popover.Panel className="relative  min-w-[350px] max-w-[720px] min-h-[25vh] max-h-[30vh] right-0 rounded-xl  bg-[#F9F9F9]/50 backdrop-blur-xl ">
+        <Popover.Panel className="absolute  min-w-[100%] max-w-[720px] min-h-[25vh] max-h-[30vh] -left-2 rounded-xl  bg-[#F9F9F9]/50 backdrop-blur-xl ">
   
 
           <div className=" pt-16 flex-col w-[100%] h-[90%] text-center justify-center " >

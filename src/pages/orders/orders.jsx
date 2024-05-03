@@ -31,7 +31,7 @@ function OrderItemCard({ order}) {
     const [loading, setLoading] = useState(false);
     const items = order.items;
     return (
-      <div className="flex flex-col justify-center items-center max-w-[90vw]  min-w-[90vw]    " >
+      <div className="flex flex-col justify-center items-center max-w-[100%]  min-w-[90%]    " >
         <div className={`flex flex-row z-20 w-full bg-white/20 backdrop-blur-sm text-white justify-between pl-4  rounded-xl border-2 ${order.served ?   'border-green-600' : 'border-red-700'}`}
           onClick={() => {
           if(order.served){
@@ -183,7 +183,7 @@ function Orders(){
             <div className="w-full h-max text-white"> 
               <div className="w-full h-[50%] overflow-y-scroll">
                 <p className="text-center mb-2 text-xl font-bold ">Pending Orders</p>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 items-center justify-center">
                   {orders.filter((order) => !order.served && order.status === 'paid').map((order) => (
                     <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
                   ))}
@@ -195,7 +195,7 @@ function Orders(){
               </div>
               <div className="w-full h-[50%] mt-10 overflow-y-scroll">
                 <p className="text-center mb-2 text-xl font-bold ">Previous Orders</p>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 items-center justify-center">
                   {orders.filter((order) => order.served || order.status === "pending").map((order) => (
                     <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
                   ))}
