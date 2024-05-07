@@ -26,17 +26,18 @@ async function fetchDishes(setMenu,setSearchMenu) {
   }
 }
 
-async function checkPendingOrders() {
+async function checkPendingOrders(user_id) {
   const { data: orders, error } = await supabase
     .from("orders")
     .select("*")
     .eq("status", "paid")
     .eq("served", false)
-  if (error) {
+    .eq('user_id', user_id)
+    if (error) {
     console.error(error);
     return false;
   } else {
-
+    console.log('pending food',orders)
     return orders.length > 0;
   }
 }
@@ -263,7 +264,7 @@ function Menu() {
 
   const {session} = useContext(SessionContext);
   const [checkPending, setCheckPending] = useState(false);
-
+  const user_id = session.user.id
   console.log(session);
   const avatarInfo = session?.user.user_metadata
   const cartItems = useSelector((state) => state.cart.items);
@@ -274,7 +275,7 @@ function Menu() {
   };
 
   useEffect(() => {
-    checkPendingOrders().then((res) => {
+    checkPendingOrders(user_id).then((res) => {
       setCheckPending(res);
     });
   }

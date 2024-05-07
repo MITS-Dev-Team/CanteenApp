@@ -111,7 +111,7 @@ function CartDishes() {
   console.log(cartItems);
   if (Object.keys(cartItems).length === 0) {
     return (
-      <div className="flex mt-[50%] justify-center items-center h-4/5">
+      <div className="flex  justify-center items-center mt-20 min-h-2/3 max-h-4/5">
         <span
           style={{ color: "#AEADAD", fontWeight: 100 }}
           className="poppins-regular text-center text-xl"
@@ -120,7 +120,7 @@ function CartDishes() {
         </span>
       </div>
     );
-  }
+  } 
   return (
     <div
       className="
@@ -368,12 +368,13 @@ function Cart() {
     <div className="menu-screen min-w-screen max-w-screen max-h-screen">
       <ConfirmDialogue isOpen={isOpen} setIsOpen={setIsOpen} />
       <PaymentProcessLoadScreen />
-      <div className="flex w-full gap-x-[70%] mt-3">
+      <div className="flex w-full gap-x-[70%] mt-0">
         <IoArrowBackOutline
           className="text-white text-2xl mt-5 cursor-pointer"
           onClick={() => {
             navigate('/');
           }}
+          size={35}
         />
         {/* <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" /> */}
       </div>

@@ -52,3 +52,51 @@ body {
   color: white;
 }
 
+
+
+.auth-label {
+  display: block;
+  text-align: left;
+  color: white;
+  margin-left: 0.6em;
+  margin-top: 1em;
+}
+.auth-input {
+  background: #333333;
+  width: 100%;
+  border-radius: 15px;
+  padding: 15px 30px;
+  outline: none;
+}
+
+.auth-container {
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  margin-top: 4em;
+}
+
+.input-container {
+  position: relative;
+}
+.input-container .auth-input {
+  padding-left: 3rem; /* Adjust this value to control the horizontal position of the input text */
+  color: white;
+}
+.input-container .auth-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #848484;
+  /* stroke-width: 1px; */
+}
+
+.input-container .auth-icon-eye {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #848484;
+  cursor: pointer;
+}
