@@ -19,9 +19,17 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import { SiRazorpay } from "react-icons/si";
 import GooglePayButton from "@google-pay/button-react";
+import incrementSound from "../../static/increment.wav";
+import PopSound from "../../static/pop.mp3";
+
+const incrementSoundEffect = new Audio(incrementSound);
+const PopSoundEffect = new Audio(PopSound);
+
+
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_ORDER_URL;
 
-const Dish = ({ id, name, cost, image, type, initCount }) => {
+const Dish = ({ id, name, cost, image, type, initCount,limit,stock }) => {
   const [isAdded, setIsAdded] = useState(initCount > 0 ? true : false);
   const [count, setCount] = useState(initCount || 0);
   const dispatch = useDispatch();
@@ -40,8 +48,15 @@ const Dish = ({ id, name, cost, image, type, initCount }) => {
 
   const handleIncrement = () => {
     setIsAdded(true);
+    //set 20% limit on stock
+
+    if (initCount >= limit || count >= limit || initCount >= stock) {
+      return;
+    }
     setCount(count + 1);
-    dispatch(addToCart({ id, name, cost, image, type, count: count }));
+    dispatch(addToCart({id,name, cost, image, type,count:count }));
+    incrementSoundEffect.play();
+
   };
 
   const handleDecrement = () => {
@@ -49,7 +64,13 @@ const Dish = ({ id, name, cost, image, type, initCount }) => {
     if (count === 1) {
       setIsAdded(false);
     }
-    dispatch(removeFromCart({ id, name, cost, image, type }));
+    dispatch(removeFromCart({id,name, cost, image, type}));
+    if(count <= 1){
+      PopSoundEffect.play();
+    }else{
+      incrementSoundEffect.play();
+    }
+
   };
 
   return (
@@ -138,6 +159,7 @@ function CartDishes() {
             image={cartItems[item].image}
             type={cartItems[item].type}
             initCount={cartItems[item].count}
+            limit={cartItems[item].order_limit}
           />
         );
       })}

@@ -11,6 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import EggLoading from "../../static/eggloading";
 import ProfilePhoto  from "../../components/ProfilePhoto";
 import OrderWaits from "../../components/OrderWaits";
+import incrementSound from "../../static/increment.wav";
+import PopSound from "../../static/pop.mp3";
+
+const incrementSoundEffect = new Audio(incrementSound);
+const PopSoundEffect = new Audio(PopSound);
+
 
 async function fetchDishes(setMenu,setSearchMenu) {
   const { data: dishes, error } = await supabase
@@ -176,7 +182,8 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
       return;
     }
     setCount(count + 1);
-    dispatch(addToCart({id,name, cost, image, type,count:count }));
+    dispatch(addToCart({id,name, cost, image, type,count:count,stock:stock,order_limit:limit }));
+    incrementSoundEffect.play();
 
   };
 
@@ -186,6 +193,12 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
       setIsAdded(false);
     }
     dispatch(removeFromCart({id,name, cost, image, type}));
+    if(count <= 1){
+      PopSoundEffect.play();
+    }else{
+      incrementSoundEffect.play();
+    }
+
   };
 
   return (
