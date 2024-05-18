@@ -295,9 +295,9 @@ function Menu() {
   , []);
 
   return (
-    <div className="menu-screen overflow-y-scroll">
+    <div className="menu-screen max-w-full">
+      <div className="scroll-container h-[98vh] overflow-y-scroll overflow-x-hidden">
       <div className="menu-screen-title mt-28">
-
         <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen
         </span>
@@ -308,19 +308,19 @@ function Menu() {
         >
           Dining Redefined
         </span>
-        
-      </div>
-      <ProfilePhoto avatarInfo={avatarInfo}/>
 
-      {checkPending && <OrderWaits />}
-      <SearchDish />
-      <div 
+        </div>
+        <ProfilePhoto avatarInfo={avatarInfo}/>
+
+        {checkPending && <OrderWaits />}
+        <SearchDish />
+        <div 
         className="cart-icon bg-[#1CA672]
                     fixed bottom-[1vh] -right-6 rounded-xl flex justify-center items-center cursor-pointer
                     w-1/3 h-16 shadow-2xl m-10 gap-3
                     "
         onClick={handleCartClick}
-      >  
+        >  
 
         <MdShoppingCart color="white" size={38} />
         {itemCount > 0 && (
@@ -333,8 +333,10 @@ function Menu() {
             </span>
           )}
         <span className="poppins-semibold font-black text-xl text-white">CART</span>
-        
+
+        </div>
       </div>
+      
     </div>
   );
 }

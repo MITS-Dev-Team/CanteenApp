@@ -15,7 +15,7 @@ const ProfilePhoto = (avatarInfo) => {
     }
 
     return (
-      <Popover className="relative -top-44 left-1 max-w-[98%]max-h-[40vh]  min-h-[5vh] min-w-[98%]  z-50 ">
+      <Popover className="relative -top-44 left-1 max-w-[100%] max-h-[40vh]  min-h-[5vh] min-w-[100%]  z-50 ">
   
         <Popover.Button className="absolute left-1 w-16 h-16 z-10 top-6 outline-none">
           <img
@@ -40,7 +40,7 @@ const ProfilePhoto = (avatarInfo) => {
           leaveFrom="transform scale-100 opacity-100"
           leaveTo="transform scale-95 opacity-0"
         >
-        <Popover.Panel className="absolute  min-w-[100%] max-w-[720px] min-h-[25vh] max-h-[30vh] -left-2 rounded-xl  bg-[#F9F9F9]/50 backdrop-blur-xl ">
+        <Popover.Panel className="absolute  min-w-[100%] max-w-[720px] min-h-[25vh] max-h-[30vh] rounded-xl  bg-[#F9F9F9]/50 backdrop-blur-xl ">
   
 
           <div className=" pt-16 flex-col w-[100%] h-[90%] text-center justify-center " >

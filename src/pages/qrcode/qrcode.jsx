@@ -11,6 +11,12 @@ function QrCode(){
     const token = order?.token;
     const items = order?.items;
 
+    if(!order){
+
+        navigate("/orders");
+        return null;  
+    }
+
     console.log(order);
     return(
     <div className=" pt-12 flex flex-col justify-center items-center">
