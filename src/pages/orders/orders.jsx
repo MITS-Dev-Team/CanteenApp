@@ -118,7 +118,7 @@ function OrderItemCard({ order}) {
 
 function Orders(){
     const navigate = useNavigate();
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState(null);
     const { session } = React.useContext(SessionContext);
     const [showQR, setShowQR] = useState(false);
     const [qrData, setQrData] = useState({});
@@ -181,36 +181,41 @@ function Orders(){
         
       </div>
         <div className="flex flex-col w-full gap-4 mt-5 overflow-y-scroll">
-            {orders.length === 0 ? (
-          <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
-              Nothing yet, order some food and it will show up here 😌
-            </div>
-          
-          ) : 
-            <div className="w-full h-max text-white"> 
-              <div className="w-full h-[50%] o)verflow-y-scroll">
-                <p className="text-center mb-2 text-xl font-bold ">Pending Orders</p>
-                <div className="flex flex-col gap-4 items-center justify-center">
-                  {orders.filter((order) => !order.served && order.status === 'paid').map((order) => (
-                    <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
-                  ))}
-                  {
-                    orders.filter((order) => order.served === false && order.status === 'paid').length === 0 &&
-                    <div className="text-center text-sm">No Pending Orders</div>
-                  }
-                </div>
+
+            {orders === null  ? <EggLoading />: (
+              orders.length === 0 ?
+              (
+                <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+                Nothing yet, order some food and it will show up here 😌
               </div>
-              <div className="w-full h-[50%] mt-10 overflow-y-scroll">
-                <p className="text-center mb-2 text-xl font-bold ">Previous Orders</p>
-                <div className="flex flex-col gap-4 items-center justify-center">
-                  {orders.filter((order) => order.served || order.status === "pending").map((order) => (
-                    <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
-                  ))}
+              ):(
+
+                <div className="w-full h-max text-white"> 
+                  <div className="w-full h-[50%] o)verflow-y-scroll">
+                    <p className="text-center mb-2 text-xl font-bold ">Pending Orders</p>
+                    <div className="flex flex-col gap-4 items-center justify-center">
+                      {orders.filter((order) => !order.served && order.status === 'paid').map((order) => (
+                        <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
+                      ))}
+                      {
+                        orders.filter((order) => order.served === false && order.status === 'paid').length === 0 &&
+                        <div className="text-center text-sm">No Pending Orders</div>
+                      }
+                    </div>
+                  </div>
+                  <div className="w-full h-[50%] mt-10 overflow-y-scroll">
+                    <p className="text-center mb-2 text-xl font-bold ">Previous Orders</p>
+                    <div className="flex flex-col gap-4 items-center justify-center">
+                      {orders.filter((order) => order.served || order.status === "pending").map((order) => (
+                        <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
+                      ))}
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
-                
-            }
+              )
+
+            )
+          }
         </div>
     </div>
     )
