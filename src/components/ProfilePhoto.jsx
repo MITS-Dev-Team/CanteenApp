@@ -15,13 +15,13 @@ const ProfilePhoto = (avatarInfo) => {
     }
 
     return (
-      <Popover className="relative -top-44 left-1 max-w-[100%] max-h-[40vh]  min-h-[5vh] min-w-[100%]  z-50 ">
+      <Popover className="relative -top-44   left-0 max-w-[100%] max-h-[40vh]  min-h-[5vh] min-w-[100%]  z-50 ">
   
-        <Popover.Button className="absolute left-1 w-16 h-16 z-10 top-6 outline-none">
+        <Popover.Button className="absolute left-2 w-16 h-16 z-10 top-6 outline-none">
           <img
             src={avatarUrl}
             alt="profile"
-            className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-lg bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
+            className="w-12 h-12 rounded-full object-cover border-2 border-white bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
           />
         </Popover.Button>
         <div className="absolute top-12 right-1 w-12 h-12 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
@@ -43,11 +43,11 @@ const ProfilePhoto = (avatarInfo) => {
         <Popover.Panel className="absolute  min-w-[100%] max-w-[720px] min-h-[25vh] max-h-[30vh] rounded-xl  bg-[#F9F9F9]/50 backdrop-blur-xl ">
   
 
-          <div className=" pt-16 flex-col w-[100%] h-[90%] text-center justify-center " >
+          <div className=" pt-10 flex-col w-[100%] h-[90%] text-center justify-center " >
             <div className=" text-2xl  font-bold ">{name}</div>
             <div className=" text-sm   font-normal">{email}</div>
           </div>
-          <div className="flex flex-col gap-20 rounded-md absolute bottom-5 min-w-full justify-center items-center text-center">
+          <div className="flex flex-col gap-20 rounded-md absolute bottom-5 min-w-full justify-center items-center text-center ">
             {/* <span className="productsans-regular text-white text-base w-32 rounded-lg p-1 text-center bg-black cursor-pointer"
               onClick={() => navigate("/profile")}
             >Profile</span> */}

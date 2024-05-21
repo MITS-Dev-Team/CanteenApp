@@ -296,7 +296,7 @@ function Menu() {
 
   return (
     <div className="menu-screen max-w-full">
-      <div className="scroll-container h-[98vh] overflow-y-scroll overflow-x-hidden">
+      <div className="scroll-container h-[98vh] overflow-y-scroll overflow-x-hidden ">
       <div className="menu-screen-title mt-28">
         <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen

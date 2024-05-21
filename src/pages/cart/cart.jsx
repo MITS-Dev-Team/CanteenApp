@@ -387,10 +387,10 @@ function Cart() {
   };
 
   return (
-    <div className="menu-screen min-w-screen max-w-screen max-h-screen">
+    <div className="p-2 max-h-screen">
       <ConfirmDialogue isOpen={isOpen} setIsOpen={setIsOpen} />
       <PaymentProcessLoadScreen />
-      <div className="flex w-full gap-x-[70%] mt-0">
+      <div className="relative left-0">
         <IoArrowBackOutline
           className="text-white text-2xl mt-5 cursor-pointer"
           onClick={() => {

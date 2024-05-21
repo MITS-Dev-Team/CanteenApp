@@ -20,6 +20,8 @@
   /* change the above to have scrollbar there */
 }
 
+
+
 .menu-screen-title {
   display: inline-block;
 }
@@ -138,7 +140,16 @@
 
 @media (min-width: 768px) {
   .menu-screen {
-    max-width:  740px;
+    width:  740px;
     margin: 0 auto; /* Center the body */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
+
+  .scroll-container {
+    width: 738px;
+  }
+
 }
