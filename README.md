@@ -1,12 +1,24 @@
 # CanteenApp
 
-### Setup (its fucked up)
+### ~~Setup (its fucked up)~~ 
 
 ```bash
 nvm install 16.14
 npm install yarn -g
 yarn global add create-react-app
 ```
+### Setup (Development)
+```bash
+npm i
+npm start
+```
+
+### Deployment
+```
+npm run build
+```
+
+
 
 MITS color: #FAB317
 Font to use: https://fonts.google.com/specimen/Inter/tester - Tinkerhub font
@@ -15,19 +27,18 @@ Font to use: https://fonts.google.com/specimen/Inter/tester - Tinkerhub font
 
 Todo:
 
-- Create a bottom Navbar
+- ~~Create a bottom Navbar~~
+
+References:
 - https://codepen.io/chrisgannon/pen/KyzNoa
-  References:
-
-https://dev.to/supabase/what-is-oauth-setting-up-github-oauth-with-supabase-44le
-
-https://supabase.com/docs/guides/auth/auth-user-management
+- https://dev.to/supabase/what-is-oauth-setting-up-github-oauth-with-supabase-44le
+- https://supabase.com/docs/guides/auth/auth-user-management
 
 Retrieve a user:
-
+```js
 const user = await supabase.auth.getSession();
 console.log(user.data.session.user.user_metadata.full_name);
-
+```
 Gets the current user details if there is an existing session.
 
     This method fetches the user object from the database instead of local session.
