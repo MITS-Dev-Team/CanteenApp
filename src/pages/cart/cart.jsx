@@ -387,12 +387,12 @@ function Cart() {
   };
 
   return (
-    <div className="p-2 max-h-screen">
+    <div className="p-4 max-h-screen">
       <ConfirmDialogue isOpen={isOpen} setIsOpen={setIsOpen} />
       <PaymentProcessLoadScreen />
       <div className="relative left-0">
         <IoArrowBackOutline
-          className="text-white text-2xl mt-5 cursor-pointer"
+          className="text-white text-2xl mt-12 cursor-pointer"
           onClick={() => {
             navigate('/');
           }}
@@ -400,11 +400,15 @@ function Cart() {
         />
         {/* <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" /> */}
       </div>
-      <div className="mt-8 flex flex-col">
-        <span style={{ color: "#ffff" }} className="grifter-regular  text-3xl">
+      <div className="menu-screen-title mt-7">
+        <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen
         </span>
-        <span className="poppins-regular text-[#AEADAD] ">
+        <br />
+        <span
+          style={{ color: "#AEADAD", fontWeight: 100 }}
+          className="poppins-regular"
+        >
           Dining Redefined
         </span>
         <div

@@ -152,12 +152,12 @@ function Orders(){
 
 
     return (
-    <div className="overflow-y-scroll p-4">
-      <div className="flex w-full gap-x-[70%] mt-3">
+    <div className="overflow-y-scroll p-4 ">
+      <div className="flex w-full gap-x-[70%] mt-6">
         <IoArrowBackOutline className="text-white text-2xl mt-5 cursor-pointer"
           onClick={
             () => {
-              navigate(-1);
+              navigate('/ ');
             }
 
           }
@@ -166,7 +166,7 @@ function Orders(){
 
       </div>
 
-      <div className="menu-screen-title mt-10">
+      <div className="menu-screen-title mt-8">
 
         <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen

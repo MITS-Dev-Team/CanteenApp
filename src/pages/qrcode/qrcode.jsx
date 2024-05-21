@@ -19,9 +19,11 @@ function QrCode(){
 
     console.log(order);
     return(
-    <div className=" pt-12 flex flex-col justify-center items-center lg:max-w-[720px] lg:justify-center lg:items-center" >
+    <div className=" flex flex-col justify-center h-screen items-center lg:max-w-[720px]  lg:justify-center lg:items-center" >
       <div className="flex w-full gap-x-[70%] ">
-        <IoArrowBackOutline className="text-white ml-4 text-2xl mt-2 cursor-pointer"
+        <IoArrowBackOutline 
+          size={35}
+        className="text-white ml-4 text-2xl -mt-5 cursor-pointer"
           onClick={
             () => {
               navigate('/orders');
@@ -34,17 +36,17 @@ function QrCode(){
             MITS Canteen
         </span>
         
-        <div className='mt-10 w-[80%]  h-[80%] min-h-full   max-h-[70%] self-center 
+        <div className='mt-10 w-[80%] min-h-[70%] self-center 
                         border-2 border-white rounded-xl
                         bg-white/20 backdrop-blur-sm
                         flex flex-col justify-center items-center bg  '>
           <div className='text-white text-2xl font-semibold mb-1'>Token Number</div>
           <div className='text-white text-2xl font-semibold mb-2'>{token}</div>
-          <div className='w-max h-max border-2 flex flex-col 
+          <div className='w-[300px] h-[300px] border-2 flex flex-col 
                           justify-center items-center 
                           rounded-sm bg-white mb-2'>
           <QRCode
-            size={250}
+            size={300}
             value={
                 JSON.stringify({
                     order_id: order_id,
@@ -53,7 +55,7 @@ function QrCode(){
             }
             bgColor='transparent'
             fgColor='black'
-            level='L'
+            level='M'
            />
           </div>
           {
