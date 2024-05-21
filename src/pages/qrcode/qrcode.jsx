@@ -46,7 +46,7 @@ function QrCode(){
                           justify-center items-center 
                           rounded-sm bg-white mb-2'>
           <QRCode
-            size={300}
+            size={280}
             value={
                 JSON.stringify({
                     order_id: order_id,
