@@ -1,7 +1,7 @@
 import { Popover, Transition } from '@headlessui/react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import supabase from '../supabase';
-import {useNavigate} from 'react-router-dom';
-import { useState } from 'react'; 
 
 const ProfilePhoto = (avatarInfo) => {
     const name  = avatarInfo.avatarInfo.name;

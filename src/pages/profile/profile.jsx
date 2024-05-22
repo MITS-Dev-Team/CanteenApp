@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { IoArrowBackOutline } from 'react-icons/io5';
-import { useContext } from 'react';
-import { SessionContext } from '../../components/SessionContext';
-import ProfilePhoto from '../../components/ProfilePhoto';
 import { useSelector } from 'react-redux';
+import { SessionContext } from '../../components/SessionContext';
 
 const Profile = () => {
     const { session } = useContext(SessionContext);

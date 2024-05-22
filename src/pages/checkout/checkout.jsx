@@ -1,18 +1,13 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import supabase from "../../supabase";
-import { CiSearch } from "react-icons/ci";
-import { MdOutlinePayment } from "react-icons/md";
-import chickenBiriyaniImage from "../../static/food_images/biriyani.png";
-import { GrRadialSelected } from "react-icons/gr";
-import { SessionContext } from "../../components/SessionContext";
-import { addToCart, removeFromCart, getItems } from "../../redux/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { IoArrowBackOutline } from "react-icons/io5";
-import ProfilePhoto from "../../components/ProfilePhoto";
-import useRazorpay from "react-razorpay";
-import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
+import React, { useCallback, useContext, useState } from "react";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { MdOutlinePayment } from "react-icons/md";
 import { SiRazorpay } from "react-icons/si";
+import useRazorpay from "react-razorpay";
+import { useSelector } from "react-redux";
+import ProfilePhoto from "../../components/ProfilePhoto";
+import { SessionContext } from "../../components/SessionContext";
 
 function CheckoutCard(cartItems) {
   return (

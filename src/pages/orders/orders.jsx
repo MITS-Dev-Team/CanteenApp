@@ -1,20 +1,14 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { SessionContext } from "../../components/SessionContext"
-import { addToCart, removeFromCart, getItems } from "../../redux/cartSlice";
-import { useDispatch, useSelector } from 'react-redux';
-import supabase from "../../supabase";
-import { IoArrowBackOutline } from "react-icons/io5";
-import { MdShoppingCart } from "react-icons/md";
-import { TbReceipt } from "react-icons/tb";
-import { Dialog } from "@headlessui/react";
-import { HiOutlineQrCode } from "react-icons/hi2";
-import { QR } from "react-qr-rounded";
-import { TiTick } from "react-icons/ti";
-import EggLoading from "../../static/eggloading";
-import axios from "axios";
 import { CircularProgress } from "@mui/material";
+import React, { useState } from "react";
+import { HiOutlineQrCode } from "react-icons/hi2";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { TiTick } from "react-icons/ti";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { SessionContext } from "../../components/SessionContext";
+import { getItems } from "../../redux/cartSlice";
+import EggLoading from "../../static/eggloading";
+import supabase from "../../supabase";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_ORDER_URL;
 

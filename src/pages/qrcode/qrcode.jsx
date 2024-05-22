@@ -1,6 +1,6 @@
 import { IoArrowBackOutline } from 'react-icons/io5';
-import { useNavigate,useLocation } from 'react-router-dom';
 import QRCode from "react-qr-code";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function QrCode(){
     const location = useLocation();

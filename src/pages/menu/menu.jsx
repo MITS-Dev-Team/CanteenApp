@@ -1,18 +1,18 @@
-import React, { useState,useEffect,useContext} from "react";
-import supabase from "../../supabase";
+import React, { useContext, useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { MdShoppingCart } from "react-icons/md";
-import "./menu.css";
 import { GrRadialSelected } from "react-icons/gr";
-import {SessionContext} from "../../components/SessionContext"
-import { addToCart,removeFromCart,getItems } from "../../redux/cartSlice";
-import { useDispatch,useSelector} from 'react-redux';
+import { MdShoppingCart } from "react-icons/md";
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import EggLoading from "../../static/eggloading";
-import ProfilePhoto  from "../../components/ProfilePhoto";
 import OrderWaits from "../../components/OrderWaits";
+import ProfilePhoto from "../../components/ProfilePhoto";
+import { SessionContext } from "../../components/SessionContext";
+import { addToCart, getItems, removeFromCart } from "../../redux/cartSlice";
+import EggLoading from "../../static/eggloading";
 import incrementSound from "../../static/increment.wav";
 import PopSound from "../../static/pop.mp3";
+import supabase from "../../supabase";
+import "./menu.css";
 
 const incrementSoundEffect = new Audio(incrementSound);
 const PopSoundEffect = new Audio(PopSound);

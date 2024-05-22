@@ -1,13 +1,11 @@
-import React from "react";
-import "./landing.css";
-import { FaGoogle } from "react-icons/fa";
-import supabase from "../../supabase";
-import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { PiEyeThin } from "react-icons/pi";
-import { PiEyeClosedThin } from "react-icons/pi";
+import React, { useState } from "react";
 import { CiUser } from "react-icons/ci";
+import { FaGoogle } from "react-icons/fa";
+import { PiEyeClosedThin, PiEyeThin } from "react-icons/pi";
 import { SlLock } from "react-icons/sl";
+import supabase from "../../supabase";
+import "./landing.css";
 
 const url = new URL(window.origin).href;
 console.log(url);

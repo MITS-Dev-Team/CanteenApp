@@ -1,24 +1,21 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import supabase from "../../supabase";
-import { MdShoppingCart } from "react-icons/md";
+import { Dialog } from "@headlessui/react";
+import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { GrRadialSelected } from "react-icons/gr";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { MdShoppingCart } from "react-icons/md";
+import { SiRazorpay } from "react-icons/si";
+import useRazorpay from "react-razorpay";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { SessionContext } from "../../components/SessionContext";
 import {
   addToCart,
-  removeFromCart,
-  getItems,
   clearCart,
+  getItems,
+  removeFromCart,
 } from "../../redux/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { IoArrowBackOutline } from "react-icons/io5";
-import ProfilePhoto from "../../components/ProfilePhoto";
-import { useNavigate } from "react-router-dom";
-import { Dialog } from "@headlessui/react";
-import useRazorpay from "react-razorpay";
-import axios from "axios";
-import CircularProgress from "@mui/material/CircularProgress";
-import { SiRazorpay } from "react-icons/si";
-import GooglePayButton from "@google-pay/button-react";
 import incrementSound from "../../static/increment.wav";
 import PopSound from "../../static/pop.mp3";
 
