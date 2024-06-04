@@ -20,93 +20,154 @@ async function generateToken(order) {
     return newOrder;
 }
 
-function OrderItemCard({ order}) {
-    const nav = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const items = order.items;
-    return (
-      <div className="flex flex-col justify-center items-center max-w-[100%]  min-w-[90%]    " >
-        <div className={`flex flex-row z-20 w-full bg-white/20 backdrop-blur-sm text-white justify-between pl-4  rounded-xl border-2 ${order.served ?   'border-green-600' : 'border-red-700'}`}
-          onClick={() => {
-          if(order.served){
-            return
-          }
-          }}
-        >
-          <div className="flex flex-col w-1/3 pt-2 pb-2 ">
-            {Object.keys(items).map((key) => (
-                <div className="flex w-full justify-start gap-x-2 " >
-                    <span className="text-lg font-bold">x{items[key].count}</span>
-                    <span className="text-lg font-bold">{key}</span>
-                </div>
 
-            )
-            )}
-            <span className="text-base">Total ₹ {order.amount}</span>
-            <span className="text-base ">
-              {new Date(order.created_at).toDateString()}
+const Category = ({ category, selectedCategory, setSelectedCategory }) => {
+
+  return (
+    <span
+      onClick={() => setSelectedCategory(category)}
+      className={`${
+        selectedCategory === category ? "category-selected" : ""
+      } productsans-regular food-category`}
+    >
+      {category}
+    </span>
+  );
+};
+
+
+const OrderPendingCard = ({ order }) => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  return (
+    <div className="w-[98%]">
+      <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-2 rounded-t-xl">
+        <div className="flex flex-col gap-2">
+          <span className="text-xl poppins-regular"> {order.order_id}</span>
+          <span className="text-2xl poppins-regular">
+            Total : ₹ {order.amount}
+          </span>
+        </div>
+        <div className="flex flex-col gap-2 ">
+          <span className="text-2xl poppins-regular self-end">
+              {order.status}
             </span>
-          </div>
-          {order.token&& !order.served&&(
-            <div className="flex w-1/3 flex-col my-4 px-4 border-x-2 text-center justify-center items-center ">
-              <div>Token</div>
-              <span className="text-lg font-bold">{order.token}</span>
+          <span className="text-xl poppins-regular text-right">
+           {new Date(order.created_at).toLocaleDateString()}
+          </span>
+        </div>
+      </div>
+        <div className="flex justify-between items-center w-[100%]">
+          {order.token !== null && (
+            <div
+              className="bg-green-800 text-white px-4 py-2 w-1/3 flex items-center justify-center rounded-bl-xl cursor-pointer border-r-2 transition-all duration-500 ease-in-out"
+              onClick={() => {
+                navigate(`/qrcode`, {
+                  state: { order: order },
+                });
+              }}
+            >
+              <HiOutlineQrCode size={40} />
             </div>
           )}
-
-          <div className="overflow-hidden h-28 justify-end self-end w-1/3">
-            {order.served ? 
-            <TiTick size={200} className=" relative right-4 -top-12  "/> :
-            <HiOutlineQrCode size={150} className=" relative -right-5 -top-2 -rotate-12  "/>
-            }
-          </div>
-        </div>
-        {!order.served && order.token === null && order.status === "paid" &&
-          <div className="w-[60%] h-10 self-center flex flex-col justify-center
-                      text-center -mt-2 overflow-hidden bg-green-700/50
-                      backdrop-blur-xl rounded-xl z-20 cursor-pointer
-                      items-center text-lg"
+          <div
+            className={`bg-green-800 text-white px-4 py-2 h-14 text-xl font-bold text-center flex items-center justify-center rounded-br-xl cursor-pointer transition-all duration-500 ease-in-out ${order.token === null ? 'w-full rounded-bl-xl' : 'w-2/3'}`}
             onClick={() => {
-              setLoading(true);
-              generateToken(order).then((newOrder) => {
+              if (order.token === null && !loading) {
+                setLoading(true);
+                generateToken(order).then((newOrder) => {
+                  setLoading(false);
                   console.log(newOrder);
-                  nav(`/qrcode`, { state: { order:newOrder } });
-                }
-              );
-            }}
-                          
-                          >
-            {loading ? <CircularProgress style={{ color: "#fff" }}  size={20}/> : "Generate Token"}
-          </div>
-        }
-        {order.token && !order.served && order.status === "paid" &&
-            <div className="w-[60%] h-10 self-center flex flex-col justify-center
-                       text-center -mt-2 overflow-hidden bg-green-700/50
-                        backdrop-blur-xl rounded-xl z-20 cursor-pointer text-lg"
-              onClick={() => {
-                nav(`/qrcode`, { state: { order:order } });
+                  order.token = newOrder.token;
 
-              }}        
-                            >
-              Click to show QR
-            </div>
-        }
-        {
-          order.status === "pending" &&
-          <div className="w-[60%] h-10 self-center flex flex-col justify-center
-                      text-center -mt-2 overflow-hidden bg-red-700
-                      backdrop-blur-xl rounded-xl z-20 cursor-pointer text-lg"
-            onClick={() => {
-              
+                });
+              }else {
+                navigate(`/qrcode`, {
+                  state: { order: order },
+                });
+              }
 
             }}
           >
-            Payment Failed
+            {order.token === null ? (
+              loading ? (
+                <CircularProgress />
+              ) : (
+                <span>Generate Token</span>
+              ) 
+            ) : (
+              <span>Token : {order.token}</span>
+            )}
           </div>
+        </div>
 
-        }
+    </div>
+  );
+}
+
+const OrderCompletedCard = ({ order }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  console.log(order);
+  return (
+    <div className="w-[98%]">
+      <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-2 rounded-t-xl">
+        <div className="flex flex-col gap-2">
+          <span className="text-xl poppins-regular"> {order.order_id}</span>
+          <span className="text-2xl poppins-regular">
+            Total : ₹ {order.amount}
+          </span>
+        </div>
+        <div className="flex flex-col gap-2 ">
+          <span className="text-2xl poppins-regular self-end">
+              {order.status}
+            </span>
+          <span className="text-xl poppins-regular text-right">
+           {new Date(order.created_at).toLocaleDateString()}
+          </span>
+        </div>
       </div>
-    );
+      <div className="flex flex-col justify-between items-center w-[100%]">
+        <div
+          className={`bg-white/30 backdrop-blur-lg
+              text-white 
+              
+             items-center justify-center rounded-b-xl 
+             cursor-pointer transition-all duration-500 
+             ease-in-out w-full py-2
+             flex flex-col h-max`}
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+        <span className=" text-xl font-bold text-center">
+          {isExpanded ? "Hide" : "Show"} Items
+        </span>
+      
+      
+            <div className={`flex w-full h-max flex-wrap 
+            p-2 mt-2 border-t-2 transition-all 
+            ease-in-out duration-500
+            ${isExpanded ? "border-white " : "border-transparent hidden"}
+            `}>
+              {Object.values(order.items).map((item) => (
+                <div className="flex  gap-2 items-center w-full h-5 justify-between font-bold">
+                  <div className="flex justify-between gap-2">
+                    <span className="text-white">x{item.count}</span>
+                    <span className="text-white">{item.name}</span>
+                  </div>
+                  <div>
+                    <span className="text-white">₹ {item.cost}</span>
+                  </div>
+
+
+                </div>
+              ))}
+            </div>
+  
+      
+      </div>
+      </div>
+
+    </div>
+  )
 }
 
 
@@ -117,6 +178,8 @@ function Orders(){
     const [showQR, setShowQR] = useState(false);
     const [qrData, setQrData] = useState({});
     const [loading, setLoading] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState("Pending");
+
     const dispatch = useDispatch();
     const cart = useSelector(getItems);
 
@@ -146,7 +209,7 @@ function Orders(){
 
 
     return (
-    <div className="overflow-y-scroll p-4 ">
+    <div className="h-screen w-full p-3 ">
       <div className="flex w-full gap-x-[70%] mt-6">
         <IoArrowBackOutline className="text-white text-2xl mt-5 cursor-pointer"
           onClick={
@@ -184,28 +247,34 @@ function Orders(){
               </div>
               ):(
 
-                <div className="w-full h-max text-white"> 
-                  <div className="w-full h-[50%] o)verflow-y-scroll">
-                    <p className="text-center mb-2 text-xl font-bold ">Pending Orders</p>
-                    <div className="flex flex-col gap-4 items-center justify-center">
-                      {orders.filter((order) => !order.served && order.status === 'paid').map((order) => (
-                        <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
-                      ))}
-                      {
-                        orders.filter((order) => order.served === false && order.status === 'paid').length === 0 &&
-                        <div className="text-center text-sm">No Pending Orders</div>
-                      }
-                    </div>
+              <div>
+                  <div className="menu-categories">
+                    {["Pending", "Completed", "Failed"].map((category) => (
+                      <Category
+                        key={category}
+                        category={category}
+                        selectedCategory={selectedCategory}
+                        setSelectedCategory={setSelectedCategory}
+                      />
+                    ))}
                   </div>
-                  <div className="w-full h-[50%] mt-10 overflow-y-scroll">
-                    <p className="text-center mb-2 text-xl font-bold ">Previous Orders</p>
-                    <div className="flex flex-col gap-4 items-center justify-center">
-                      {orders.filter((order) => order.served || order.status === "pending").map((order) => (
-                        <OrderItemCard order={order} setShowQR={setShowQR} setQrData={setQrData} />
-                      ))}
-                    </div>
-                    </div>
-                </div>
+                  <div className="flex flex-col gap-4 text-white items-center justify-center w-full mt-4">
+                    {orders.map((order) => (
+                        (selectedCategory === "Pending" && order.status === "paid" && order.served === false) && (
+                          <OrderPendingCard order={order} /> 
+                        )
+                        ||
+                        (selectedCategory === "Completed" && order.status === "paid" && order.served === true) && (
+                          <OrderCompletedCard order={order} />
+                        )
+
+
+
+      
+                      ))
+                    }
+                  </div>
+              </div>       
               )
 
             )

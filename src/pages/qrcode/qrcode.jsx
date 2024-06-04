@@ -32,11 +32,9 @@ function QrCode(){
           } />
 
       </div>
-        <span style={{ color: "#ffff" }} className=" pl-4 grifter-regular mt-5 text-3xl self-start">
-            MITS Canteen
-        </span>
+        <div className='text-white text-2xl font-semibold mb-2'>Order Details</div>
         
-        <div className='mt-10 w-[80%] min-h-[70%] self-center 
+        <div className='mt-2 w-[80%] min-h-[70%] self-center 
                         border-2 border-white rounded-xl
                         bg-white/20 backdrop-blur-sm
                         flex flex-col justify-center items-center bg  '>
@@ -59,7 +57,7 @@ function QrCode(){
            />
           </div>
           {
-            <div className='flex w-full h-max'>
+            <div className='flex w-[98%] h-max flex-wrap'>
             {
               Object.keys(items)?.map((item) => (
                 <div className='flex gap-2 items-center w-full h-5 justify-center font-bold'>

@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { GrRadialSelected } from "react-icons/gr";
 import { IoArrowBackOutline } from "react-icons/io5";
-import { MdShoppingCart } from "react-icons/md";
+import { MdShoppingCart,MdOutlinePayment } from "react-icons/md";
 import { SiRazorpay } from "react-icons/si";
 import useRazorpay from "react-razorpay";
 import { useDispatch, useSelector } from "react-redux";
@@ -71,7 +71,7 @@ const Dish = ({ id, name, cost, image, type, initCount,limit,stock }) => {
   };
 
   return (
-    <div className="dish-card h-14 mt-5 ">
+    <div className="dish-card mt-5 ">
       <div className="dish-left">
         <span>
           <GrRadialSelected
@@ -143,7 +143,7 @@ function CartDishes() {
     <div
       className="
             flex-col gap-10 w-full  overflow-y-scroll 
-            min-h-[45vh] max-h-[55vh]
+            min-h-[55%] max-h-[60%]
         "
     >
       {Object.keys(cartItems).map((item) => {
@@ -164,49 +164,6 @@ function CartDishes() {
   );
 }
 
-function ConfirmDialogue({ isOpen, setIsOpen }) {
-  const navigate = useNavigate();
-  return (
-    <Dialog
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
-      className="relative z-50"
-    >
-      <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70">
-        <Dialog.Panel className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
-          <Dialog.Title className="text-2xl font-bold text-center mt-4">
-            Order Placed Successfully
-          </Dialog.Title>
-          <Dialog.Description className="text-center mt-4 text-lg">
-            Track your order
-          </Dialog.Description>
-          <div className="flex justify-center items-center gap-4 mt-8 mb-4">
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                navigate("/");
-              }}
-              className="bg-white/40 text-white px-4 py-2 rounded-md "
-            >
-              Go Back
-            </button>
-            <button
-              onClick={() => {
-                setIsOpen(false);
-
-                navigate("/orders");
-              }}
-              className="bg-white/40 text-white px-4 py-2 rounded-md"
-            >
-              Orders
-            </button>
-          </div>
-        </Dialog.Panel>
-      </div>
-    </Dialog>
-  );
-}
-
 function Cart() {
   const { session } = useContext(SessionContext);
 
@@ -220,173 +177,14 @@ function Cart() {
     (total, item) => total + item.count,
     0
   );
-  const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [afterpaymentload, setAfterPaymentLoad] = useState(false);
-  const [paymentloadscreenmessage, setPaymentLoadScreenMessage] = useState(
-    "Please wait while we process your payment"
-  );
-  const [Razorpay] = useRazorpay();
+
   const amount = Object.values(cartItems).reduce(
     (total, item) => total + item.count * item.cost,
     0
   );
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const createOrder = async () => {
-    const response = await axios.post(
-      `${BACKEND_URL}/create-order`,
-      {
-        description: "Payment for food",
-        user_id: session.user.id,
-        user_name: avatarInfo.full_name,
-        items: cartItems,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      }
-    );
-    if (response.status !== 200) {
-      console.error("Error creating order");
-    }
-    console.log(response);
-    return response;
-  };
-
-  const handlePayment = useCallback(async () => {
-    if (!Razorpay) {
-      return;
-    }
-    if (itemCount === 0) {
-      alert("Please add items to cart");
-      return;
-    }
-    if (!loading) {
-      setLoading(true);
-    } else {
-      return;
-    }
-    var response = null;
-    try {
-      response = await createOrder();
-    } catch (error) {
-      console.error("Error creating order");
-      setLoading(false);
-      return;
-    }
-
-    if (response.status !== 200) {
-      console.error("Error creating order");
-      return;
-    }
-
-    const order = response.data;
-    const options = {
-      key: process.env.REACT_APP_RAZORPAY_KEY,
-      amount: order.amount,
-      currency: order.currency,
-      name: "MITS Canteen",
-      description: "Payment for food",
-      order_id: order.id,
-      prefill: {
-        name: avatarInfo.full_name,
-        email: session.user.email,
-        contact: avatarInfo.phone_number,
-      },
-      handler: async (response) => {
-        console.log(response);
-        const paymentId = response.razorpay_payment_id;
-        const signature = response.razorpay_signature;
-        const orderId = response.razorpay_order_id;
-        const paymentResponse = await axios.post(
-          `${BACKEND_URL}/create-order/capture`,
-          {
-            paymentId,
-            signature,
-            orderId,
-            status: "paid",
-            items: cartItems,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${session.access_token}`,
-            },
-          }
-        );
-        if (paymentResponse.status !== 200) {
-          console.error("Error capturing payment");
-          return;
-        }
-        console.log(paymentResponse);
-        if (paymentResponse.data.resp.status === 200) {
-          dispatch(clearCart());
-          setAfterPaymentLoad(false);
-          setIsOpen(true);
-        }
-      },
-      modal: {
-        ondismiss: function () {
-          setLoading(false);
-          setPaymentLoadScreenMessage("Payment Cancelled. Please try again");
-          //show message for half a second then close the modal
-          setTimeout(() => {
-            setAfterPaymentLoad(false);
-          }, 500);
-        },
-      },
-      theme: {
-        color: "#1CA672",
-      },
-    };
-
-    const rzp = new Razorpay(options);
-    rzp.on("payment.failed", function (response) {
-      console.log(response.error.code);
-      console.log(response.error.description);
-      console.log(response.error.source);
-      console.log(response.error.step);
-      console.log(response.error.reason);
-      console.log(response.error.metadata.order_id);
-      console.log(response.error.metadata.payment_id);
-      setLoading(false);
-      setPaymentLoadScreenMessage("Payment Failed. Please try again");
-      setAfterPaymentLoad(false);
-    });
-    rzp.open();
-    setLoading(false);
-    setAfterPaymentLoad(true);
-  }, [Razorpay]);
-
-  const PaymentProcessLoadScreen = () => {
-    if (afterpaymentload) {
-      return (
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70 z-20">
-          <div className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
-            <div className="text-2xl font-bold text-center mt-4">
-              Processing Payment
-            </div>
-            <div className="text-center mt-4 text-lg">
-              {paymentloadscreenmessage}
-            </div>
-            <div className="flex justify-center items-center gap-4 mt-8 mb-4">
-              <CircularProgress style={{ color: "#fff" }} size={24} />
-            </div>
-          </div>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
     <div className="p-4 max-h-screen">
-      <ConfirmDialogue isOpen={isOpen} setIsOpen={setIsOpen} />
-      <PaymentProcessLoadScreen />
       <div className="relative left-0">
         <IoArrowBackOutline
           className="text-white text-2xl mt-12 cursor-pointer"
@@ -397,7 +195,7 @@ function Cart() {
         />
         {/* <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" /> */}
       </div>
-      <div className="menu-screen-title mt-7">
+      <div className="menu-screen-title mt-3">
         <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen
         </span>
@@ -418,25 +216,25 @@ function Cart() {
       </div>
       <CartDishes />
       {itemCount && (
-        <div className="min-w-screen flex flex-col">
-          <span className="text-white text-2xl font-semibold mt-5 min-w-screen text-center">
-            Total : ₹{amount}
-          </span>
-          <div
-            className="flex justify-center gap-4 items-center w-full h-14
-               rounded-xl mt-5 bg-[#064793] drop-shadow-xl
-                text-white text-base font-bold 
-                cursor-pointer"
-            onClick={handlePayment}
-          >
-            {loading ? (
-              <CircularProgress style={{ color: "#fff" }} size={24} />
-            ) : (
-              <div className="flex justify-center items-center gap-2">
-                <SiRazorpay style={{ color: "#ffff" }} size={24} />
-                <span>Pay with Razorpay</span>
-              </div>
-            )}
+        <div className="w-full flex flex-col">
+          <div className="absolute bottom-8 w-[98%] self-center justify-center text-center">
+            <span className="text-white text-2xl font-semibold mt-5 w-full text-center">
+              Total : ₹{amount}
+            </span>
+            <div
+              className="flex justify-center gap-4 items-center w-full h-14
+                 rounded-xl mt-5 bg-[#1BA671] drop-shadow-xl
+                  text-white text-2xl font-bold
+                  cursor-pointer"
+              onClick={
+                () => {
+                  navigate("/checkout");
+                }
+              }
+            >
+              <span>Checkout</span>
+              <MdOutlinePayment size={30} />
+            </div>
           </div>
         </div>
       )}
