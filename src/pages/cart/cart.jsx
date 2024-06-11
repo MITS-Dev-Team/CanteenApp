@@ -71,7 +71,7 @@ const Dish = ({ id, name, cost, image, type, initCount,limit,stock }) => {
   };
 
   return (
-    <div className="dish-card mt-5 ">
+    <div className="dish-card">
       <div className="dish-left">
         <span>
           <GrRadialSelected
@@ -95,7 +95,7 @@ const Dish = ({ id, name, cost, image, type, initCount,limit,stock }) => {
       <img className="dish-image" src={image} alt={name} />
 
       {isAdded && initCount >= 1 ? (
-        <div className="absolute right-12 w-1/4 h-1/4  -bottom-3 flex justify-center items-center text-center rounded-md">
+        <div className="absolute right-12 w-1/4 h-2/5  -bottom-3 flex justify-center items-center text-center rounded-md">
           <span
             onClick={handleDecrement}
             className="productsans-regular w-1/3 h-full bg-[#2B2B2B] rounded-l-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
@@ -142,8 +142,9 @@ function CartDishes() {
   return (
     <div
       className="
-            flex-col gap-10 w-full  overflow-y-scroll 
-            min-h-[55%] max-h-[60%]
+            flex flex-col gap-6  w-full  overflow-y-scroll 
+            scrollbar-hide max-h-[50vh]
+            rounded-xl 
         "
     >
       {Object.keys(cartItems).map((item) => {
@@ -214,30 +215,33 @@ function Cart() {
           <span>My Cart</span>
         </div>
       </div>
-      <CartDishes />
-      {itemCount && (
-        <div className="w-full flex flex-col">
-          <div className="absolute bottom-8 w-[98%] self-center justify-center text-center">
-            <span className="text-white text-2xl font-semibold mt-5 w-full text-center">
-              Total : ₹{amount}
-            </span>
-            <div
-              className="flex justify-center gap-4 items-center w-full h-14
-                 rounded-xl mt-5 bg-[#1BA671] drop-shadow-xl
-                  text-white text-2xl font-bold
-                  cursor-pointer"
-              onClick={
-                () => {
-                  navigate("/checkout");
+      <div
+       className="flex flex-col w-full h-max">
+        <CartDishes />
+        {itemCount && (
+          <div className="w-full flex flex-col">
+            <div className=" w-[98%] self-center justify-center text-center">
+              <span className="text-white text-2xl font-semibold mt-5 w-full text-center">
+                Total : ₹{amount}
+              </span>
+              <div
+                className="flex justify-center gap-4 items-center w-full h-14
+                   rounded-xl mt-5 bg-[#1BA671] drop-shadow-xl
+                    text-white text-2xl font-bold
+                    cursor-pointer"
+                onClick={
+                  () => {
+                    navigate("/checkout");
+                  }
                 }
-              }
-            >
-              <span>Checkout</span>
-              <MdOutlinePayment size={30} />
+              >
+                <span>Checkout</span>
+                <MdOutlinePayment size={30} />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

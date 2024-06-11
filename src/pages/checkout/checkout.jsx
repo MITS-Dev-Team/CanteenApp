@@ -238,10 +238,15 @@ function Checkout() {
     );
   };
 
-  const convenienceFees = (Object.values(cartItems).reduce(
+  let convenienceFees = (Object.values(cartItems).reduce(
     (total, item) => total + item.cost * item.count,
     0
   ) * 0.02).toFixed(2);
+
+  convenienceFees = parseFloat(convenienceFees);
+
+
+  
 
 
 
