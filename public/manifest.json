@@ -26,7 +26,7 @@
   "description": "Easily order your favourite dish from the canteen of MITS Kochi.\nOnly accessible in MITS college campus",
   "dir": "auto",
   "lang": "en",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "categories": [
     "food"
   ]

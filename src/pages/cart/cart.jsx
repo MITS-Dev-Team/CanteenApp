@@ -143,7 +143,7 @@ function CartDishes() {
     <div
       className="
             flex flex-col gap-6  w-full  overflow-y-scroll 
-            scrollbar-hide max-h-[50vh]
+            scrollbar-hide min-h-[40vh] max-h-[50vh]
             rounded-xl 
         "
     >
@@ -216,10 +216,10 @@ function Cart() {
         </div>
       </div>
       <div
-       className="flex flex-col w-full h-max">
+       className="flex flex-col w-full min-h-[65vh] justify-between">
         <CartDishes />
         {itemCount && (
-          <div className="w-full flex flex-col">
+          <div className="  w-[98%] flex flex-col mb-10">
             <div className=" w-[98%] self-center justify-center text-center">
               <span className="text-white text-2xl font-semibold mt-5 w-full text-center">
                 Total : ₹{amount}

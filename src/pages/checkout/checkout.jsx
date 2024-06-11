@@ -291,7 +291,7 @@ function Checkout() {
         <CheckoutCard cartItems={cartItems} />
         {loading && <PaymentProcessLoadScreen />}
 
-      <div className="flex flex-col  gap-4 mt-8 mb-4 w-[95%] absolute bottom-0 text-white ">
+      <div className="flex flex-col  gap-4 mt-8 mb-4 w-[95%] absolute bottom-10 text-white ">
       <span className="text-xl text-center">Convenience Fees : ₹ {convenienceFees}</span>
         <div className="flex  justify-center items-center gap-2 ">
 
