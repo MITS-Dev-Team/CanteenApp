@@ -13,7 +13,7 @@ body {
   /* justify-content: center; */
   height: 100vh;
   max-width: 740px;
-  background-image: url("./snacks-bg.png");
+  background-image: url("./snacks-bg.webp");
   background-position: top;
   background-repeat: no-repeat;
 }

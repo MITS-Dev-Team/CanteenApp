@@ -57,8 +57,11 @@ function CheckoutCard(cartItems) {
 function Checkout() {
   const { session } = useContext(SessionContext);
   console.log(session);
+
+  const navigate = useNavigate();
+
   if (!session) {
-    window.location.href = "/";
+    navigate("/");
   }
 
   const avatarInfo = session?.user.user_metadata;
@@ -67,11 +70,16 @@ function Checkout() {
     (total, item) => total + item.count,
     0
   );
+
+  if(itemCount === 0){
+    navigate('/');
+  }
+
+
   const [loading, setLoading] = useState(false);
   const [Razorpay] = useRazorpay();
   const [paymentloadscreenmessage, setPaymentLoadScreenMessage] = useState("");
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
@@ -230,10 +238,12 @@ function Checkout() {
     );
   };
 
-  const convenienceFees = Object.values(cartItems).reduce(
+  const convenienceFees = (Object.values(cartItems).reduce(
     (total, item) => total + item.cost * item.count,
     0
-  ) * 0.02;
+  ) * 0.02).toFixed(2);
+
+
 
   const total = Object.values(cartItems).reduce(
     (total, item) => total + item.cost * item.count,

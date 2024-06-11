@@ -1,6 +1,6 @@
 {
   "short_name": "MITS Canteen",
-  "name": "MITS Canteen app for Eatzz", 
+  "name": "MITS Canteen app for Eatzz",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +18,16 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#323435",
+  "background_color": "#0e0e0e",
+  "id": "app.mitscanteen.com",
+  "description": "Easily order your favourite dish from the canteen of MITS Kochi.\nOnly accessible in MITS college campus",
+  "dir": "auto",
+  "lang": "en",
+  "orientation": "portrait-primary",
+  "categories": [
+    "food"
+  ]
 }

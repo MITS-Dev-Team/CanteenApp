@@ -170,6 +170,38 @@ const OrderCompletedCard = ({ order }) => {
   )
 }
 
+const OrderFailedCard = ({ order }) => {
+  return (
+    <>
+      <div className="w-[98%]">
+        <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-2 rounded-t-xl">
+          <div className="flex flex-col gap-2">
+            <span className="text-xl poppins-regular"> {order.order_id}</span>
+            <span className="text-2xl poppins-regular">
+              Total : ₹ {order.amount}
+            </span>
+          </div>
+          <div className="flex flex-col gap-2 ">
+            <span className="text-2xl poppins-regular self-end">
+              {order.status}
+            </span>
+            <span className="text-xl poppins-regular text-right">
+              {new Date(order.created_at).toLocaleDateString()}
+            </span>
+          </div>
+        </div>
+        <div className="flex justify-between items-center w-[100%]">
+          <div
+            className={`bg-orange-700 text-white px-4 py-2 h-14 text-xl font-bold text-center flex items-center justify-center rounded-b-xl cursor-pointer transition-all duration-500 ease-in-out w-full`}
+          >
+            <span>Payment Failed</span>
+          </div>
+        </div>
+      </div>
+    </>
+  )  
+}
+
 
 function Orders(){
     const navigate = useNavigate();
@@ -209,79 +241,95 @@ function Orders(){
 
 
     return (
-    <div className="h-screen w-full p-3 ">
-      <div className="flex w-full gap-x-[70%] mt-6">
-        <IoArrowBackOutline className="text-white text-2xl mt-5 cursor-pointer"
-          onClick={
-            () => {
-              navigate('/ ');
-            }
-
-          }
-          size={35}
-           />
-
-      </div>
-
-      <div className="menu-screen-title mt-8">
-
-        <span style={{ color: "#ffff" }} className="grifter-regular">
-          MITS Canteen
-        </span>
-        <br />
-        <span
-          style={{ color: "#AEADAD", fontWeight: 100 }}
-          className="poppins-regular"
-        >
-          Dining Redefined
-        </span>
-        
-      </div>
-        <div className="flex flex-col w-full gap-4 mt-5 overflow-y-scroll">
-
-            {orders === null  ? <EggLoading />: (
-              orders.length === 0 ?
-              (
-                <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
-                Nothing yet, order some food and it will show up here 😌
-              </div>
-              ):(
-
-              <div>
-                  <div className="menu-categories">
-                    {["Pending", "Completed", "Failed"].map((category) => (
-                      <Category
-                        key={category}
-                        category={category}
-                        selectedCategory={selectedCategory}
-                        setSelectedCategory={setSelectedCategory}
-                      />
-                    ))}
-                  </div>
-                  <div className="flex flex-col gap-4 text-white items-center justify-center w-full mt-4">
-                    {orders.map((order) => (
-                        (selectedCategory === "Pending" && order.status === "paid" && order.served === false) && (
-                          <OrderPendingCard order={order} /> 
-                        )
-                        ||
-                        (selectedCategory === "Completed" && order.status === "paid" && order.served === true) && (
-                          <OrderCompletedCard order={order} />
-                        )
-
-
-
-      
-                      ))
-                    }
-                  </div>
-              </div>       
-              )
-
-            )
-          }
+      <div className="h-screen w-full p-3 overflow-y-scroll ">
+        <div className="flex w-full gap-x-[70%] mt-6">
+          <IoArrowBackOutline
+            className="text-white text-2xl mt-5 cursor-pointer"
+            onClick={() => {
+              navigate("/");
+            }}
+            size={35}
+          />
         </div>
-    </div>
-    )
+
+        <div className="menu-screen-title mt-8">
+          <span style={{ color: "#ffff" }} className="grifter-regular">
+            MITS Canteen
+          </span>
+          <br />
+          <span
+            style={{ color: "#AEADAD", fontWeight: 100 }}
+            className="poppins-regular"
+          >
+            Dining Redefined
+          </span>
+        </div>
+        <div className="flex flex-col w-full gap-4 mt-5">
+          {orders === null ? (
+            <EggLoading />
+          ) : orders.length === 0 ? (
+            <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+              Nothing yet, order some food and it will show up here 😌
+            </div>
+          ) : (
+            <div>
+              <div className="menu-categories">
+                {["Pending", "Completed", "Failed"].map((category) => (
+                  <Category
+                    key={category}
+                    category={category}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                  />
+                ))}
+              </div>
+              <div className="flex flex-col gap-4 text-white items-center justify-center w-full mt-4">
+                {orders.map((order) => (
+                  (selectedCategory === "Pending" &&
+                    order.status === "paid" &&
+                    order.served === false) && (
+                    <OrderPendingCard order={order} />
+                  )
+                ))}
+                {selectedCategory === "Pending" && orders.filter((order) => order.status === "paid" && order.served === false).length === 0 && (
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+                    No pending orders
+                  </div>
+                )}
+
+
+                {orders.map((order) => (
+                  (selectedCategory === "Completed" &&
+                    order.status === "paid" &&
+                    order.served === true) && (
+                    <OrderCompletedCard order={order} />
+                  )
+                ))}
+                {selectedCategory === "Completed" && orders.filter((order) => order.status === "paid" && order.served === true).length === 0 && (
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+                    No completed orders
+                  </div>
+                )}
+
+                {orders.map((order) => (
+                  (selectedCategory === "Failed" &&
+                    order.status === "pending") && (
+                    <OrderFailedCard order={order} />
+                  )
+                ))}
+                {selectedCategory === "Failed" && orders.filter((order) => order.status === "pending").length === 0 && (
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+                    No failed orders
+                  </div>
+                )}
+              </div>
+
+
+            </div>
+          )}
+        </div>
+      </div>
+    );
 }
 
 export default Orders;
