@@ -17,7 +17,7 @@ import {
   removeFromCart,
 } from "../../redux/cartSlice";
 
-const BACKEND_URL = "https://upisaudoedkmymdeopkk.supabase.co/functions/v1/";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_ORDER_URL;
 
 
 function CheckoutCard(cartItems) {
@@ -166,7 +166,16 @@ function Checkout() {
               Authorization: `Bearer ${session.access_token}`,
             },
           }
-        );
+        ).catch((error) => {
+          console.error("Error capturing payment");
+          setPaymentLoadScreenMessage(`
+            Payment Failed, 
+            Use the order id to contact the support team : ${orderId},
+            Payment Id : ${paymentId}
+
+            `);
+            
+        });
         if (paymentResponse.status !== 200) {
           console.error("Error capturing payment");
           return;
