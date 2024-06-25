@@ -8,7 +8,7 @@ import Profile from "./pages/profile/profile";
 import Checkout from "./pages/checkout/checkout";
 import Orders from "./pages/orders/orders";
 import QrCode from "./pages/qrcode/qrcode";
-
+import '@khmyznikov/pwa-install';
 import EggLoading from "./static/eggloading";
 
 

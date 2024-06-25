@@ -19,7 +19,9 @@ const ProfilePhoto = (avatarInfo) => {
   
         <Popover.Button className="absolute left-2 w-16 h-16 z-10 top-6 outline-none">
           <img
-            src={avatarUrl}
+            src={
+              avatarUrl || `https://api.dicebear.com/8.x/fun-emoji/png?seed=${name}`
+            }
             alt="profile"
             className="w-12 h-12 rounded-full object-cover border-2 border-white bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
           />

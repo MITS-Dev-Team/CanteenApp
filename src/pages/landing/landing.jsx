@@ -2,9 +2,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import React, { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { FaGoogle } from "react-icons/fa";
+import PWAInstall from '@khmyznikov/pwa-install/dist/pwa-install.react.js';
 import { PiEyeClosedThin, PiEyeThin } from "react-icons/pi";
 import { SlLock } from "react-icons/sl";
 import supabase from "../../supabase";
+
 import "./landing.css";
 
 const url = new URL(window.origin).href;
@@ -40,6 +42,14 @@ function Landing() {
 
   return (
     <div className="landing-container">
+        <pwa-install 
+          app-name="MITS Canteen"
+          primary-color="#000000"
+          secondary-color="#ffffff"
+          install-description="Install the application for a better experience"
+          manifest-url="/manifest.json"  
+        >
+        </pwa-install>
       <span
         style={{ fontSize: "50px", color: "#ffff", textAlign: "center" }}
         className="grifter-regular"
