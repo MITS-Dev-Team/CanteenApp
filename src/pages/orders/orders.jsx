@@ -292,7 +292,7 @@ function Orders(){
                   )
                 ))}
                 {selectedCategory === "Pending" && orders.filter((order) => order.status === "paid" && order.served === false).length === 0 && (
-                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular opacity-80">
                     No pending orders
                   </div>
                 )}
@@ -306,7 +306,7 @@ function Orders(){
                   )
                 ))}
                 {selectedCategory === "Completed" && orders.filter((order) => order.status === "paid" && order.served === true).length === 0 && (
-                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular opacity-80">
                     No completed orders
                   </div>
                 )}
@@ -318,7 +318,7 @@ function Orders(){
                   )
                 ))}
                 {selectedCategory === "Failed" && orders.filter((order) => order.status === "pending").length === 0 && (
-                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular opacity-80">
                     No failed orders
                   </div>
                 )}

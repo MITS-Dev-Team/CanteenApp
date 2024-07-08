@@ -15,13 +15,18 @@ body {
   max-width: 740px;
   background-image: url("./snacks-bg.webp");
   background-position: top;
+  background-position: right;
   background-repeat: no-repeat;
+  background-position-y:-10% ;
+  background-position-x:-10%;
+  background-size: 110%;
 }
 
 .landing-container {
   position: absolute;
   top: 50%;
   left: 50%;
+  padding-top: 20px;
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
@@ -58,11 +63,13 @@ body {
   display: block;
   text-align: left;
   color: white;
+  opacity: 90%;
   margin-left: 0.6em;
   margin-top: 1em;
 }
 .auth-input {
-  background: #333333;
+  background: rgba(255, 255, 255, 0.15);
+  /*backdrop-filter: blur(3px);*/
   width: 100%;
   border-radius: 15px;
   padding: 15px 30px;
@@ -88,7 +95,8 @@ body {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #848484;
+  color: white;
+  opacity: 40%;
   /* stroke-width: 1px; */
 }
 
@@ -97,6 +105,7 @@ body {
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #848484;
+  color: white;
+  opacity: 50%;
   cursor: pointer;
 }
