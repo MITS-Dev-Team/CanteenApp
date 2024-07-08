@@ -47,3 +47,19 @@
         transform: translate(-50%, -50%) scale(1.4) rotate(1turn);
     }
 }
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 10px rgba(252, 217, 127, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(252, 217, 127, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(252, 217, 127, 0.5);
+    }
+}
+
+.animate-glow {
+    animation: glow 4s ease-in-out infinite;
+}

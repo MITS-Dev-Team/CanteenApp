@@ -314,7 +314,7 @@ function Menu() {
 
         {checkPending && <OrderWaits />}
         <SearchDish />
-        <div 
+        {/*<div 
         className="cart-icon bg-[#1CA672]
                     fixed bottom-[1vh] -right-6 rounded-xl flex justify-center items-center cursor-pointer
                     w-1/3 h-14 shadow-2xl m-10 gap-3"
@@ -333,7 +333,7 @@ function Menu() {
           )}
         <span className="poppins-semibold font-black text-l text-white">CART</span>
 
-        </div>
+        </div>*/}
       </div>
       
     </div>

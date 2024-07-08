@@ -21,15 +21,24 @@ const ProfilePhoto = (avatarInfo) => {
           <img
             src={avatarUrl}
             alt="profile"
-            className="w-12 h-12 rounded-full object-cover border-2 border-white bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
+            className="w-14 h-14 rounded-full object-cover border-2 border-white/50 bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
           />
         </Popover.Button>
-        <div className="absolute top-12 right-1 w-12 h-12 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
+
+        <div className="absolute top-12 right-20 w-7 h-7 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
+          onClick={()=>{
+            navigate("/cart")
+          }}>
+        <img src="/cart-icon2.svg" className="opacity-80 w-10 h-10" alt="" />
+        <span className='productsans-regular opacity-70 text-sm'>Cart</span>
+      </div>
+
+        <div className="absolute top-12 right-3 w-7 h-7 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
           onClick={()=>{
             navigate("/orders")
           }}>
-        <img src="/order.svg" className="w-10 h-10" alt="" />
-        <span>Orders</span>
+        <img src="/order.svg" className="opacity-80 w-10 h-10" alt="" />
+        <span className='productsans-regular opacity-70 text-sm'>Orders</span>
       </div>
         
         <Transition

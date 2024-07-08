@@ -40,19 +40,19 @@ const OrderPendingCard = ({ order }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   return (
-    <div className="w-[98%]">
-      <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-2 rounded-t-xl">
+    <div className="w-[95%] padding-10">
+      <div className="flex justify-between items-left w-full bg-white/20 backdrop-blur-xl p-5 rounded-t-xl">
         <div className="flex flex-col gap-2">
-          <span className="text-xl poppins-regular"> {order.order_id}</span>
           <span className="text-2xl poppins-regular">
             Total : ₹ {order.amount}
           </span>
+          <span className="text-sm poppins-regular">ID - {order.order_id}</span>
         </div>
         <div className="flex flex-col gap-2 ">
-          <span className="text-2xl poppins-regular self-end">
+          <span className="text-2xl poppins-regular self-end text">
               {order.status}
             </span>
-          <span className="text-xl poppins-regular text-right">
+          <span className="text-sm poppins-regular text-right">
            {new Date(order.created_at).toLocaleDateString()}
           </span>
         </div>
@@ -71,7 +71,7 @@ const OrderPendingCard = ({ order }) => {
             </div>
           )}
           <div
-            className={`bg-green-800 text-white px-4 py-2 h-14 text-xl font-bold text-center flex items-center justify-center rounded-br-xl cursor-pointer transition-all duration-500 ease-in-out ${order.token === null ? 'w-full rounded-bl-xl' : 'w-2/3'}`}
+            className={`bg-green-800 text- px-4 py-2 h-14 text-xl font-bold text-center flex items-center justify-center rounded-br-xl cursor-pointer transition-all duration-500 ease-in-out ${order.token === null ? 'w-full rounded-bl-xl' : 'w-2/3'}`}
             onClick={() => {
               if (order.token === null && !loading) {
                 setLoading(true);
@@ -109,19 +109,19 @@ const OrderCompletedCard = ({ order }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   console.log(order);
   return (
-    <div className="w-[98%]">
-      <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-2 rounded-t-xl">
+    <div className="w-[95%]">
+      <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-5 rounded-t-xl">
         <div className="flex flex-col gap-2">
-          <span className="text-xl poppins-regular"> {order.order_id}</span>
           <span className="text-2xl poppins-regular">
             Total : ₹ {order.amount}
           </span>
+          <span className="text-sm poppins-regular"> {order.order_id}</span>
         </div>
         <div className="flex flex-col gap-2 ">
           <span className="text-2xl poppins-regular self-end">
               {order.status}
             </span>
-          <span className="text-xl poppins-regular text-right">
+          <span className="text-sm poppins-regular text-right">
            {new Date(order.created_at).toLocaleDateString()}
           </span>
         </div>
@@ -173,19 +173,19 @@ const OrderCompletedCard = ({ order }) => {
 const OrderFailedCard = ({ order }) => {
   return (
     <>
-      <div className="w-[98%]">
-        <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-2 rounded-t-xl">
+      <div className="w-[95%]">
+        <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-5 rounded-t-xl">
           <div className="flex flex-col gap-2">
-            <span className="text-xl poppins-regular"> {order.order_id}</span>
             <span className="text-2xl poppins-regular">
               Total : ₹ {order.amount}
             </span>
+            <span className="text-sm poppins-regular"> {order.order_id}</span>
           </div>
           <div className="flex flex-col gap-2 ">
             <span className="text-2xl poppins-regular self-end">
               {order.status}
             </span>
-            <span className="text-xl poppins-regular text-right">
+            <span className="text-sm poppins-regular text-right">
               {new Date(order.created_at).toLocaleDateString()}
             </span>
           </div>
