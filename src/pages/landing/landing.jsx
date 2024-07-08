@@ -41,14 +41,14 @@ function Landing() {
   return (
     <div className="landing-container">
       <span
-        style={{ fontSize: "50px", color: "#ffff", textAlign: "center" }}
+        style={{ fontSize: "35px", color: "#ffff", textAlign: "center" }}
         className="grifter-regular"
       >
         MITS Canteen
       </span>
       <span
         style={{
-          fontSize: "30px",
+          fontSize: "20px",
           color: "#AEADAD",
           fontWeight: 100,
           textAlign: "center",
@@ -134,10 +134,10 @@ function Landing() {
         } poppins-regular gap-4`}
       >
         {loading ? (
-          <CircularProgress style={{ color: "#fff" }} size={30} />
+          <CircularProgress style={{ color: "#fff" }} size={18} />
         ) : (
           <>
-            <FaGoogle style={{ display: "block" }} size={30} color="#000" />
+            <FaGoogle style={{ display: "block" }} size={20} color="#000" />
           </>
         )}
         <span className="font-extrabold font-4xl">Login With Google</span>

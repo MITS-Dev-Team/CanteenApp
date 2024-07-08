@@ -145,10 +145,10 @@ const SearchDish = () => {
 
         )}
         <span
-          style={{ color: "#AEADAD", fontWeight: 100 }}
-          className="poppins-regular text-center"
+          style={{ color: "rgba(255, 255, 255, 0.3)", fontWeight: 100, paddingTop: "10px", paddingLeft: "15px"}}
+          className="poppins-regular text-left "
         >
-          Thats all for now
+          Thats all for now ...
         </span>
       </div>
     </div>
@@ -223,8 +223,8 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
         <span className="dish-price ">₹{cost}</span>
           {stock >= stock_limit&&(
             <div className="flex flex-col mt-2">
-              <span className="text-base">Stock: {stock}</span>
-              <span >Orders limited to {limit}</span>
+              <span className="text-sm text-base">Stock: {stock}</span>
+              <span className="text-sm text-white/[.5]">Orders limited to {limit}</span>
 
             </div>
           )}
@@ -237,17 +237,17 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
       {
         
          stock>stock_limit ? (isAdded && initCount >= 1 ? (
-          <div className="absolute right-5 min-w-[30%]  h-1/3 -bottom-3 flex justify-center items-center text-center rounded-md text-xl">
+          <div className="absolute right-3 min-w-[30%]  h-1/4 -bottom-3 flex justify-center items-center text-center rounded-md text-xl drop-shadow-xl">
               <span
                   onClick={handleDecrement}
-                  className="productsans-regular w-1/3 h-full bg-[#2B2B2B] rounded-l-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
+                  className="productsans-regular w-1/3 h-full bg-slate-600 rounded-l-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
               >
                   -
               </span>
-              <span className="productsans-regular px-2 w-1/3 text-black bg-slate-50 h-full flex items-center justify-center transition duration-500 ease-in-out">{initCount}</span>
+              <span className="productsans-regular px-2 w-1/3 text-black bg-slate-100 h-full flex items-center justify-center transition duration-500 ease-in-out">{initCount}</span>
               <span
                   onClick={handleIncrement}
-                  className="productsans-regular h-full text-white w-1/3 bg-[#2B2B2B] min-h-full rounded-r-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
+                  className="productsans-regular h-full text-white w-1/3 bg-slate-600 min-h-full rounded-r-md flex items-center justify-center transition duration-500 ease-in-out cursor-pointer"
               >
                   +
               </span>
@@ -255,14 +255,14 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
         ) : (
           <div
             onClick={handleIncrement}
-            className="absolute  right-5 min-w-[30%]  h-1/3 bg-slate-50 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out cursor-pointer"
+            className="shadow-2xl absolute  right-3 min-w-[30%]  h-1/4 bg-slate-200 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out cursor-pointer"
           >
             ADD
           </div>
         )
       ):(
         <div
-          className="absolute text-sm  right-5 min-w-[32%]  h-1/3 bg-red-500 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
+          className="absolute text-sm  right-3 min-w-[32%]  h-1/4 bg-red-500 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
         >
           OUT OF STOCK
         </div>
@@ -317,22 +317,21 @@ function Menu() {
         <div 
         className="cart-icon bg-[#1CA672]
                     fixed bottom-[1vh] -right-6 rounded-xl flex justify-center items-center cursor-pointer
-                    w-1/3 h-16 shadow-2xl m-10 gap-3
-                    "
+                    w-1/3 h-14 shadow-2xl m-10 gap-3"
         onClick={handleCartClick}
         >  
 
-        <MdShoppingCart color="white" size={38} />
+        <MdShoppingCart color="white" size={25} />
         {itemCount > 0 && (
             <span 
               className="cart-button poppins-semibold font-black text-sm text-white
-                        absolute -top-2 -right-1 bg-inherit rounded-full w-7 h-7 
+                        absolute -top-2 -right-1.5 bg-inherit rounded-full w-7 h-7 
                         flex justify-center items-center
                         border-white border-[2px]">
               {itemCount}
             </span>
           )}
-        <span className="poppins-semibold font-black text-xl text-white">CART</span>
+        <span className="poppins-semibold font-black text-l text-white">CART</span>
 
         </div>
       </div>
