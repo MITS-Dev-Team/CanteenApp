@@ -32,19 +32,17 @@ function QrCode(){
           } />
 
       </div>
-        <div className='text-white text-2xl font-semibold mb-2'>Order Details</div>
+        <div className='text-white text-2xl font-semibold mb-5'>Order details</div>
         
         <div className='mt-2 w-[80%] min-h-[70%] self-center 
-                        border-2 border-white rounded-xl
-                        bg-white/20 backdrop-blur-sm
-                        flex flex-col justify-center items-center bg  '>
-          <div className='text-white text-2xl font-semibold mb-1'>Token Number</div>
-          <div className='text-white text-2xl font-semibold mb-2'>{token}</div>
-          <div className='w-[300px] h-[300px] border-2 flex flex-col 
-                          justify-center items-center 
-                          rounded-sm bg-white mb-2'>
+                        border-2 border-white border-opacity-25 rounded-xl                        bg-white/20 backdrop-blur-sm
+                        flex flex-col justify-center items-center bg'>
+          <div className='text-white text-2xl font-semibold  mt-3 opacity-90'>Token number {token}</div>
+          <div className='w-[300px] h-[300px] border-10 flex flex-col 
+                          justify-center items-center
+                          rounded-sm bg-transparent '>
           <QRCode
-            size={280}
+            size={230}
             value={
                 JSON.stringify({
                     order_id: order_id,
@@ -52,7 +50,7 @@ function QrCode(){
                 })
             }
             bgColor='transparent'
-            fgColor='black'
+            fgColor='white'
             level='M'
            />
           </div>
@@ -60,7 +58,7 @@ function QrCode(){
             <div className='flex w-[98%] h-max flex-wrap'>
             {
               Object.keys(items)?.map((item) => (
-                <div className='flex gap-2 items-center w-full h-5 justify-center font-bold'>
+                <div className='flex gap-2 items-center w-full h-5 justify-center font-bold opacity-90'>
                     <span className='text-white'>x{items[item].count}</span>
                     <span className='text-white'>{items[item].name}</span>
                 </div>
@@ -68,8 +66,8 @@ function QrCode(){
             }
             </div>
            }
-           <div className='text-white text-2xl font-base mt-2'>₹ {order.amount}</div>
-           <div className='text-white text-1xl font-semibold mt-2'> { new Date(order.created_at).toDateString()}</div>
+           <div className='text-white text-2xl font-bold mt-2 opacity-100'>₹ {order.amount}</div>
+           <div className='text-white text-1xl font-semibold mt-2 mb-3 opacity-80'> { new Date(order.created_at).toDateString()}</div>
 
         </div>
         
