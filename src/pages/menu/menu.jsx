@@ -106,7 +106,7 @@ const SearchDish = () => {
           onChange={(e) => setSearchValue(e.target.value)}
 
         />
-        <CiSearch className="search-icon" color="white" size={30} />
+        <CiSearch className="search-icon" color="white" size={25} />
       </div>
 
       <div className="menu-categories">
@@ -145,8 +145,8 @@ const SearchDish = () => {
 
         )}
         <span
-          style={{ color: "rgba(255, 255, 255, 0.3)", fontWeight: 100, paddingTop: "10px", paddingLeft: "15px"}}
-          className="poppins-regular text-left "
+          style={{ color: "rgba(255, 255, 255, 0.3)", fontWeight: 100, paddingTop: "0px", paddingLeft: "15px"}}
+          className="poppins-regular text-left"
         >
           Thats all for now ...
         </span>
@@ -220,11 +220,11 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
             {name}
           </span>
         </span>
-        <span className="dish-price ">₹{cost}</span>
+        <span className="productsans-regular dish-price ">₹{cost}</span>
           {stock >= stock_limit&&(
             <div className="flex flex-col mt-2">
-              <span className="text-sm text-base">Stock: {stock}</span>
-              <span className="text-sm text-white/[.5]">Orders limited to {limit}</span>
+              <span className="productsans-regular text-sm text-white/[.8]">Stock: {stock}</span>
+              <span className="productsans-regular text-sm text-white/[.5]">Orders limited to {limit}</span>
 
             </div>
           )}
@@ -262,9 +262,9 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
         )
       ):(
         <div
-          className="absolute text-sm  right-3 min-w-[32%]  h-1/4 bg-red-500 -bottom-3 flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
+          className="absolute text-sm  right-3 min-w-[30%]  h-1/3 bg-red-500 -bottom-3 shadow-lx flex justify-center items-center text-center rounded-md text-black font-bold transition duration-500 ease-in-out"
         >
-          OUT OF STOCK
+          SOLD OUT
         </div>
       )
       }
@@ -314,7 +314,16 @@ function Menu() {
 
         {checkPending && <OrderWaits />}
         <SearchDish />
-        {/*<div 
+        <div 
+        className="cart-icon bg-[#1CA672]
+                    fixed bottom-[1vh] rounded-xl flex justify-center items-center cursor-pointer w-[92%] h-12 mb-4 shadow-2xl gap-2 left-1/2 transform -translate-x-1/2"
+        onClick={handleCartClick}
+        >  
+        <span className="productsans-regular font-black text-l text-white">{itemCount} items in cart</span>
+        <MdShoppingCart color="rgba(255, 255, 255, 0.95)" size={23}  />
+        </div>
+
+        {/*<div      ///OLD CART BUTTON DESIGN///
         className="cart-icon bg-[#1CA672]
                     fixed bottom-[1vh] -right-6 rounded-xl flex justify-center items-center cursor-pointer
                     w-1/3 h-14 shadow-2xl m-10 gap-3"

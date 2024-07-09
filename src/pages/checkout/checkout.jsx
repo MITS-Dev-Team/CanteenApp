@@ -22,25 +22,25 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_ORDER_URL;
 
 function CheckoutCard(cartItems) {
   return (
-    <div className="w-full  flex-col text-white max-h-[50vh] overflow-y-scroll">
+    <div className="w-full flex-col text-white max-h-[50vh] scrollbar-hide rounded-xl overflow-y-scroll">
       {cartItems.cartItems &&
         Object.keys(cartItems.cartItems).map((key) => {
           const item = cartItems.cartItems[key];
           console.log(item)
           return (
-            <div className=" self-center mt-2 bg-[#F9F9F9]/20 backdrop-blur-xl  rounded-xl">
-              <div className="flex justify-between items-left p-3 w-full] ">
+            <div className=" self-center mt-5 bg-[#F9F9F9]/15 backdrop-blur-md  rounded-xl overflow-y-scroll">
+              <div className=" flex justify-between items-left p-3 w-full ">
                 <div className="flex flex-col gap-2">
-                  <span className="text-3xl poppins-regular">{item.name}</span>
-                  <span className="text-xl poppins-regular text-right">
-                    Count : x {item.count}
+                  <span className="text-3xl productsans-regular opacity-[90%]">{item.name}</span>
+                  <span className="text-xl productsans-regular text-right opacity-[75%]">
+                    Count :  {item.count}
                   </span>
                 </div>
                 <div className="flex flex-col gap-2 text-right mt-2">
-                  <span className="text-xl poppins-regular">
+                  <span className="text-xl productsans-regular">
                     Cost :  ₹ {item.cost}
                   </span>
-                  <span className="text-2xl poppins-regular text-right">
+                  <span className="text-2xl productsans-regular text-right">
                     Total : ₹ {item.cost * item.count}
                   </span>
                 </div>
@@ -277,7 +277,7 @@ function Checkout() {
         />
         {/* <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" /> */}
       </div>
-      <div className="menu-screen-title mt-7">
+      <div className="menu-screen-title mt-7 ">
         <span style={{ color: "#ffff" }} className="grifter-regular">
           MITS Canteen
         </span>
@@ -289,7 +289,7 @@ function Checkout() {
           Dining Redefined
         </span>
         <div
-          className=" flex justify-start items-center 
+          className="flex justify-start items-center 
             w-full mt-5 gap-3 text-white text-2xl font-bold"
         >
           <span>Checkout</span>
@@ -300,7 +300,7 @@ function Checkout() {
         <CheckoutCard cartItems={cartItems} />
         {loading && <PaymentProcessLoadScreen />}
 
-      <div className="flex flex-col  gap-4 mt-8 mb-4 w-[95%] absolute bottom-10 text-white ">
+      <div className=" flex flex-col w-[92%] gap-4 mt-8 mb-4  absolute bottom-10 text-white">
       <span className="text-xl text-center">Convenience Fees : ₹ {convenienceFees}</span>
         <div className="flex  justify-center items-center gap-2 ">
 

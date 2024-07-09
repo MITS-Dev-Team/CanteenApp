@@ -63,15 +63,17 @@ body {
   display: block;
   text-align: left;
   color: white;
-  opacity: 90%;
+  opacity: 80%;
   margin-left: 0.6em;
   margin-top: 1em;
+  margin-bottom: 1.5px;
 }
 .auth-input {
   background: rgba(255, 255, 255, 0.15);
-  /*backdrop-filter: blur(3px);*/
   width: 100%;
   border-radius: 15px;
+  border-color: rgba(255, 255, 255, 0.05);
+  border-width: 2px;
   padding: 15px 30px;
   outline: none;
 }
@@ -85,6 +87,7 @@ body {
 
 .input-container {
   position: relative;
+  backdrop-filter: blur(2px);
 }
 .input-container .auth-input {
   padding-left: 3rem; /* Adjust this value to control the horizontal position of the input text */
@@ -96,8 +99,8 @@ body {
   top: 50%;
   transform: translateY(-50%);
   color: white;
-  opacity: 40%;
-  /* stroke-width: 1px; */
+  opacity: 60%;
+  stroke-width: .8px; 
 }
 
 .input-container .auth-icon-eye {
@@ -106,6 +109,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   color: white;
-  opacity: 50%;
+  opacity: 70%;
+  stroke-width: 4px; 
   cursor: pointer;
 }

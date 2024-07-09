@@ -34,10 +34,11 @@ function QrCode(){
       </div>
         <div className='text-white text-2xl font-semibold mb-5'>Order details</div>
         
-        <div className='mt-2 w-[80%] min-h-[70%] self-center 
-                        border-2 border-white border-opacity-25 rounded-xl                        bg-white/20 backdrop-blur-sm
+        <div className='mt-2 w-[80%] self-center 
+                        border-2 border-white border-opacity-20 rounded-xl                        
+                        bg-white/20 backdrop-blur-sm
                         flex flex-col justify-center items-center bg'>
-          <div className='text-white text-2xl font-semibold  mt-3 opacity-90'>Token number {token}</div>
+          <div className='text-white text-2xl font-semibold  mt-6 opacity-90'>Token number {token}</div>
           <div className='w-[300px] h-[300px] border-10 flex flex-col 
                           justify-center items-center
                           rounded-sm bg-transparent '>
@@ -71,6 +72,12 @@ function QrCode(){
 
         </div>
         
+        <div className="mt-5 w-[80%] max-w-full min-h-[6vh] max-h-[7vh] border-white/20 border-2 mb-2 rounded-lg flex flex-col text-white/90 justify-center text-center bg-white/10 backdrop-blur-md shadow-2xl cursor-pointer overflow-hidden" onClick={() => navigate("/")}>
+          <div className="productsans-regular opacity-90 flex flex-row justify-center w-[90%] self-center gap-4 z-50 ">
+            <span>Return Home</span>
+          </div>
+        </div>
+
     </div>
     )
 }

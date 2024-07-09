@@ -21,46 +21,51 @@ const ProfilePhoto = (avatarInfo) => {
           <img
             src={avatarUrl}
             alt="profile"
-            className="w-14 h-14 rounded-full object-cover border-2 border-white/50 bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
+            className="w-16 h-16 rounded-full object-cover border-2 border-white/50 bg-white bg-opacity-50 hover:bg-opacity-100 hover:shadow-xl transition duration-200 ease-in-out cursor-pointer"
           />
         </Popover.Button>
 
-        <div className="absolute top-12 right-20 w-7 h-7 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
+        <div className="absolute top-12 right-2.5 w-7 h-7 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
           onClick={()=>{
             navigate("/cart")
           }}>
-        <img src="/cart-icon2.svg" className="opacity-80 w-10 h-10" alt="" />
-        <span className='productsans-regular opacity-70 text-sm'>Cart</span>
+        <img src="/cart-icon2.svg" className="opacity-75 w-10 h-10" alt="cart" />
+        <span className='productsans-regular opacity-50 text-sm'>Cart</span>
       </div>
 
-        <div className="absolute top-12 right-3 w-7 h-7 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
+        <div className="absolute top-12 right-16 w-7 h-7 flex flex-col items-center justify-center text-white cursor-pointer gap-2"
           onClick={()=>{
             navigate("/orders")
           }}>
-        <img src="/order.svg" className="opacity-80 w-10 h-10" alt="" />
-        <span className='productsans-regular opacity-70 text-sm'>Orders</span>
+        <img src="/order.svg" className="opacity-80 w-10 h-10" alt="orders" />
+        <span className='productsans-regular opacity-50 text-sm'>Orders</span>
       </div>
         
         <Transition
           enter="transition duration-20 ease-in-out"
-          enterFrom="transform scale-90 opacity-1"
+          enterFrom="transform scale-90 opacity-0"
           enterTo="transform scale-100 opacity-100"
           leave="transition duration-75 ease-out"
           leaveFrom="transform scale-100 opacity-100"
           leaveTo="transform scale-95 opacity-0"
         >
-        <Popover.Panel className="absolute  min-w-[100%] max-w-[720px] min-h-[25vh] max-h-[30vh] rounded-xl  bg-[#F9F9F9]/50 backdrop-blur-xl ">
-  
+        
+        <Popover.Panel className="mt-3 absolute min-w-[100%] max-w-[720px] min-h-[23vh] max-h-[25vh] rounded-xl shadow-2xl bg-[#F9F9F9]/50 backdrop-blur-lg">
 
-          <div className=" pt-10 flex-col w-[100%] h-[90%] text-center justify-center " >
-            <div className=" text-2xl  font-bold ">{name}</div>
-            <div className=" text-sm   font-normal">{email}</div>
+          <div className=" pt-5 pr-5 flex-col w-[100%] h-[90%] text-right justify-center " >
+            <div className="productsans-bold text-xl  font-bold ">{name}</div>
+            <div className="productsans-regular text-md">{email}</div>
           </div>
-          <div className="flex flex-col gap-20 rounded-md absolute bottom-5 min-w-full justify-center items-center text-center ">
+          <div className="productsans-regular text-xs pt-1 text-black/50 font-normal pr-5 flex-col w-[100%] h-[90%] text-right justify-center">
+            <span>
+              Linked with Google account
+            </span>
+          </div>
+          <div className="flex flex-col gap-20 rounded-md absolute bottom-8 min-w-full justify-center items-center text-center ">
             {/* <span className="productsans-regular text-white text-base w-32 rounded-lg p-1 text-center bg-black cursor-pointer"
               onClick={() => navigate("/profile")}
             >Profile</span> */}
-            <span className="productsans-regular text-white text-base w-20 rounded-lg p-1 text-center bg-red-600 cursor-pointer"
+            <span className="productsans-regular text-white text-base w-20 rounded-lg p-1 text-center bg-red-600 cursor-pointer absolute right-4"
               onClick={logout}
             >Logout</span>
           </div>
