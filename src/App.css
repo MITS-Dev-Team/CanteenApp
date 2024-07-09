@@ -40,6 +40,11 @@ root {
   font-weight: 500;
   font-style: normal;
 }
+.productsans-bold {
+  font-family: "Product Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
 
 body {
   min-width: fit-content;

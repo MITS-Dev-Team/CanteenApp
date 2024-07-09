@@ -252,7 +252,7 @@ function Orders(){
           />
         </div>
 
-        <div className="menu-screen-title mt-8">
+        <div className="menu-screen-title mt-9 ml-1">
           <span style={{ color: "#ffff" }} className="grifter-regular">
             MITS Canteen
           </span>

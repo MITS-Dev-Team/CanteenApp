@@ -127,7 +127,7 @@ function Landing() {
 
       
       <div
-        style={{ marginTop: "5em" }}
+        style={{ marginTop: "3em" }}
         onClick={signIn}
         className={`flex button ${
           loading ? "button-focus" : ""
@@ -140,7 +140,7 @@ function Landing() {
             <FaGoogle style={{ display: "block" }} size={20} color="#000" />
           </>
         )}
-        <span className="font-extrabold font-4xl">Login With Google</span>
+        <span className="font-extrabold font-4xl">Login with Google</span>
       </div>
     </div>
   );

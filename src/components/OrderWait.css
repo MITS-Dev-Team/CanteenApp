@@ -56,10 +56,10 @@
         box-shadow: 0 0 25px rgba(252, 217, 127, 0.5);
     }
     100% {
-        box-shadow: 0 0 10px rgba(252, 217, 127, 0.5);
+        box-shadow: 0 0 2px rgba(252, 217, 127, 0.5);
     }
 }
 
 .animate-glow {
-    animation: glow 4s ease-in-out infinite;
+    animation: glow 3s ease-in-out 2;
 }
