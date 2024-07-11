@@ -41,14 +41,6 @@ function Landing() {
 
   return (
     <div className="landing-container">
-        <pwa-install 
-          app-name="MITS Canteen"
-          primary-color="#000000"
-          secondary-color="#ffffff"
-          install-description="Install the application for a better experience"
-          manifest-url="/manifest.json"  
-        >
-        </pwa-install>
       <span
         style={{ fontSize: "35px", color: "#ffff", textAlign: "center" }}
         className="grifter-regular"
