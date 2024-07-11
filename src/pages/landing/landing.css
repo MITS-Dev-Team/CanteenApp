@@ -113,3 +113,15 @@ body {
   stroke-width: 4px; 
   cursor: pointer;
 }
+
+
+@media (min-width: 768px) {
+  body {
+    width: 750px;
+    margin: 0 auto;
+    background-position-y:0 ;
+    background-position-x:0;
+    background-size: 100%;
+
+  }
+}

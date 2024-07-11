@@ -1,4 +1,26 @@
 {
+"display_override": ["window-controls-overlay"], 
+"screenshots": [
+  {
+    "src": "/screenshots/screenshot1.png",
+    "sizes": "1334x750",
+    "type": "image/png",
+    "description": "Menu with categories"
+  },
+  {
+    "src": "/screenshots/screenshot2.png",
+    "sizes": "1334x750",
+    "type": "image/png",
+    "description": "Orders Page"
+  },
+  {
+    "src": "/screenshots/screenshot3.png",
+    "sizes": "1334x750",
+    "type": "image/png",
+    "description": "Cart Page"
+  }
+
+], 
   "short_name": "MITS Canteen",
   "name": "MITS Canteen app for Eatzz",
   "icons": [

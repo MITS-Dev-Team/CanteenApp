@@ -185,7 +185,8 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
     dispatch(addToCart({id,name, cost, image, type,count:count,stock:stock,order_limit:limit }));
     incrementSoundEffect.play();
 
-  };
+  };  
+
 
   const handleDecrement = () => {
     setCount(count - 1);
@@ -296,6 +297,7 @@ function Menu() {
 
   return (
     <div className="menu-screen max-w-full">
+      
       <div className="scroll-container h-[98vh] overflow-y-scroll overflow-x-hidden ">
       <div className="menu-screen-title mt-28">
         <span style={{ color: "#ffff" }} className="grifter-regular">
@@ -311,17 +313,30 @@ function Menu() {
 
         </div>
         <ProfilePhoto avatarInfo={avatarInfo}/>
-
         {checkPending && <OrderWaits />}
         <SearchDish />
-        <div 
-        className="cart-icon bg-[#1CA672]
-                    fixed bottom-[1vh] rounded-xl flex justify-center items-center cursor-pointer w-[92%] h-12 mb-4 shadow-2xl gap-2 left-1/2 transform -translate-x-1/2"
-        onClick={handleCartClick}
-        >  
-        <span className="productsans-regular font-black text-l text-white">{itemCount} items in cart</span>
-        <MdShoppingCart color="rgba(255, 255, 255, 0.95)" size={23}  />
+
+        <div className=" fixed bottom-0
+                    left-0 h-24 w-full flex flex-col justify-center items-center z-50
+         ">
+       
+
+          <div
+              className={`cart-icon bg-[#1CA672]
+                      fixed bottom-[1vh] rounded-xl flex justify-center 
+                      items-center cursor-pointer w-[92%] h-12 mb-4 shadow-2xl gap-2
+                      transform transition-transform duration-500
+                      ${itemCount>0 ? 'translate-y-0' : 'translate-y-20'}
+                      `}
+                  onClick={handleCartClick}
+            >
+            <span className="productsans-regular font-black text-l text-white">{itemCount} items in cart</span>
+            <MdShoppingCart color="rgba(255, 255, 255, 0.95)" size={23}  />
+          </div>
+      
         </div>
+
+
 
         {/*<div      ///OLD CART BUTTON DESIGN///
         className="cart-icon bg-[#1CA672]

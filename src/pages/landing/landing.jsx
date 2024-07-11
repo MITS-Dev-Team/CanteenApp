@@ -5,6 +5,7 @@ import { FaGoogle } from "react-icons/fa";
 import { PiEyeClosedThin, PiEyeThin } from "react-icons/pi";
 import { SlLock } from "react-icons/sl";
 import supabase from "../../supabase";
+
 import "./landing.css";
 
 const url = new URL(window.origin).href;
