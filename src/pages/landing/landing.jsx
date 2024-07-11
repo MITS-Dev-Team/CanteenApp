@@ -5,6 +5,7 @@ import { FaGoogle } from "react-icons/fa";
 import { PiEyeClosedThin, PiEyeThin } from "react-icons/pi";
 import { SlLock } from "react-icons/sl";
 import supabase from "../../supabase";
+
 import "./landing.css";
 
 const url = new URL(window.origin).href;
@@ -40,6 +41,14 @@ function Landing() {
 
   return (
     <div className="landing-container">
+        <pwa-install 
+          app-name="MITS Canteen"
+          primary-color="#000000"
+          secondary-color="#ffffff"
+          install-description="Install the application for a better experience"
+          manifest-url="/manifest.json"  
+        >
+        </pwa-install>
       <span
         style={{ fontSize: "35px", color: "#ffff", textAlign: "center" }}
         className="grifter-regular"

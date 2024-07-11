@@ -185,7 +185,8 @@ const Dish = ({id,name,cost,image,type,stock,limit,stock_limit}) => {
     dispatch(addToCart({id,name, cost, image, type,count:count,stock:stock,order_limit:limit }));
     incrementSoundEffect.play();
 
-  };
+  };  
+
 
   const handleDecrement = () => {
     setCount(count - 1);
@@ -296,6 +297,7 @@ function Menu() {
 
   return (
     <div className="menu-screen max-w-full">
+      
       <div className="scroll-container h-[98vh] overflow-y-scroll overflow-x-hidden ">
       <div className="menu-screen-title mt-28">
         <span style={{ color: "#ffff" }} className="grifter-regular">
@@ -311,7 +313,6 @@ function Menu() {
 
         </div>
         <ProfilePhoto avatarInfo={avatarInfo}/>
-
         {checkPending && <OrderWaits />}
         <SearchDish />
         <div 
