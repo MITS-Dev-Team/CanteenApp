@@ -2,7 +2,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import React, { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { FaGoogle } from "react-icons/fa";
-import PWAInstall from '@khmyznikov/pwa-install/dist/pwa-install.react.js';
 import { PiEyeClosedThin, PiEyeThin } from "react-icons/pi";
 import { SlLock } from "react-icons/sl";
 import supabase from "../../supabase";

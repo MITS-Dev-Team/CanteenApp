@@ -3,8 +3,6 @@ import { CiSearch } from "react-icons/ci";
 import { GrRadialSelected } from "react-icons/gr";
 import { MdShoppingCart } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
-import '@khmyznikov/pwa-install';
-
 import { useNavigate } from 'react-router-dom';
 import OrderWaits from "../../components/OrderWaits";
 import ProfilePhoto from "../../components/ProfilePhoto";
@@ -299,14 +297,7 @@ function Menu() {
 
   return (
     <div className="menu-screen max-w-full">
-        <pwa-install 
-          app-name="MITS Canteen"
-          primary-color="#000000"
-          secondary-color="#ffffff"
-          install-description="Install the application for a better experience"
-          manifest-url="/manifest.json"  
-        >
-        </pwa-install>
+      
       <div className="scroll-container h-[98vh] overflow-y-scroll overflow-x-hidden ">
       <div className="menu-screen-title mt-28">
         <span style={{ color: "#ffff" }} className="grifter-regular">
@@ -322,7 +313,6 @@ function Menu() {
 
         </div>
         <ProfilePhoto avatarInfo={avatarInfo}/>
-
         {checkPending && <OrderWaits />}
         <SearchDish />
         <div 
