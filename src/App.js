@@ -91,7 +91,10 @@ function App() {
           </Routes>
         </Router>
         {isPwaPromptVisible && (
-          <div className="fixed bottom-0 p-4 bg-[#2B2B2B]/60  backdrop-blur-lg text-white/90 text-center rounded-t-xl shadow-lg pwaComponent">
+          <div className="fixed bottom-0 p-4 bg-[#2B2B2B]/60 
+                     backdrop-blur-lg text-white/90 
+                    text-center rounded-t-xl sha  dow-lg 
+                    pwaComponent z-[60]">
             <p className="font-bold">Install this app on your device for a better experience.</p>
             <div className="flex gap-10 self-center justify-center">
 
@@ -103,7 +106,7 @@ function App() {
               </button>
               <button
                 onClick={handleInstallClick}
-                className="mt-2 px-4 py-2 bg-yellow-600  text-white/90 font-semibold rounded hover:bg-yellow-600 transition"
+                className="mt-2 px-4 py-2 bg-yellow-600  text-white/90 font-semibold rounded hover:bg-yellow-700 transition"
               >
                 Install
               </button>
