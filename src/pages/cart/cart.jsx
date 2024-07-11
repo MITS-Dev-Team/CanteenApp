@@ -220,27 +220,28 @@ function Cart() {
         </div>
       </div>
       <div
-       className="flex flex-col w-full min-h-[65vh] justify-between">
+       className="flex flex-col w-full min-h-[65vh] mb-4 justify-between">
         <CartDishes />
         {itemCount && (
-          <div className="  w-full flex flex-col mb-5">
-            <div className=" w-[98%] self-center justify-center text-center">
-              <span className="text-white text-2xl font-semibold mt-5 w-full text-center">
-                Total : ₹{amount}
+          <div className="w-full flex flex-col mt-4 ">
+            <div className=" w-[98%] self-center justify-center text-center flex flex-col items-center">
+              <span className="text-white text-2xl productsans-regular mt-5 w-full text-center">
+                Total : ₹ {amount}
               </span>
               <div
-                className="flex justify-center gap-4 items-center w-full h-12
+                className="flex justify-center gap-2 items-center w-full h-12
                    rounded-xl mt-5 bg-[#1BA671] drop-shadow-xl
-                    text-white text-2xl font-bold
+                    text-white font-bold
                     cursor-pointer"
+                style={{ maxWidth: '400px', boxShadow: '0 4px 50px rgba(0, 0, 0, 0.8)' }}
                 onClick={
                   () => {
                     navigate("/checkout");
                   }
                 }
               >
-                <span className="productsans-bold text-sm">CHECKOUT</span>
-                <MdOutlinePayment size={25} />
+                <span className="productsans-regular text-l text-white">Checkout</span>
+                <MdOutlinePayment size={25} opacity={0.9}/>
               </div>
             </div>
           </div>

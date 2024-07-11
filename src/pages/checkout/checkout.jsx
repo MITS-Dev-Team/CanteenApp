@@ -28,15 +28,15 @@ function CheckoutCard(cartItems) {
           const item = cartItems.cartItems[key];
           console.log(item)
           return (
-            <div className=" self-center mt-5 bg-[#F9F9F9]/15 backdrop-blur-md  rounded-xl overflow-y-scroll">
-              <div className=" flex justify-between items-left p-3 w-full ">
+            <div className=" self-center mt-4 bg-[#F9F9F9]/15 backdrop-blur-md  rounded-xl overflow-y-scroll">
+              <div className=" flex justify-between items-left p-3 mt-1 mb-1 w-full ">
                 <div className="flex flex-col gap-2">
-                  <span className="text-3xl productsans-regular opacity-[90%]">{item.name}</span>
-                  <span className="text-xl productsans-regular text-right opacity-[75%]">
+                  <span className="text-3xl productsans-regular opacity-[95%]">{item.name}</span>
+                  <span className="text-xl productsans-regular text-left opacity-[75%]">
                     Count :  {item.count}
                   </span>
                 </div>
-                <div className="flex flex-col gap-2 text-right mt-2">
+                <div className="flex flex-col gap-2 text-right mt-2 opacity-[95%]">
                   <span className="text-xl productsans-regular">
                     Cost :  ₹ {item.cost}
                   </span>
@@ -44,8 +44,6 @@ function CheckoutCard(cartItems) {
                     Total : ₹ {item.cost * item.count}
                   </span>
                 </div>
-              </div>
-              <div className="flex justify-between items-center w-[90%s] mt-2">
               </div>
             </div>
           );
@@ -231,7 +229,7 @@ function Checkout() {
   
   const PaymentProcessLoadScreen = () => {
     return (
-      <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70 z-20">
+      <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/50 backdrop-blur-lg z-20">
         <div className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
           <div className="text-2xl font-bold text-center mt-4">
             Processing Payment
@@ -289,7 +287,7 @@ function Checkout() {
           Dining Redefined
         </span>
         <div
-          className="flex justify-start items-center 
+          className="flex justify-start items-center opacity-[95%]
             w-full mt-5 gap-3 text-white text-2xl font-bold"
         >
           <span>Checkout</span>
@@ -300,21 +298,19 @@ function Checkout() {
         <CheckoutCard cartItems={cartItems} />
         {loading && <PaymentProcessLoadScreen />}
 
-      <div className=" flex flex-col w-[92%] gap-4 mt-8 mb-4  absolute bottom-10 text-white">
-      <span className="text-xl text-center">Convenience Fees : ₹ {convenienceFees}</span>
-        <div className="flex  justify-center items-center gap-2 ">
-
-          <span className="text-2xl font-bold">Total</span>
-          <span className="text-2xl font-bold">: ₹ {total}</span>
+       <div className="productsans-regular flex flex-col w-[92%] gap-1 mb-5  items-center absolute bottom-1 text-white left-1/2 transform -translate-x-1/2">
+        <div className="flex flex-col justify-center items-center gap-2 ">
+          <span className="text-2xl font-bold">Total: ₹ {total}</span>
         </div>
+        <span className="text-md text-center">Convenience Fees : ₹ {convenienceFees}</span>
         <button
-          className="bg-[#0e3d8e] text-white p-2 h-14 rounded-xl w-full flex justify-center items-center gap-2"
-          onClick={handlePayment}
-        >
-          <SiRazorpay size={30} />
+          className="mt-2 bg-[#0e3d8e] text-white p-2 h-12 rounded-xl w-full flex justify-center items-center gap-2 "
+          style={{ maxWidth: '400px', boxShadow: '0 4px 50px rgba(0, 0, 0, 0.8)' }}
+          onClick={handlePayment}>
+          <SiRazorpay size={25} />
           <span className="text-xl font-bold">Pay</span>
         </button>
-      </div>
+       </div>
     </div>
   );
 }

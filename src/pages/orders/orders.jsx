@@ -43,16 +43,16 @@ const OrderPendingCard = ({ order }) => {
     <div className="w-[95%] padding-10">
       <div className="flex justify-between items-left w-full bg-white/20 backdrop-blur-xl p-5 rounded-t-xl">
         <div className="flex flex-col gap-2">
-          <span className="text-2xl poppins-regular">
-            Total : ₹ {order.amount}
+          <span className="text-2xl productsans-regular">
+            Total : ₹{order.amount}
           </span>
-          <span className="text-sm poppins-regular">ID - {order.order_id}</span>
+          <span className="text-sm productsans-regular">ID - {order.order_id}</span>
         </div>
         <div className="flex flex-col gap-2 ">
-          <span className="text-2xl poppins-regular self-end text">
+          <span className="text-2xl productsans-regular self-end text">
               {order.status}
             </span>
-          <span className="text-sm poppins-regular text-right">
+          <span className="text-sm productsans-regular text-right">
            {new Date(order.created_at).toLocaleDateString()}
           </span>
         </div>
@@ -112,16 +112,16 @@ const OrderCompletedCard = ({ order }) => {
     <div className="w-[95%]">
       <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-5 rounded-t-xl">
         <div className="flex flex-col gap-2">
-          <span className="text-2xl poppins-regular">
+          <span className="text-2xl productsans-regular">
             Total : ₹ {order.amount}
           </span>
-          <span className="text-sm poppins-regular"> {order.order_id}</span>
+          <span className="text-sm productsans-regular"> {order.order_id}</span>
         </div>
         <div className="flex flex-col gap-2 ">
-          <span className="text-2xl poppins-regular self-end">
+          <span className="text-2xl productsans-regular self-end">
               {order.status}
             </span>
-          <span className="text-sm poppins-regular text-right">
+          <span className="text-sm productsans-regular text-right">
            {new Date(order.created_at).toLocaleDateString()}
           </span>
         </div>
@@ -176,16 +176,16 @@ const OrderFailedCard = ({ order }) => {
       <div className="w-[95%]">
         <div className="flex justify-between items-left w-full bg-white/20  backdrop-blur-xl p-5 rounded-t-xl">
           <div className="flex flex-col gap-2">
-            <span className="text-2xl poppins-regular">
+            <span className="text-2xl productsans-regular">
               Total : ₹ {order.amount}
             </span>
-            <span className="text-sm poppins-regular"> {order.order_id}</span>
+            <span className="text-sm productsans-regular"> {order.order_id}</span>
           </div>
           <div className="flex flex-col gap-2 ">
-            <span className="text-2xl poppins-regular self-end">
+            <span className="text-2xl productsans-regular self-end">
               {order.status}
             </span>
-            <span className="text-sm poppins-regular text-right">
+            <span className="text-sm productsans-regular text-right">
               {new Date(order.created_at).toLocaleDateString()}
             </span>
           </div>
@@ -268,7 +268,7 @@ function Orders(){
           {orders === null ? (
             <EggLoading />
           ) : orders.length === 0 ? (
-            <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular ">
+            <div className="text-[#AEADAD] text-xl text-center mt-[20vh] productsans-regular ">
               Nothing yet, order some food and it will show up here 😌
             </div>
           ) : (
@@ -292,7 +292,7 @@ function Orders(){
                   )
                 ))}
                 {selectedCategory === "Pending" && orders.filter((order) => order.status === "paid" && order.served === false).length === 0 && (
-                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular opacity-80">
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] productsans-regular opacity-80">
                     No pending orders
                   </div>
                 )}
@@ -306,7 +306,7 @@ function Orders(){
                   )
                 ))}
                 {selectedCategory === "Completed" && orders.filter((order) => order.status === "paid" && order.served === true).length === 0 && (
-                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular opacity-80">
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] productsans-regular opacity-80">
                     No completed orders
                   </div>
                 )}
@@ -318,7 +318,7 @@ function Orders(){
                   )
                 ))}
                 {selectedCategory === "Failed" && orders.filter((order) => order.status === "pending").length === 0 && (
-                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] poppins-regular opacity-80">
+                  <div className="text-[#AEADAD] text-xl text-center mt-[20vh] productsans-regular opacity-80">
                     No failed orders
                   </div>
                 )}
