@@ -1,6 +1,6 @@
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { MdOutlinePayment } from "react-icons/md";
 import { SiRazorpay } from "react-icons/si";
@@ -16,9 +16,10 @@ import {
   getItems,
   removeFromCart,
 } from "../../redux/cartSlice";
+import supabase from "../../supabase";
+import PaymentProcessLoadScreen from "../../components/PaymentProcessLoadScreen";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_ORDER_URL;
-
 
 function CheckoutCard(cartItems) {
   return (
@@ -26,10 +27,10 @@ function CheckoutCard(cartItems) {
       {cartItems.cartItems &&
         Object.keys(cartItems.cartItems).map((key) => {
           const item = cartItems.cartItems[key];
-          console.log(item)
+          console.log(item);
           return (
-            <div className=" self-center mt-5 bg-[#F9F9F9]/15 backdrop-blur-md  rounded-xl overflow-y-scroll">
-              <div className=" flex justify-between items-left p-3 w-full ">
+            <div className="self-center mt-5 bg-[#F9F9F9]/15 backdrop-blur-md rounded-xl overflow-y-scroll">
+              <div className="flex justify-between items-left p-3 w-full">
                 <div className="flex flex-col gap-2">
                   <span className="text-3xl productsans-regular opacity-[90%]">{item.name}</span>
                   <span className="text-xl productsans-regular text-right opacity-[75%]">
@@ -45,8 +46,7 @@ function CheckoutCard(cartItems) {
                   </span>
                 </div>
               </div>
-              <div className="flex justify-between items-center w-[90%s] mt-2">
-              </div>
+              <div className="flex justify-between items-center w-[90%s] mt-2"></div>
             </div>
           );
         })}
@@ -56,6 +56,10 @@ function CheckoutCard(cartItems) {
 
 function Checkout() {
   const { session } = useContext(SessionContext);
+  const [loading, setLoading] = useState(false);
+  const [Razorpay] = useRazorpay();
+  const [paymentloadscreenmessage, setPaymentLoadScreenMessage] = useState("");
+  const [completed, setCompleted] = useState(false);
   console.log(session);
 
   const navigate = useNavigate();
@@ -71,17 +75,61 @@ function Checkout() {
     0
   );
 
-  if(itemCount === 0){
-    navigate('/');
-  }
 
 
-  const [loading, setLoading] = useState(false);
-  const [Razorpay] = useRazorpay();
-  const [paymentloadscreenmessage, setPaymentLoadScreenMessage] = useState("");
+
 
   const dispatch = useDispatch();
 
+
+  const getPaymentResponseOnSuccess = async (paymentId, orderId, signature) => {
+    const { data } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("order_id", orderId)
+      .eq("status", "paid")
+      .single();
+
+    if (data) {
+      console.log("Order already captured");
+      setCompleted(true);
+      dispatch(clearCart());
+    }else{
+      const paymentResponse = await axios
+      .post(
+        `${BACKEND_URL}/create-order/capture`,
+        {
+          paymentId,
+          signature,
+          orderId,
+          status: "paid",
+          items: cartItems,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        }
+      )
+      .catch((error) => {
+        console.error("Error capturing payment");
+        setPaymentLoadScreenMessage(
+          `Payment Failed, 
+          Use the order id to contact the support team: ${orderId},
+          Payment Id: ${paymentId}`
+        );
+      });
+
+    if (paymentResponse && paymentResponse.status === 200) {
+      console.log(paymentResponse);
+      setCompleted(true);
+      dispatch(clearCart());
+    }
+    }
+
+    
+  };
 
   const createOrder = async () => {
     const response = await axios.post(
@@ -119,7 +167,7 @@ function Checkout() {
     } else {
       return;
     }
-    var response = null;
+    let response = null;
     try {
       response = await createOrder();
     } catch (error) {
@@ -151,54 +199,15 @@ function Checkout() {
         const paymentId = response.razorpay_payment_id;
         const signature = response.razorpay_signature;
         const orderId = response.razorpay_order_id;
-        const paymentResponse = await axios.post(
-          `${BACKEND_URL}/create-order/capture`,
-          {
-            paymentId,
-            signature,
-            orderId,
-            status: "paid",
-            items: cartItems,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${session.access_token}`,
-            },
-          }
-        ).catch((error) => {
-          console.error("Error capturing payment");
-          setPaymentLoadScreenMessage(`
-            Payment Failed, 
-            Use the order id to contact the support team : ${orderId},
-            Payment Id : ${paymentId}
-
-            `);
-            
-        });
-        if (paymentResponse.status !== 200) {
-          console.error("Error capturing payment");
-          return;
-        }
-        console.log(paymentResponse);
-        if (paymentResponse.data.resp.status === 200) {
-          dispatch(clearCart());
-          setLoading(false);
-          navigate("/orders");
-
-
-        }
+        await getPaymentResponseOnSuccess(paymentId, orderId, signature);
       },
       modal: {
         ondismiss: function () {
-          //show message for half a second then close the modal
           setPaymentLoadScreenMessage("Payment Cancelled");
           setTimeout(() => {
             setPaymentLoadScreenMessage("");
             setLoading(false);
-
           }, 500);
-
         },
       },
       theme: {
@@ -216,7 +225,6 @@ function Checkout() {
       console.log(response.error.metadata.order_id);
       console.log(response.error.metadata.payment_id);
 
-      //show message for half a second then close the modal
       setPaymentLoadScreenMessage("Payment Failed");
       setTimeout(() => {
         setPaymentLoadScreenMessage("");
@@ -227,43 +235,20 @@ function Checkout() {
     rzp.open();
   }, [Razorpay]);
 
-
-  
-  const PaymentProcessLoadScreen = () => {
-    return (
-      <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/70 z-20">
-        <div className="w-full max-w-lg min-h-40 rounded-2xl bg-[#F9F9F9]/20 backdrop-blur-2xl text-white">
-          <div className="text-2xl font-bold text-center mt-4">
-            Processing Payment
-          </div>
-          <div className="text-center mt-4 text-lg">
-            {paymentloadscreenmessage}
-          </div>
-          <div className="flex justify-center items-center gap-4 mt-8 mb-4">
-            <CircularProgress style={{ color: "#fff" }} size={24} />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  let convenienceFees = (Object.values(cartItems).reduce(
-    (total, item) => total + item.cost * item.count,
-    0
-  ) * 0.02).toFixed(2);
+  let convenienceFees = (
+    Object.values(cartItems).reduce(
+      (total, item) => total + item.cost * item.count,
+      0
+    ) * 0.02
+  ).toFixed(2);
 
   convenienceFees = parseFloat(convenienceFees);
 
-
-  
-
-
-
-  const total = Object.values(cartItems).reduce(
-    (total, item) => total + item.cost * item.count,
-    0
-  ) + convenienceFees;
-
+  const total =
+    Object.values(cartItems).reduce(
+      (total, item) => total + item.cost * item.count,
+      0
+    ) + convenienceFees;
 
   return (
     <div className="p-4 max-h-screen">
@@ -271,11 +256,10 @@ function Checkout() {
         <IoArrowBackOutline
           className="text-white text-2xl mt-12 cursor-pointer"
           onClick={() => {
-            navigate('/');
+            navigate("/");
           }}
           size={35}
         />
-        {/* <ProfilePhoto avatarInfo={avatarInfo} className="self-end right-0" /> */}
       </div>
       <div className="menu-screen-title mt-7 ">
         <span style={{ color: "#ffff" }} className="grifter-regular">
@@ -288,22 +272,28 @@ function Checkout() {
         >
           Dining Redefined
         </span>
-        <div
-          className="flex justify-start items-center 
-            w-full mt-5 gap-3 text-white text-2xl font-bold"
-        >
+        <div className="flex justify-start items-center w-full mt-5 gap-3 text-white text-2xl font-bold">
           <span>Checkout</span>
           <MdOutlinePayment size={30} />
         </div>
       </div>
 
-        <CheckoutCard cartItems={cartItems} />
-        {loading && <PaymentProcessLoadScreen />}
+      <CheckoutCard cartItems={cartItems} />
+      {loading && (
+        <PaymentProcessLoadScreen
+          paymentloadscreenmessage={paymentloadscreenmessage}
+          completed={completed}
+          setCompleted={setCompleted}
+          setLoading={setLoading}
+          
+        />
+      )}
 
-      <div className=" flex flex-col w-[92%] gap-4 mt-8 mb-4  absolute bottom-10 text-white">
-      <span className="text-xl text-center">Convenience Fees : ₹ {convenienceFees}</span>
-        <div className="flex  justify-center items-center gap-2 ">
-
+      <div className="flex flex-col w-[92%] gap-4 mt-8 mb-4 absolute bottom-10 text-white">
+        <span className="text-xl text-center">
+          Convenience Fees : ₹ {convenienceFees}
+        </span>
+        <div className="flex justify-center items-center gap-2">
           <span className="text-2xl font-bold">Total</span>
           <span className="text-2xl font-bold">: ₹ {total}</span>
         </div>
