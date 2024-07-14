@@ -225,7 +225,7 @@ function Cart() {
         {itemCount && (
           <div className="w-full flex flex-col mt-4 ">
             <div className=" w-[98%] self-center justify-center text-center flex flex-col items-center">
-              <span className="text-white text-2xl productsans-regular mt-5 w-full text-center">
+              <span className="text-white text-2xl productsans-regular mt-2 w-full text-center">
                 Total : ₹ {amount}
               </span>
               <div
