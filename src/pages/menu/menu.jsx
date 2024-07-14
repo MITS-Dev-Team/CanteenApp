@@ -316,21 +316,18 @@ function Menu() {
         {checkPending && <OrderWaits />}
         <SearchDish />
 
-        <div className=" fixed bottom-0
-                    left-0 h-24 w-full flex flex-col justify-center items-center z-50
-         ">
-       
-
+        <div className=" fixed bottom-1 left-0 h-24 w-full flex flex-col justify-center items-center z-50">
           <div
-              className={`cart-icon bg-[#1CA672]
-                      fixed bottom-[1vh] rounded-xl flex justify-center 
-                      items-center cursor-pointer w-[92%] h-12 mb-4 shadow-2xl gap-2
+              className={`cart-icon bg-[#1CA672] 
+                      fixed bottom-[0vh] rounded-xl flex justify-center 
+                      items-center cursor-pointer w-[90%] h-12 mb-5 shadow-2xl gap-2
                       transform transition-transform duration-500
                       ${itemCount>0 ? 'translate-y-0' : 'translate-y-20'}
                       `}
                   onClick={handleCartClick}
+                  style={{ maxWidth: '400px', boxShadow: '0 4px 50px rgba(0, 0, 0, 0.8)' }}
             >
-            <span className="productsans-regular font-black text-l text-white">{itemCount} items in cart</span>
+            <span className="productsans-regular text-l text-white">{itemCount} items in cart</span>
             <MdShoppingCart color="rgba(255, 255, 255, 0.95)" size={23}  />
           </div>
       
