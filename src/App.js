@@ -94,7 +94,7 @@ function App() {
           <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 bg-[#2B2B2B]/60 
                      backdrop-blur-lg text-white/90 
                     text-center rounded-t-xl shadow-lg pb-5
-                    pwaComponent z-[60]">
+                    pwaComponent z-[50]">
             <p className="font-bold">Install this app on your device for a better experience.</p>
             <div className="flex gap-10 self-center justify-center">
 
