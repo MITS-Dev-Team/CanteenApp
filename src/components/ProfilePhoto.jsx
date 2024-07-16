@@ -15,7 +15,7 @@ const ProfilePhoto = (avatarInfo) => {
     }
 
     return (
-      <Popover className="relative -top-44   left-0 max-w-[100%] max-h-[40vh]  min-h-[5vh] min-w-[100%]  z-50 ">
+      <Popover className="relative -top-44   left-0 max-w-[100%] max-h-[40vh]  min-h-[5vh] min-w-[100%]  z-40 ">
   
         <Popover.Button className="absolute left-2 w-16 h-16 z-10 top-6 outline-none">
           <img
@@ -67,7 +67,7 @@ const ProfilePhoto = (avatarInfo) => {
             {/* <span className="productsans-regular text-white text-base w-32 rounded-lg p-1 text-center bg-black cursor-pointer"
               onClick={() => navigate("/profile")}
             >Profile</span> */}
-            <span className="productsans-regular text-white text-base w-20 rounded-lg p-1 text-center bg-red-600 cursor-pointer absolute right-4"
+            <span className="mt-3 mb-3 productsans-regular text-white text-base w-20 rounded-lg p-1 text-center bg-red-600 cursor-pointer absolute right-4"
               onClick={logout}
             >Logout</span>
           </div>

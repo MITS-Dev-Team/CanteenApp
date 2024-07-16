@@ -25,7 +25,7 @@ const OfflineOverlay = () => {
     <div className='w-screen h-screen 
     left-0 top-0 flex flex-col 
     items-center justify-center
-    bg-white/20 backdrop-blur-xl  text-white fixed z-50 bg-opacity-90   
+    bg-white/20 backdrop-blur-xl  text-white fixed z-[60] bg-opacity-90   
     text-2xl poppins-regular text-center p-4
     gap-20
     '>
