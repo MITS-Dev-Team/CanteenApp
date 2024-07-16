@@ -59,7 +59,7 @@ function Landing() {
         Dining Redefined
       </span>
 
-      <div className="auth-container">
+      {/*<div className="auth-container">
         <label htmlFor="email" className="auth-label productsans-regular">
           Email
         </label>
@@ -124,7 +124,7 @@ function Landing() {
             </>
           )}
         </div>
-      </div>
+      </div>*/}
 
       
       <div
