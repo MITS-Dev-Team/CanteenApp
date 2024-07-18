@@ -203,10 +203,9 @@ const Dish = ({ id, name, cost, image, type, stock, limit, stock_limit }) => {
 
   return (
     <div
-      className="dish-card"
-      style={{
-        filter: stock < stock_limit ? "grayscale(100%)" : "none",
-      }}
+      className={`dish-card ${
+        stock <= stock_limit ? " grayscale-[100%]" : "grayscale-0"
+      }`}
     >
       <div className="dish-left">
         <span>
