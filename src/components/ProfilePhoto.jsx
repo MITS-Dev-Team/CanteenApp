@@ -15,7 +15,7 @@ const ProfilePhoto = (avatarInfo) => {
     }
 
     return (
-      <Popover className="relative -top-44   left-0 max-w-[100%] max-h-[40vh]  min-h-[5vh] min-w-[100%]  z-40 ">
+      <Popover className="relative -top-44   left-0 max-w-[100%] max-h-[40vh]  min-h-[5vh] min-w-[100%]  z-[200] ">
   
         <Popover.Button className="absolute left-2 w-16 h-16 z-10 top-6 outline-none">
           <img
@@ -44,10 +44,10 @@ const ProfilePhoto = (avatarInfo) => {
       </div>
         
         <Transition
-          enter="transition duration-20 ease-in-out"
-          enterFrom="transform scale-90 opacity-0"
-          enterTo="transform scale-100 opacity-100"
-          leave="transition duration-75 ease-out"
+          enter="transition  ease-in-out"
+          enterFrom="transform scale-90 "
+          enterTo="transform scale-100"
+          leave="transition  ease-out"
           leaveFrom="transform scale-100 opacity-100"
           leaveTo="transform scale-95 opacity-0"
         >
