@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef    } from "react";
 import { CiSearch } from "react-icons/ci";
 import { GrRadialSelected } from "react-icons/gr";
 import { MdShoppingCart } from "react-icons/md";
@@ -17,17 +17,18 @@ import "./menu.css";
 const incrementSoundEffect = new Audio(incrementSound);
 const PopSoundEffect = new Audio(PopSound);
 
-async function fetchDishes(setMenu, setSearchMenu) {
+async function fetchDishes() {
   const { data: dishes, error } = await supabase
     .from("menu")
     .select("*")
     .order("stock", { ascending: false });
   if (error) {
     console.error(error);
+    return false;
   } else {
-    setMenu(dishes);
-    setSearchMenu(dishes);
+    
     console.log(dishes);
+    return dishes;
   }
 }
 
@@ -66,13 +67,40 @@ const SearchDish = () => {
   const [search, setSearch] = useState("");
   const [searchMenu, setSearchMenu] = useState(menu);
   const [loading, setLoading] = useState(true);
+  const [doneonce, setDoneOnce] = useState(false);
+  const timeIdRef = useRef(null);
 
   useEffect(() => {
-    fetchDishes(setMenu, setSearchMenu);
-    setTimeout(() => {
+    fetchDishes().then((dishes) => {
+      setMenu(dishes);
+      setSearchMenu(dishes);
+      setDoneOnce(true);
       setLoading(false);
-    }, 1000);
+    });
+
+    const startPolling = async () => {
+      timeIdRef.current = setInterval(async () => {
+        console.log("polling");
+        await fetchDishes().then((dishes) => {
+          //check if the menu has changed
+          if (JSON.stringify(menu) !== JSON.stringify(dishes)) {
+            console.log("menu changed");
+
+            //show a toast and set loading
+            setLoading(true);
+            setMenu(dishes);
+            setSearchMenu(dishes);
+            setLoading(false);
+          }
+
+        });
+      }, 10000);
+    }
+
+    startPolling();
+ 
   }, []);
+
 
   function setSearchValue(search) {
     setSearch(search);
