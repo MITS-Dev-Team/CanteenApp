@@ -192,7 +192,10 @@ const OrderFailedCard = ({ order }) => {
         </div>
         <div className="flex justify-between items-center w-[100%]">
           <div
-            className={`bg-orange-700 text-white px-4 py-2 h-14 text-xl font-bold text-center flex items-center justify-center rounded-b-xl cursor-pointer transition-all duration-500 ease-in-out w-full`}
+            className={`bg-orange-700 text-white px-4 py-2 h-14 
+                        text-xl font-bold text-center flex items-center 
+                        justify-center rounded-b-xl cursor-pointer 
+                        transition-all duration-500 ease-in-out w-full`}
           >
             <span>Payment Failed</span>
           </div>
